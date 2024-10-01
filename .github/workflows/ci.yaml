@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DOCKER_IMAGE_NAME: lib-tiny-fp
+  DOCKER_CONTAINER_NAME: lib-tiny-fp-builder
+
+jobs:
+
+  build:
+
+    name: Create artifact release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: Cleanup
+      run: |
+        rm -rf /opt/hostedtoolcache
+
+    - name: Build artifact
+      run: |
+        docker build -t ${{ env.DOCKER_IMAGE_NAME }} . --file ./build/Dockerfile.ubuntu20
+        docker run -d --name ${{ env.DOCKER_CONTAINER_NAME }} ${{ env.DOCKER_IMAGE_NAME }}
+
+    - name: Get artifact
+      run: |
+        docker cp ${{ env.DOCKER_CONTAINER_NAME }}:/src/libtinyfp.a .
+        docker cp ${{ env.DOCKER_CONTAINER_NAME }}:/src/Option.h .
+        docker stop ${{ env.DOCKER_CONTAINER_NAME }}
+
+    - name: Create release
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        VERSION=$(cat version)
+        tar cvf libtinyfp.tar libtinyfp.a Option.h
+        tar -czvf libtinyfp.tgz libtinyfp.tar
+        gh release create $VERSION -t "$VERSION" -n "$VERSION" ./libtinyfp_$VERSION.tgz
+
+    - name: Cleanup
+      run: |
+        docker rm ${{ env.DOCKER_CONTAINER_NAME }}
+        docker rmi ${{ env.DOCKER_IMAGE_NAME }}
+
