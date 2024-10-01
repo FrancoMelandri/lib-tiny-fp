@@ -1,12 +1,6 @@
 # check if 32 or 64 bit system
-ARCH := $(shell getconf LONG_BIT)
-ifeq ($(ARCH),32)
+
 LNAME = libtinyfp
-else
-LNAME = libtinyfp-64
-endif
-
-
 CCX = g++
 AR = ar
 CXXFLAGS = -std=c++17 -Wall -O2 -fPIC -D_GNU_SOURCE
