@@ -6,4 +6,4 @@ COPY ./*.cpp .
 COPY ./*.h .
 COPY ./Makefile .
 
-CMD make
+CMD make all
