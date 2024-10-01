@@ -44,7 +44,7 @@ jobs:
       run: |
         VERSION=$(cat version)
         tar cvf libtinyfp.tar libtinyfp.a Option.h
-        tar -czvf libtinyfp_$VERSIONtgz libtinyfp.tar
+        tar -czvf libtinyfp_$VERSION.tgz libtinyfp.tar
         gh release create $VERSION -t "$VERSION" -n "$VERSION" ./libtinyfp_$VERSION.tgz
 
     - name: Cleanup
