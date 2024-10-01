@@ -24,4 +24,3 @@ $(LIBNAME): $(LIBOBJECTS)
 
 clean:
 	rm -f *.o *.a
-

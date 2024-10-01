@@ -1,1 +1,1 @@
-# lib-fp
+# lib-tiny-fp

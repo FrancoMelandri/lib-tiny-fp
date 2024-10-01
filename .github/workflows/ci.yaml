@@ -51,4 +51,3 @@ jobs:
       run: |
         docker rm ${{ env.DOCKER_CONTAINER_NAME }}
         docker rmi ${{ env.DOCKER_IMAGE_NAME }}
-
