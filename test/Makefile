@@ -9,10 +9,10 @@ all: $(APPNAME)
 DEMOFILES = test.o
 
 $(APPNAME): $(DEMOFILES)
-	$(CCX) $(DEMOFILES)  $(LIBTINYFP) -o $(APPNAME)  
+	$(CCX) $(DEMOFILES)  $(LIBTINYFP)  -o $(APPNAME)  
 
 test.o: test.cpp
-	$(CCX) $(CFLAGS) -c test.cpp
+	$(CCX) $(CFLAGS) -lboost_unit_test_framework -c test.cpp
 
 clean:
 	rm -f $(APPNAME) *.o
