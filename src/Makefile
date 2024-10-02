@@ -13,8 +13,11 @@ all: $(LIBOBJECTS) $(LIBNAME)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $<
 
-$(LIBNAME): $(LIBOBJECTS)
+$(LIBNAME): $(LIBOBJECTS) 
 	$(AR) scr $(LIBNAME) $(LIBOBJECTS)
 
 clean:
 	rm -f *.o *.a
+
+rebuild:
+	make clean && make all

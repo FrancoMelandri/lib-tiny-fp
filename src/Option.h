@@ -33,14 +33,6 @@ namespace TinyFp
   };
 }
 
-
-namespace TinyFp
-{
-  template <typename T>
-  bool Option<T>::IsSome()
-  {
-    return _isSome;
-  }
-}
+#include "Option.inc"
 
 #endif
