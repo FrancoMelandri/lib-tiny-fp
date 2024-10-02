@@ -34,7 +34,7 @@ jobs:
 
     - name: Execute test
       run: |
-        docker exec -it ${{ env.DOCKER_CONTAINER_NAME }} /test/test
+        docker exec -t ${{ env.DOCKER_CONTAINER_NAME }} /test/test
         docker stop ${{ env.DOCKER_CONTAINER_NAME }}
 
     - name: Create release
