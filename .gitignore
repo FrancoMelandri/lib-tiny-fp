@@ -33,3 +33,5 @@
 
 *.tgz
 *.tar
+
+/test/test

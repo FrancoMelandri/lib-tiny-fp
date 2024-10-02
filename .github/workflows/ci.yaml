@@ -32,10 +32,9 @@ jobs:
         docker build -t ${{ env.DOCKER_IMAGE_NAME }} . --file ./build/Dockerfile.builder
         docker run -d --name ${{ env.DOCKER_CONTAINER_NAME }} ${{ env.DOCKER_IMAGE_NAME }}
 
-    - name: Get artifact
+    - name: Execute test
       run: |
-        docker cp ${{ env.DOCKER_CONTAINER_NAME }}:/src/libtinyfp.a .
-        docker cp ${{ env.DOCKER_CONTAINER_NAME }}:/src/Option.h .
+        docker exec -it ${{ env.DOCKER_CONTAINER_NAME }} /test/test
         docker stop ${{ env.DOCKER_CONTAINER_NAME }}
 
     - name: Create release
@@ -43,9 +42,7 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       run: |
         VERSION=$(cat version)
-        tar cvf libtinyfp.tar libtinyfp.a Option.h
-        tar -czvf libtinyfp_$VERSION.tgz libtinyfp.tar
-        gh release create $VERSION -t "$VERSION" -n "$VERSION" ./libtinyfp_$VERSION.tgz
+        gh release create $VERSION -t "$VERSION" -n "$VERSION"
 
     - name: Cleanup
       run: |
