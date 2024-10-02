@@ -9,7 +9,7 @@ all: $(APPNAME)
 DEMOFILES = test.o
 
 $(APPNAME): $(DEMOFILES)
-	$(CCX) $(CFLAGS) $(DEMOFILES)  $(LIBTINYFP) -o $(APPNAME)
+	$(CCX) $(DEMOFILES)  $(LIBTINYFP) -o $(APPNAME)  
 
 test.o: test.cpp
 	$(CCX) $(CFLAGS) -c test.cpp

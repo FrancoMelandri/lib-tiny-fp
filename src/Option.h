@@ -7,7 +7,8 @@ using namespace std;
 
 namespace TinyFp
 {
-  template <typename T> class Option
+  template <typename T>
+  class Option
   {
     private:
       bool _isSome;
@@ -28,9 +29,18 @@ namespace TinyFp
     public:
       static Option<T>* None() { return new Option<T>(); };
       static Option<T>* Some(T* value) { return new Option<T>(value); };
-      bool IsSome() { return _isSome; };
+      bool IsSome();
   };
 }
 
+
+namespace TinyFp
+{
+  template <typename T>
+  bool Option<T>::IsSome()
+  {
+    return _isSome;
+  }
+}
 
 #endif
