@@ -1,6 +1,8 @@
 #ifndef __LIB_TINY_FP_OPTION__
 #define __LIB_TINY_FP_OPTION__
 
+#include <cstddef>
+
 using namespace std;
 
 namespace TinyFp
@@ -9,20 +11,26 @@ namespace TinyFp
   {
     private:
       bool _isSome;
-      T _value;
+      T* _value;
 
-      Option(bool isSome, T value)
+      Option()
       {
-          _isSome = isSome;
+          _isSome = false;
+          _value = NULL;
+      }
+
+      Option(T* value)
+      {
+          _isSome = true;
           _value = value;
       }
 
     public:
-      static Option<T>* None();
-      static Option<T>* Some(T value);
-
-      bool IsSome();
+      static Option<T>* None() { return new Option<T>(); };
+      static Option<T>* Some(T* value) { return new Option<T>(value); };
+      bool IsSome() { return _isSome; };
   };
 }
+
 
 #endif
