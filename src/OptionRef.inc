@@ -24,4 +24,13 @@ namespace TinyFp
       ? OptionRef<R>::Some(val)
       : OptionRef<R>::None();
   }
+
+  template <class T>
+  template <class R>
+  R OptionRef<T>::Match(std::function<R(T&)> some, std::function<R()> none)
+  {
+    return IsSome()
+      ? some(_value)
+      : none();
+  }
 }
