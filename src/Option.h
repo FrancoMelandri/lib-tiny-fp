@@ -29,6 +29,7 @@ namespace TinyFp
       static Option<T>* None() { return new Option<T>(); };
       static Option<T>* Some(T* value) { return new Option<T>(value); };
       bool IsSome();
+      template <typename R> Option<R>* Map(R* (*map)(T*));
   };
 }
 
