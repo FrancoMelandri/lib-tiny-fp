@@ -16,3 +16,6 @@ test.o: test.cpp
 
 clean:
 	rm -f $(APPNAME) *.o
+
+rebuild:
+	make clean && make all

@@ -5,24 +5,23 @@
 
 using namespace std;
 
+#define NO_VALUE NULL
+
 namespace TinyFp
 {
   template <typename T>
   class Option
   {
     private:
-      bool _isSome;
       T* _value;
 
       Option()
       {
-          _isSome = false;
-          _value = NULL;
+          _value = NO_VALUE;
       }
 
       Option(T* value)
       {
-          _isSome = true;
           _value = value;
       }
 

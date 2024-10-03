@@ -12,6 +12,13 @@ BOOST_AUTO_TEST_CASE(WhenNoneIsSomeIsFalse)
     delete option;
 }
 
+BOOST_AUTO_TEST_CASE(WhenSomeWithNullIsSomeIsFalse)
+{
+    auto option = TinyFp::Option<int>::Some(NULL);
+    BOOST_CHECK(option->IsSome() == false);
+    delete option;
+}
+
 BOOST_AUTO_TEST_CASE(WhenSomeIsSomeIsTrue)
 {
     int test = 10;
