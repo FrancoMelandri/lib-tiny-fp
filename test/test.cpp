@@ -6,6 +6,20 @@
 using namespace TinyFp;
 using namespace boost::unit_test;
 
+class FakeClass
+{    
+public:
+    FakeClass(int val) { value = val; };
+    int value;
+};
+
+class FakeClassMapped
+{    
+public:
+    FakeClassMapped(int val) { mappedValue = val; };
+    int mappedValue;
+};
+
 BOOST_AUTO_TEST_CASE(WhenNoneIsSomeIsFalse)
 {
     auto option = TinyFp::Option<int>::None();
@@ -25,20 +39,40 @@ BOOST_AUTO_TEST_CASE(WhenSomeIsSomeIsTrue)
     BOOST_CHECK(option.IsSome() == true);
 }
 
-// BOOST_AUTO_TEST_CASE(WhenNoneAndMapSomeIsFalse)
-// {
-//     auto mapped = TinyFp::Option<int>::None()
-//                     .Map<int>([](int* value) { return value; } );
-//     BOOST_CHECK(mapped.IsSome() == false);
-// }
+BOOST_AUTO_TEST_CASE(WhenNoneAndMapSomeIsFalse)
+{
+    auto mapped = TinyFp::Option<int>::None()
+                    .Map<int>([](int* value) { return value; } );
+    BOOST_CHECK(mapped.IsSome() == false);
+}
 
-// BOOST_AUTO_TEST_CASE(WhenSomeAndMapSomeIsTrue)
-// {
-//     int test = 10;
-//     auto mapped = TinyFp::Option<int>::Some(&test)
-//                     .Map<int>([](int* value) { return value; } );
-//     BOOST_CHECK(mapped.IsSome() == true);
-// }
+BOOST_AUTO_TEST_CASE(WhenSomeAndMapSomeIsTrue)
+{
+    int test = 10;
+    auto mapped = TinyFp::Option<int>::Some(&test)
+                    .Map<int>([](int* value) { return value; } );
+    BOOST_CHECK(mapped.IsSome() == true);
+}
+
+BOOST_AUTO_TEST_CASE(WhenSomeAndMapSomeIsTrueReference)
+{
+    auto test = FakeClass(10);
+    auto mapped = TinyFp::Option<FakeClass>::Some(&test)
+                    .Map<FakeClassMapped>([](FakeClass* value) { return new FakeClassMapped(value->value*20); } );
+    auto test1 = mapped.OrElse<FakeClassMapped>([test]() { return FakeClassMapped(100); });
+    BOOST_CHECK(mapped.IsSome() == true);
+    BOOST_CHECK(test1.mappedValue == 200);
+}
+
+BOOST_AUTO_TEST_CASE(WhenNoneAndMapSomeIsFalseReference)
+{
+    auto test = FakeClass(10);
+    auto mapped = TinyFp::Option<FakeClass>::None()
+                    .Map<FakeClassMapped>([](FakeClass* value) { return new FakeClassMapped(value->value*20); } );
+    auto test1 = mapped.OrElse<FakeClassMapped>([test]() { return FakeClassMapped(100); });
+    BOOST_CHECK(mapped.IsSome() == false);
+    BOOST_CHECK(test1.mappedValue == 100);
+}
 
 BOOST_AUTO_TEST_CASE(WhenSomeAndOrElseReturnValue)
 {
@@ -59,13 +93,6 @@ BOOST_AUTO_TEST_CASE(WhenNoneAndOrElseReturnDefault)
     BOOST_CHECK(test == 10);
     BOOST_CHECK(test1 == 100);
 }
-
-class FakeClass
-{    
-public:
-    FakeClass(int val) { value = val; };
-    int value = 10;
-};
 
 BOOST_AUTO_TEST_CASE(WhenSomeAndOrElseReturnValueReference)
 {
