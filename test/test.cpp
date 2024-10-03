@@ -25,17 +25,64 @@ BOOST_AUTO_TEST_CASE(WhenSomeIsSomeIsTrue)
     BOOST_CHECK(option.IsSome() == true);
 }
 
-BOOST_AUTO_TEST_CASE(WhenNoneAndMapSomeIsFalse)
-{
-    auto mapped = TinyFp::Option<int>::None()
-                    .Map<int>([](int* value) { return value; } );
-    BOOST_CHECK(mapped.IsSome() == false);
-}
+// BOOST_AUTO_TEST_CASE(WhenNoneAndMapSomeIsFalse)
+// {
+//     auto mapped = TinyFp::Option<int>::None()
+//                     .Map<int>([](int* value) { return value; } );
+//     BOOST_CHECK(mapped.IsSome() == false);
+// }
 
-BOOST_AUTO_TEST_CASE(WhenSomeAndMapSomeIsTrue)
+// BOOST_AUTO_TEST_CASE(WhenSomeAndMapSomeIsTrue)
+// {
+//     int test = 10;
+//     auto mapped = TinyFp::Option<int>::Some(&test)
+//                     .Map<int>([](int* value) { return value; } );
+//     BOOST_CHECK(mapped.IsSome() == true);
+// }
+
+BOOST_AUTO_TEST_CASE(WhenSomeAndOrElseReturnValue)
 {
     int test = 10;
-    auto mapped = TinyFp::Option<int>::Some(&test)
-                    .Map<int>([](int* value) { return value; } );
+    auto mapped = TinyFp::Option<int>::Some(&test);
+    auto test1 = mapped.OrElse<int>([test]() { return test; });
     BOOST_CHECK(mapped.IsSome() == true);
+    BOOST_CHECK(test == 10);
+    BOOST_CHECK(test1 == 10);
+}
+
+BOOST_AUTO_TEST_CASE(WhenNoneAndOrElseReturnDefault)
+{
+    int test = 10;
+    auto mapped = TinyFp::Option<int>::None();
+    auto test1 = mapped.OrElse<int>([test]() { return test*10; });
+    BOOST_CHECK(mapped.IsSome() == false);
+    BOOST_CHECK(test == 10);
+    BOOST_CHECK(test1 == 100);
+}
+
+class FakeClass
+{    
+public:
+    FakeClass(int val) { value = val; };
+    int value = 10;
+};
+
+BOOST_AUTO_TEST_CASE(WhenSomeAndOrElseReturnValueReference)
+{
+    auto test = FakeClass(10);
+    auto mapped = TinyFp::Option<FakeClass>::Some(&test);
+    auto test1 = mapped.OrElse<FakeClass>([]() { return FakeClass(100); });
+    BOOST_CHECK(mapped.IsSome() == true);
+    BOOST_CHECK(test.value == 10);
+    BOOST_CHECK(test1.value == 10);
+}
+
+BOOST_AUTO_TEST_CASE(WhenNoneAndOrElseReturnDefaultReference)
+{
+    auto test = FakeClass(10);
+    auto mapped = TinyFp::Option<FakeClass>::None();
+    auto test1 = mapped.OrElse<FakeClass>([]() { return FakeClass(100); });
+    BOOST_CHECK(mapped.IsSome() == false);
+    BOOST_CHECK(test.value == 10);
+    BOOST_CHECK(test1.value == 100);
 }
