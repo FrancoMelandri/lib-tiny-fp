@@ -29,8 +29,35 @@ namespace TinyFp
       template <class R> Option<R> Map(std::function<R*(T*)> map);
       // template <typename R> R Match(R (*some)(T*), R (*none)());
   };
+
+  template <class T>
+  struct OptionRef
+  {
+    private:
+      bool _isSome;
+      T _value;
+
+      OptionRef()
+      {
+          _isSome = false;
+      }
+
+      OptionRef(T& value)
+      {
+          _isSome = true;
+          _value = value;
+      }
+
+    public:
+      static OptionRef<T> None() { return OptionRef<T>(); };
+      static OptionRef<T> Some(T& value) { return OptionRef<T>(value); };
+      bool IsSome();
+      template <class R> R OrElse(std::function<R()> none);
+      template <class R> OptionRef<R> Map(std::function<R(T&)> map);
+  };
 }
 
 #include "Option.inc"
+#include "OptionRef.inc"
 
 #endif
