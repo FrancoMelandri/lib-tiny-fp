@@ -27,7 +27,6 @@ namespace TinyFp
       bool IsSome();
       template <class R> R OrElse(std::function<R()> none);
       template <class R> Option<R> Map(std::function<R*(T*)> map);
-      // template <typename R> R Match(R (*some)(T*), R (*none)());
   };
 
   template <class T>
