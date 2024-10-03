@@ -23,15 +23,4 @@ namespace TinyFp
       ? Option<R>::Some(map(_value))
       : Option<R>::None();
   }
-
-/*
-  template <class T>
-  template <class R>
-  R Option<T>::Match(R (*some)(T*), R (*none)())
-  {
-    return IsSome()
-      ? some(_value)
-      : none();
-  }
-*/
 }
