@@ -1,35 +1,33 @@
-#ifndef __LIB_TINY_FP_OPTION__
-#define __LIB_TINY_FP_OPTION__
+#ifndef LIB_TINY_FP_OPTION
+#define LIB_TINY_FP_OPTION
 
-#include <cstddef>
-
-using namespace std;
+#include "Defines.h"
 
 namespace TinyFp
 {
-  template <typename T>
-  class Option
+  template <class T>
+  struct Option
   {
     private:
-      bool _isSome;
       T* _value;
 
       Option()
       {
-          _isSome = false;
-          _value = NULL;
+          _value = NO_VALUE;
       }
 
       Option(T* value)
       {
-          _isSome = true;
           _value = value;
       }
 
     public:
-      static Option<T>* None() { return new Option<T>(); };
-      static Option<T>* Some(T* value) { return new Option<T>(value); };
+      static Option<T> None() { return Option<T>(); };
+      static Option<T> Some(T* value) { return Option<T>(value); };
       bool IsSome();
+      template <class R> R OrElse(std::function<R()> none);
+      template <class R> Option<R> Map(std::function<R*(T*)> map);
+      // template <typename R> R Match(R (*some)(T*), R (*none)());
   };
 }
 
