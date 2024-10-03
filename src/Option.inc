@@ -8,7 +8,7 @@ namespace TinyFp
 
   template <typename T>
   template <typename R>
-  Option<R>* Option<T>::Map(R* (*map)(T*))
+  Option<R> Option<T>::Map(R* (*map)(T*))
   {
     return IsSome()
       ? Option<R>::Some(map(_value))

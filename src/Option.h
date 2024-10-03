@@ -1,16 +1,12 @@
-#ifndef __LIB_TINY_FP_OPTION__
-#define __LIB_TINY_FP_OPTION__
+#ifndef LIB_TINY_FP_OPTION
+#define LIB_TINY_FP_OPTION
 
-#include <cstddef>
-
-using namespace std;
-
-#define NO_VALUE NULL
+#include "Defines.h"
 
 namespace TinyFp
 {
   template <typename T>
-  class Option
+  struct Option
   {
     private:
       T* _value;
@@ -26,10 +22,10 @@ namespace TinyFp
       }
 
     public:
-      static Option<T>* None() { return new Option<T>(); };
-      static Option<T>* Some(T* value) { return new Option<T>(value); };
+      static Option<T> None() { return Option<T>(); };
+      static Option<T> Some(T* value) { return Option<T>(value); };
       bool IsSome();
-      template <typename R> Option<R>* Map(R* (*map)(T*));
+      template <typename R> Option<R> Map(R* (*map)(T*));
   };
 }
 
