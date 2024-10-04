@@ -1,7 +1,7 @@
 #ifndef LIB_TINY_FP_OPTION
 #define LIB_TINY_FP_OPTION
 
-#include "Defines.h"
+#include "../Defines.h"
 
 namespace TinyFp
 {

@@ -6,18 +6,23 @@ AR = ar
 CXXFLAGS = -std=c++17 -Wall -O2 -fPIC -D_GNU_SOURCE
 LIBS = 
 LIBNAME = $(LNAME).a
-LIBOBJECTS = Option.o
+RM = rm -rf
+
+LIBOBJECTS =
+
+-include option/subdir.mk
 
 all: $(LIBOBJECTS) $(LIBNAME)
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $<
+option/%.o: option/%.cpp
+	@echo 'Building file: $< to: $@'
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(LIBNAME): $(LIBOBJECTS) 
 	$(AR) scr $(LIBNAME) $(LIBOBJECTS)
 
 clean:
-	rm -f *.o *.a
+	-$(RM) *.o *.a
 
 rebuild:
 	make clean && make all

@@ -1,7 +1,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Option
 #include <boost/test/included/unit_test.hpp>
-#include "Option.h"
+#include "option/Option.h"
 
 using namespace TinyFp;
 using namespace boost::unit_test;
