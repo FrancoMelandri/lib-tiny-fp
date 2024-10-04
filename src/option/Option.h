@@ -6,33 +6,33 @@
 namespace TinyFp
 {
   template <class T>
-  struct OptionRef
+  struct Option
   {
     private:
       bool _isSome;
       T _value;
 
-      OptionRef()
+      Option()
       {
           _isSome = false;
       }
 
-      OptionRef(T& value)
+      Option(T& value)
       {
           _isSome = true;
           _value = value;
       }
 
     public:
-      static OptionRef<T> None() { return OptionRef<T>(); };
-      static OptionRef<T> Some(T& value) { return OptionRef<T>(value); };
+      static Option<T> None() { return Option<T>(); };
+      static Option<T> Some(T& value) { return Option<T>(value); };
       bool IsSome();
       template <class R> R OrElse(std::function<R()> none);
-      template <class R> OptionRef<R> Map(std::function<R(T&)> map);
+      template <class R> Option<R> Map(std::function<R(T&)> map);
       template <class R> R Match(std::function<R(T&)> some, std::function<R()> none);
   };
 }
 
-#include "OptionRef.inc"
+#include "Option.inc"
 
 #endif

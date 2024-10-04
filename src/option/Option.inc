@@ -1,14 +1,14 @@
 namespace TinyFp
 {
   template <class T>
-  bool OptionRef<T>::IsSome()
+  bool Option<T>::IsSome()
   {
     return _isSome;
   }
 
   template <class T>
   template <class R>
-  R OptionRef<T>::OrElse(std::function<R()> none)
+  R Option<T>::OrElse(std::function<R()> none)
   {
     return IsSome()
       ? _value
@@ -17,17 +17,17 @@ namespace TinyFp
 
   template <class T>
   template <class R>
-  OptionRef<R> OptionRef<T>::Map(std::function<R(T&)> map)
+  Option<R> Option<T>::Map(std::function<R(T&)> map)
   {
     auto val = map(_value);
     return IsSome()
-      ? OptionRef<R>::Some(val)
-      : OptionRef<R>::None();
+      ? Option<R>::Some(val)
+      : Option<R>::None();
   }
 
   template <class T>
   template <class R>
-  R OptionRef<T>::Match(std::function<R(T&)> some, std::function<R()> none)
+  R Option<T>::Match(std::function<R(T&)> some, std::function<R()> none)
   {
     return IsSome()
       ? some(_value)
