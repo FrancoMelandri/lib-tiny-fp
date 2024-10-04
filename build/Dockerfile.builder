@@ -6,6 +6,12 @@ COPY ./src/*.inc .
 COPY ./src/*.h .
 COPY ./src/Makefile .
 
+WORKDIR /src/option
+COPY ./src/option/*.cpp .
+COPY ./src/option/*.inc .
+COPY ./src/option/*.h .
+COPY ./src/option/subdir.mk .
+
 WORKDIR /src
 RUN make all
 

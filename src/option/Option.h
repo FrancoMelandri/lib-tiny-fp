@@ -29,6 +29,7 @@ namespace TinyFp
       bool IsSome();
       template <class R> R OrElse(std::function<R()> none);
       template <class R> Option<R> Map(std::function<R(T&)> map);
+      template <class R> Option<R> Bind(std::function<Option<R>(T&)> bind);
       template <class R> R Match(std::function<R(T&)> some, std::function<R()> none);
   };
 }
