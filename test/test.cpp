@@ -1,6 +1,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Option
 #include <boost/test/included/unit_test.hpp>
+#include "prelude.h"
 #include "option/Option.h"
 
 using namespace TinyFp;
@@ -38,7 +39,7 @@ BOOST_AUTO_TEST_CASE(WhenSomeIsSomeIsTrue)
 BOOST_AUTO_TEST_CASE(WhenSomeAndOrElseReturnValue)
 {
     int test = 10;
-    auto mapped = TinyFp::Option<int>::Some(test);
+    auto mapped = createOption(&test);
     auto test1 = mapped.OrElse<int>([test]() { return test; });
     BOOST_CHECK(mapped.IsSome() == true);
     BOOST_CHECK(test == 10);
@@ -48,7 +49,7 @@ BOOST_AUTO_TEST_CASE(WhenSomeAndOrElseReturnValue)
 BOOST_AUTO_TEST_CASE(WhenNoneAndOrElseReturnDefault)
 {
     int test = 10;
-    auto mapped = TinyFp::Option<int>::None();
+    auto mapped = createOption((int*)NULL);
     auto test1 = mapped.OrElse<int>([test]() { return test*10; });
     BOOST_CHECK(mapped.IsSome() == false);
     BOOST_CHECK(test == 10);
@@ -67,11 +68,10 @@ BOOST_AUTO_TEST_CASE(WhenSomeAndOrElseReturnValueReference)
 
 BOOST_AUTO_TEST_CASE(WhenNoneAndOrElseReturnDefaultReference)
 {
-    auto test = FakeClass(10);
-    auto mapped = TinyFp::Option<FakeClass>::None();
+    FakeClass* test = NULL;
+    auto mapped = createOption(test);
     auto test1 = mapped.OrElse<FakeClass>([]() { return FakeClass(100); });
     BOOST_CHECK(mapped.IsSome() == false);
-    BOOST_CHECK(test.value == 10);
     BOOST_CHECK(test1.value == 100);
 }
 
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE(OptionRef_WhenNoneAndMapSomeIsFalseReference)
 BOOST_AUTO_TEST_CASE(OptionRef_WhenSomeAndMapSomeIsTrueReference)
 {
     auto test = FakeClass(10);
-    auto mapped = TinyFp::Option<FakeClass>::Some(test)
+    auto mapped = createOption(&test)
                     .Map<FakeClassMapped>([](FakeClass& value) { return FakeClassMapped(value.value*20); } );
     auto test1 = mapped.OrElse<FakeClassMapped>([test]() { return FakeClassMapped(100); });
     BOOST_CHECK(mapped.IsSome() == true);
