@@ -3,6 +3,7 @@
 
 #include "Defines.h"
 #include "option/Option.h"
+#include "either/Either.h"
 
 namespace TinyFp 
 { 
