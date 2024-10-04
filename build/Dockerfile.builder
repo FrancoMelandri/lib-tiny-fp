@@ -9,7 +9,8 @@ COPY ./src/Makefile .
 WORKDIR /src/option
 COPY ./src/option/*.cpp .
 COPY ./src/option/*.inc .
-COPY ./src/option/subdirs.mk .
+COPY ./src/option/*.h .
+COPY ./src/option/subdir.mk .
 
 WORKDIR /src
 RUN make all
