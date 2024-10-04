@@ -11,6 +11,7 @@ RM = rm -rf
 LIBOBJECTS =
 
 -include option/subdir.mk
+-include either/subdir.mk
 
 all: $(LIBOBJECTS) $(LIBNAME)
 

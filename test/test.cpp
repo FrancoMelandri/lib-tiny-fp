@@ -1,27 +1,13 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Option
 #include <boost/test/included/unit_test.hpp>
+#include "Fakes.h"
 #include "prelude.h"
 #include "option/Option.h"
+#include "either/Either.h"
 
 using namespace TinyFp;
 using namespace boost::unit_test;
-
-class FakeClass
-{    
-public:
-    FakeClass() { value = 0; };
-    FakeClass(int val) { value = val; };
-    int value;
-};
-
-class FakeClassMapped
-{    
-public:
-    FakeClassMapped() { mappedValue = 0; };
-    FakeClassMapped(int val) { mappedValue = val; };
-    int mappedValue;
-};
 
 BOOST_AUTO_TEST_CASE(WhenNoneIsSomeIsFalse)
 {
@@ -202,4 +188,12 @@ BOOST_AUTO_TEST_CASE(OptionRef_Bind_Map_WhenSome_ReturnBinded)
                     .Bind<FakeClassMapped>(onBind)
                     .OrElse<FakeClassMapped>(onDefault);
     BOOST_CHECK(test1.mappedValue == 400);
+}
+
+BOOST_AUTO_TEST_CASE(Either_WhenLeft_IsLeftIsTrue)
+{
+    int leftValue = 10;
+    auto either = TinyFp::Either<int, long>::Left(leftValue);
+    BOOST_CHECK(either.IsLeft() == true);
+    BOOST_CHECK(either.IsRight() == false);
 }
