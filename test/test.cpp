@@ -192,8 +192,57 @@ BOOST_AUTO_TEST_CASE(OptionRef_Bind_Map_WhenSome_ReturnBinded)
 
 BOOST_AUTO_TEST_CASE(Either_WhenLeft_IsLeftIsTrue)
 {
+    auto onLeft = [](long value)
+    {
+        int retVal = 42;
+        return retVal;
+    };
+
     int leftValue = 10;
     auto either = TinyFp::Either<int, long>::Left(leftValue);
+    auto inner = either.Right(onLeft);
+
     BOOST_CHECK(either.IsLeft() == true);
     BOOST_CHECK(either.IsRight() == false);
+    BOOST_CHECK(inner == 42);
+}
+
+BOOST_AUTO_TEST_CASE(Either_WhenRight_IsRightIsTrue)
+{
+     auto onLeft = [](long value)
+    {
+        int retVal = 42;
+        return retVal;
+    };
+
+    long rightValue = 10;
+    auto either = TinyFp::Either<int, long>::Right(rightValue);
+    auto inner = either.Right(onLeft);
+
+    BOOST_CHECK(either.IsRight() == true);
+    BOOST_CHECK(either.IsLeft() == false);
+    BOOST_CHECK(inner == 10);
+}
+
+BOOST_AUTO_TEST_CASE(Either_WhenRight_AndMap_ReturnMapped)
+{
+    auto onMap = [](long value)
+    {
+        char retVal = 'a';
+        return retVal;
+    };
+    auto onLeft = [](int value)
+    {
+        int retVal = 42;
+        return retVal;
+    };
+
+    long rightValue = 10;
+    auto either = TinyFp::Either<int, long>::Right(rightValue)
+                    .Map<char>(onMap);
+
+    auto inner = either.Right(onLeft);
+    BOOST_CHECK(either.IsRight() == true);
+    BOOST_CHECK(either.IsLeft() == false);
+    BOOST_CHECK(inner == 'a');
 }

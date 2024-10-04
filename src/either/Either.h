@@ -34,8 +34,8 @@ namespace TinyFp
       static Either<L, R> Left(L& value) { return Either<L, R>(value); };
       bool IsRight();
       bool IsLeft();
-      // template <class R> R OrElse(std::function<R()> none);
-      // template <class R> Either<R> Map(std::function<R(T&)> map);
+      R Right(std::function<R(L&)> onLeft);
+      template <class Q> Either<L, Q> Map(std::function<Q(R&)> map);
       // template <class R> Either<R> Bind(std::function<Option<R>(T&)> bind);
       // template <class R> R Match(std::function<R(T&)> some, std::function<R()> none);
   };

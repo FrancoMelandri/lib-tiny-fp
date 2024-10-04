@@ -12,26 +12,25 @@ namespace TinyFp
     return !_isRight;
   }
 
-  /*
-  template <class T>
-  template <class R>
-  R Either<T>::OrElse(std::function<R()> none)
+  template <class L, class R>
+  R Either<L, R>::Right(std::function<R(L&)> onLeft)
   {
-    return IsSome()
-      ? _value
-      : none();
+    return _isRight ?
+      _right :
+      onLeft(_left);
   }
 
-  template <class T>
-  template <class R>
-  Either<R> Either<T>::Map(std::function<R(T&)> map)
+  template <class L, class R>
+  template <class Q>
+  Either<L, Q> Either<L, R>::Map(std::function<Q(R&)> map)
   {
-    auto retVal = map(_value);
-    return IsSome()
-      ? Either<R>::Some(retVal)
-      : Either<R>::None();
+    auto retVal = map(_right);
+    return IsRight()
+      ? Either<L, Q>::Right(retVal)
+      : Either<L, Q>::Left(_left);
   }
 
+/*
   template <class T>
   template <class R>
   Either<R> Either<T>::Bind(std::function<Either<R>(T&)> bind)
