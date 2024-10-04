@@ -18,6 +18,12 @@ COPY ./src/either/*.inc .
 COPY ./src/either/*.h .
 COPY ./src/either/subdir.mk .
 
+WORKDIR /src/try
+COPY ./src/try/*.cpp .
+COPY ./src/try/*.inc .
+COPY ./src/try/*.h .
+COPY ./src/try/subdir.mk .
+
 WORKDIR /src
 RUN make all
 
