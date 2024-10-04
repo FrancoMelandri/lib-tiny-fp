@@ -19,9 +19,19 @@ namespace TinyFp
   template <class R>
   Option<R> Option<T>::Map(std::function<R(T&)> map)
   {
-    auto val = map(_value);
+    auto retVal = map(_value);
     return IsSome()
-      ? Option<R>::Some(val)
+      ? Option<R>::Some(retVal)
+      : Option<R>::None();
+  }
+
+  template <class T>
+  template <class R>
+  Option<R> Option<T>::Bind(std::function<Option<R>(T&)> bind)
+  {
+    auto retVal = bind(_value);
+    return IsSome()
+      ? retVal
       : Option<R>::None();
   }
 
