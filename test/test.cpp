@@ -319,3 +319,45 @@ BOOST_AUTO_TEST_CASE(Either_WhenLeft_AndBind_ReturnLEft)
     BOOST_CHECK(either.IsLeft() == true);
     BOOST_CHECK(inner == 'b');
 }
+
+BOOST_AUTO_TEST_CASE(Either_WhenLeft_AndMatch_ReturnLeft)
+{
+    auto onRight = [](long value)
+    {
+        char retVal = 'a';
+        return retVal;
+    };
+    auto onLeft = [](int value)
+    {
+        char retVal = 'b';
+        return retVal;
+    };
+
+    int leftValue = 10;
+    auto inner = TinyFp::Either<int, long>::Left(leftValue)
+                    .Match<char>(
+                        onRight,
+                        onLeft);
+    BOOST_CHECK(inner == 'b');
+}
+
+BOOST_AUTO_TEST_CASE(Either_WhenRight_AndMatch_ReturnRight)
+{
+    auto onRight = [](long value)
+    {
+        char retVal = 'a';
+        return retVal;
+    };
+    auto onLeft = [](int value)
+    {
+        char retVal = 'b';
+        return retVal;
+    };
+
+    long rightValue = 10;
+    auto inner = TinyFp::Either<int, long>::Right(rightValue)
+                    .Match<char>(
+                        onRight,
+                        onLeft);
+    BOOST_CHECK(inner == 'a');
+}

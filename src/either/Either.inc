@@ -40,14 +40,12 @@ namespace TinyFp
       : Either<L, Q>::Left(_left);
   }
 
-/*
-  template <class T>
-  template <class R>
-  R Either<T>::Match(std::function<R(T&)> some, std::function<R()> none)
+  template <class L, class R>
+  template <class Q>
+  Q Either<L, R>::Match(std::function<Q(R&)> right, std::function<Q(L&)> left)
   {
-    return IsSome()
-      ? some(_value)
-      : none();
+    return IsRight()
+      ? right(_right)
+      : left(_left);
   }
-  */
 }
