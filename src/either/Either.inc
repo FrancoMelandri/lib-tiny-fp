@@ -30,17 +30,17 @@ namespace TinyFp
       : Either<L, Q>::Left(_left);
   }
 
-/*
-  template <class T>
-  template <class R>
-  Either<R> Either<T>::Bind(std::function<Either<R>(T&)> bind)
+  template <class L, class R>
+  template <class Q>
+  Either<L, Q> Either<L, R>::Bind(std::function<Either<L, Q>(R&)> bind)
   {
-    auto retVal = bind(_value);
-    return IsSome()
+    auto retVal = bind(_right);
+    return IsRight()
       ? retVal
-      : Either<R>::None();
+      : Either<L, Q>::Left(_left);
   }
 
+/*
   template <class T>
   template <class R>
   R Either<T>::Match(std::function<R(T&)> some, std::function<R()> none)

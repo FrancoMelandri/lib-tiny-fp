@@ -9,6 +9,10 @@
 using namespace TinyFp;
 using namespace boost::unit_test;
 
+using namespace std;
+using std::cout;
+using std::endl;
+
 BOOST_AUTO_TEST_CASE(WhenNoneIsSomeIsFalse)
 {
     auto option = TinyFp::Option<int>::None();
@@ -245,4 +249,73 @@ BOOST_AUTO_TEST_CASE(Either_WhenRight_AndMap_ReturnMapped)
     BOOST_CHECK(either.IsRight() == true);
     BOOST_CHECK(either.IsLeft() == false);
     BOOST_CHECK(inner == 'a');
+}
+
+BOOST_AUTO_TEST_CASE(Either_WhenLeft_AndMap_ReturnLeft)
+{
+    auto onMap = [](long value)
+    {
+        char retVal = 'a';
+        return retVal;
+    };
+    auto onLeft = [](int value)
+    {
+        char retVal = 'b';
+        return retVal;
+    };
+
+    int leftValue = 10;
+    auto either = TinyFp::Either<int, long>::Left(leftValue)
+                    .Map<char>(onMap);
+
+    auto inner = either.Right(onLeft);
+    BOOST_CHECK(either.IsRight() == false);
+    BOOST_CHECK(either.IsLeft() == true);
+    BOOST_CHECK(inner == 'b');
+}
+
+BOOST_AUTO_TEST_CASE(Either_WhenRight_AndBind_ReturnBinded)
+{
+    auto onBind = [](long value)
+    {
+        char retVal = 'a';
+        return Either<int, char>::Right(retVal);
+    };
+    auto onLeft = [](int value)
+    {
+        char retVal = 'b';
+        return retVal;
+    };
+
+    long rightValue = 10;
+    auto either = TinyFp::Either<int, long>::Right(rightValue)
+                    .Bind<char>(onBind);
+
+    auto inner = either.Right(onLeft);
+    BOOST_CHECK(either.IsRight() == true);
+    BOOST_CHECK(either.IsLeft() == false);
+    BOOST_CHECK(inner == 'a');
+}
+
+BOOST_AUTO_TEST_CASE(Either_WhenLeft_AndBind_ReturnLEft)
+{
+    auto onBind = [](long value)
+    {
+        char retVal = 'a';
+        return Either<int, char>::Right(retVal);
+    };
+    auto onLeft = [](int value)
+    {
+        char retVal = 'b';
+        return retVal;
+    };
+
+    int leftValue = 10;
+    auto either = TinyFp::Either<int, long>::Left(leftValue)
+                    .Bind<char>(onBind);
+
+    auto inner = either.Right(onLeft);
+    BOOST_CHECK(either.IsRight() == false);
+    BOOST_CHECK(either.IsLeft() == true);
+    BOOST_CHECK(inner == 'b');
 }

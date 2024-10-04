@@ -36,7 +36,7 @@ namespace TinyFp
       bool IsLeft();
       R Right(std::function<R(L&)> onLeft);
       template <class Q> Either<L, Q> Map(std::function<Q(R&)> map);
-      // template <class R> Either<R> Bind(std::function<Option<R>(T&)> bind);
+      template <class Q> Either<L, Q> Bind(std::function<Either<L, Q>(R&)> bind);
       // template <class R> R Match(std::function<R(T&)> some, std::function<R()> none);
   };
 }
