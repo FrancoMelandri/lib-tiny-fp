@@ -4,8 +4,6 @@
 #include "../Defines.h"
 
 using namespace std;
-using std::cout;
-using std::endl;
 
 namespace TinyFp
 {
