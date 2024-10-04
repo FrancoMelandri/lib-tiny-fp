@@ -12,6 +12,12 @@ COPY ./src/option/*.inc .
 COPY ./src/option/*.h .
 COPY ./src/option/subdir.mk .
 
+WORKDIR /src/either
+COPY ./src/either/*.cpp .
+COPY ./src/either/*.inc .
+COPY ./src/either/*.h .
+COPY ./src/either/subdir.mk .
+
 WORKDIR /src
 RUN make all
 
