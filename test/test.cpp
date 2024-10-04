@@ -5,6 +5,7 @@
 #include "prelude.h"
 #include "option/Option.h"
 #include "either/Either.h"
+#include "try/Try.h"
 
 using namespace TinyFp;
 using namespace boost::unit_test;
@@ -360,4 +361,54 @@ BOOST_AUTO_TEST_CASE(Either_WhenRight_AndMatch_ReturnRight)
                         onRight,
                         onLeft);
     BOOST_CHECK(inner == 'a');
+}
+
+BOOST_AUTO_TEST_CASE(Try_WhenSuccess_ReturnSuccess)
+{
+    auto onHandle = []()->int
+    {
+        return 100;
+    };
+
+    auto onSuccess = [](int value)
+    {
+        return value;
+    };
+
+    auto onFail = [](exception& ex)
+    {
+        int retVal = 42;
+        return retVal;
+    };
+
+    auto inner = TinyFp::Try<int>::Handle(onHandle)
+                    .Match(
+                        onSuccess,
+                        onFail);
+    BOOST_CHECK(inner == 100);
+}
+
+BOOST_AUTO_TEST_CASE(Try_WhenException_ReturnFail)
+{
+    auto onHandle = []()->int
+    {
+        throw 42;
+    };
+
+    auto onSuccess = [](int value)
+    {
+        return value;
+    };
+
+    auto onFail = [](exception& ex)
+    {
+        int retVal = 42;
+        return retVal;
+    };
+
+    auto inner = TinyFp::Try<int>::Handle(onHandle)
+                    .Match(
+                        onSuccess,
+                        onFail);
+    BOOST_CHECK(inner == 42);
 }
