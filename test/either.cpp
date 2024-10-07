@@ -176,4 +176,258 @@ BOOST_AUTO_TEST_CASE(Either_WhenRight_AndMatch_ReturnRight)
     BOOST_CHECK(inner == 'a');
 }
 
+BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenNone_IsLeft)
+{
+    auto defaultMap = [](FakeClass& value)
+    {
+        return FakeClassMapped(value.value*20);
+    };
+    auto onLeft = [](int& value)
+    {
+        return 100;
+    };
+
+    auto funcSelector1 = [](FakeClass& value)
+    {
+        return true;
+    };
+    auto funcMap1 = [](FakeClass& value)
+    {
+        return FakeClassMapped(99);
+    };
+    tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>>> guards =
+    {
+        tuple1
+    };
+    int leftValue = 10;
+    auto mapped = TinyFp::Either<int, FakeClass>::Left(leftValue)
+                    .GuardMap<FakeClassMapped>(
+                        defaultMap,
+                        guards);
+    auto test1 = mapped.Right(onLeft);
+    BOOST_CHECK(mapped.IsLeft() == true);
+    BOOST_CHECK(test1.mappedValue == 100);
+}
+
+BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_NoSelector_DefaultMap)
+{
+    auto defaultMap = [](FakeClass& value)
+    {
+        return FakeClassMapped(value.value*20);
+    };
+    auto onLeft = [](int& value)
+    {
+        return 100;
+    };
+
+    auto funcSelector1 = [](FakeClass& value)
+    {
+        return false;
+    };
+    auto funcMap1 = [](FakeClass& value)
+    {
+        return FakeClassMapped(99);
+    };
+    tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>>> guards =
+    {
+        tuple1
+    };
+    auto rightValue = FakeClass(10);
+    auto mapped = TinyFp::Either<int, FakeClass>::Right(rightValue)
+                    .GuardMap<FakeClassMapped>(
+                        defaultMap,
+                        guards);
+    auto test1 = mapped.Right(onLeft);
+    BOOST_CHECK(mapped.IsRight() == true);
+    BOOST_CHECK(test1.mappedValue == 200);
+}
+
+BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_OneSelector_Select)
+{
+    auto defaultMap = [](FakeClass& value)
+    {
+        return FakeClassMapped(value.value*20);
+    };
+    auto onLeft = [](int& value)
+    {
+        return 100;
+    };
+
+    auto funcSelector1 = [](FakeClass& value)
+    {
+        return true;
+    };
+    auto funcMap1 = [](FakeClass& value)
+    {
+        return FakeClassMapped(99);
+    };
+    tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>>> guards =
+    {
+        tuple1
+    };
+    auto rightValue = FakeClass(10);
+    auto mapped = TinyFp::Either<int, FakeClass>::Right(rightValue)
+                    .GuardMap<FakeClassMapped>(
+                        defaultMap,
+                        guards);
+    auto test1 = mapped.Right(onLeft);
+    BOOST_CHECK(mapped.IsRight() == true);
+    BOOST_CHECK(test1.mappedValue == 99);
+}
+
+BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_TwoSelector_Select)
+{
+    auto defaultMap = [](FakeClass& value)
+    {
+        return FakeClassMapped(value.value*20);
+    };
+    auto onLeft = [](int& value)
+    {
+        return 100;
+    };
+
+    auto funcSelector1 = [](FakeClass& value)
+    {
+        return false;
+    };
+    auto funcMap1 = [](FakeClass& value)
+    {
+        return FakeClassMapped(99);
+    };
+    auto funcSelector2 = [](FakeClass& value)
+    {
+        return true;
+    };
+    auto funcMap2 = [](FakeClass& value)
+    {
+        return FakeClassMapped(101);
+    };
+    tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>> tuple2 = { funcSelector2, funcMap2 };
+    vector<tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>>> guards =
+    {
+        tuple1,
+        tuple2
+    };
+    auto rightValue = FakeClass(10);
+    auto mapped = TinyFp::Either<int, FakeClass>::Right(rightValue)
+                    .GuardMap<FakeClassMapped>(
+                        defaultMap,
+                        guards);
+    auto test1 = mapped.Right(onLeft);
+    BOOST_CHECK(mapped.IsRight() == true);
+    BOOST_CHECK(test1.mappedValue == 101);
+}
+
+BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenNone_IsLeft)
+{
+    auto defaultBind = [](FakeClass& value)
+    {
+          auto retVal = FakeClassMapped(value.value*20);
+          return Either<int, FakeClassMapped>::Right(retVal);
+    };
+    auto onLeft = [](int& value)
+    {
+        return 100;
+    };
+
+    auto funcSelector1 = [](FakeClass& value)
+    {
+        return true;
+    };
+    auto funcMap1 = [](FakeClass& value)
+    {
+          auto retVal = FakeClassMapped(99);
+          return Either<int, FakeClassMapped>::Right(retVal);
+    };
+    tuple<function<bool(FakeClass&)>, function<Either<int, FakeClassMapped>(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(FakeClass&)>, function<Either<int, FakeClassMapped>(FakeClass&)>>> guards =
+    {
+        tuple1
+    };
+    int leftValue = 10;
+    auto mapped = TinyFp::Either<int, FakeClass>::Left(leftValue)
+                    .GuardBind<FakeClassMapped>(
+                        defaultBind,
+                        guards);
+    auto test1 = mapped.Right(onLeft);
+    BOOST_CHECK(mapped.IsLeft() == true);
+    BOOST_CHECK(test1.mappedValue == 100);
+}
+
+BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_NoSelector_DefaultBind)
+{
+     auto test = FakeClass(10);
+    auto defaultBind = [](FakeClass& value)
+    {
+          auto retVal = FakeClassMapped(value.value*20);
+          return Either<int, FakeClassMapped>::Right(retVal);
+    };
+    auto onLeft = [](int& value)
+    {
+        return 100;
+    };
+
+    auto funcSelector1 = [](FakeClass& value)
+    {
+        return false;
+    };
+    auto funcMap1 = [](FakeClass& value)
+    {
+          auto retVal = FakeClassMapped(99);
+          return Either<int, FakeClassMapped>::Right(retVal);
+    };
+    tuple<function<bool(FakeClass&)>, function<Either<int, FakeClassMapped>(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(FakeClass&)>, function<Either<int, FakeClassMapped>(FakeClass&)>>> guards =
+    {
+        tuple1
+    };
+    auto mapped = TinyFp::Either<int, FakeClass>::Right(test)
+                    .GuardBind<FakeClassMapped>(
+                        defaultBind,
+                        guards);
+    auto test1 = mapped.Right(onLeft);
+    BOOST_CHECK(mapped.IsRight() == true);
+    BOOST_CHECK(test1.mappedValue == 200);
+}
+
+BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_AndSelector_Select)
+{
+     auto test = FakeClass(10);
+    auto defaultBind = [](FakeClass& value)
+    {
+          auto retVal = FakeClassMapped(value.value*20);
+          return Either<int, FakeClassMapped>::Right(retVal);
+    };
+    auto onLeft = [](int& value)
+    {
+        return 100;
+    };
+
+    auto funcSelector1 = [](FakeClass& value)
+    {
+        return true;
+    };
+    auto funcMap1 = [](FakeClass& value)
+    {
+          auto retVal = FakeClassMapped(99);
+          return Either<int, FakeClassMapped>::Right(retVal);
+    };
+    tuple<function<bool(FakeClass&)>, function<Either<int, FakeClassMapped>(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(FakeClass&)>, function<Either<int, FakeClassMapped>(FakeClass&)>>> guards =
+    {
+        tuple1
+    };
+    auto mapped = TinyFp::Either<int, FakeClass>::Right(test)
+                    .GuardBind<FakeClassMapped>(
+                        defaultBind,
+                        guards);
+    auto test1 = mapped.Right(onLeft);
+    BOOST_CHECK(mapped.IsRight() == true);
+    BOOST_CHECK(test1.mappedValue == 99);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

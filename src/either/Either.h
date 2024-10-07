@@ -3,6 +3,8 @@
 
 #include "../Defines.h"
 
+using namespace std;
+
 namespace TinyFp
 {
   template <class L, class R>
@@ -34,10 +36,16 @@ namespace TinyFp
       static Either<L, R> Left(L& value) { return Either<L, R>(value); };
       bool IsRight();
       bool IsLeft();
-      R Right(std::function<R(L&)> onLeft);
-      template <class Q> Either<L, Q> Map(std::function<Q(R&)> map);
-      template <class Q> Either<L, Q> Bind(std::function<Either<L, Q>(R&)> bind);
-      template <class Q> Q Match(std::function<Q(R&)> right, std::function<Q(L&)> left);
+      R Right(function<R(L&)> onLeft);
+      template <class Q> Either<L, Q> Map(function<Q(R&)> map);
+      template <class Q> Either<L, Q> GuardMap(
+        function<Q(R&)> defaultMap,
+        vector<tuple<function<bool(R&)>, function<Q(R&)>>> guards);
+      template <class Q> Either<L, Q> Bind(function<Either<L, Q>(R&)> bind);
+      template <class Q> Either<L, Q> GuardBind(
+        function<Either<L, Q>(R&)> defaultBind,
+        vector<tuple<function<bool(R&)>, function<Either<L, Q>(R&)>>> guards);
+      template <class Q> Q Match(function<Q(R&)> right, function<Q(L&)> left);
   };
 }
 
