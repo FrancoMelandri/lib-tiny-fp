@@ -16,15 +16,11 @@ LIBOBJECTS =
 
 all: $(LIBOBJECTS) $(LIBNAME)
 
-option/%.o: option/%.cpp
-	@echo 'Building file: $< to: $@'
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
 $(LIBNAME): $(LIBOBJECTS) 
 	$(AR) scr $(LIBNAME) $(LIBOBJECTS)
 
 clean:
-	-$(RM) *.o *.a
+	-$(RM) $(LIBOBJECTS)  *.a
 
 rebuild:
 	make clean && make all
