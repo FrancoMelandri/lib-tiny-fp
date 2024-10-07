@@ -13,7 +13,7 @@ namespace TinyFp
   }
 
   template <class L, class R>
-  R Either<L, R>::Right(std::function<R(L&)> onLeft)
+  R Either<L, R>::Right(function<R(L&)> onLeft)
   {
     return _isRight ?
       _right :
@@ -22,17 +22,37 @@ namespace TinyFp
 
   template <class L, class R>
   template <class Q>
-  Either<L, Q> Either<L, R>::Map(std::function<Q(R&)> map)
+  Either<L, Q> Either<L, R>::Map(function<Q(R&)> map)
   {
+    if(!IsRight())
+      return Either<L, Q>::Left(_left);
     auto retVal = map(_right);
-    return IsRight()
-      ? Either<L, Q>::Right(retVal)
-      : Either<L, Q>::Left(_left);
+    return Either<L, Q>::Right(retVal);
   }
 
   template <class L, class R>
   template <class Q>
-  Either<L, Q> Either<L, R>::Bind(std::function<Either<L, Q>(R&)> bind)
+  Either<L, Q> Either<L, R>::GuardMap(
+    function<Q(R&)> defaultMap,
+    vector<tuple<function<bool(R&)>, function<Q(R&)>>> guards)
+  {
+    if(!IsRight())
+      return Either<L, Q>::Left(_left);
+    auto mapToInvoke = defaultMap;
+    for (auto & guard : guards) {
+      auto selector = get<0>(guard);
+      if (selector(_right)) {
+        mapToInvoke = get<1>(guard);
+        break;
+      }
+    }
+    auto retVal = mapToInvoke(_right);
+    return Either<L, Q>::Right(retVal);
+  }
+
+  template <class L, class R>
+  template <class Q>
+  Either<L, Q> Either<L, R>::Bind(function<Either<L, Q>(R&)> bind)
   {
     auto retVal = bind(_right);
     return IsRight()
@@ -42,7 +62,7 @@ namespace TinyFp
 
   template <class L, class R>
   template <class Q>
-  Q Either<L, R>::Match(std::function<Q(R&)> right, std::function<Q(L&)> left)
+  Q Either<L, R>::Match(function<Q(R&)> right, function<Q(L&)> left)
   {
     return IsRight()
       ? right(_right)
