@@ -46,10 +46,22 @@ namespace TinyFp
   template <class Q>
   Either<L, Q> Either<L, R>::Bind(function<Either<L, Q>(R&)> bind)
   {
+    if (!IsRight())
+      return Either<L, Q>::Left(_left);
     auto retVal = bind(_right);
-    return IsRight()
-      ? retVal
-      : Either<L, Q>::Left(_left);
+    return retVal;
+  }
+
+  template <class L, class R>
+  template <class Q>
+  Either<L, Q> Either<L, R>::GuardBind(
+    function<Either<L, Q>(R&)> defaultBind,
+    vector<tuple<function<bool(R&)>, function<Either<L, Q>(R&)>>> guards)
+  {
+    if (!IsRight())
+      return Either<L, Q>::Left(_left);
+    auto retVal = firstOrDefaultMap(guards, defaultBind, _right);
+    return retVal;
   }
 
   template <class L, class R>

@@ -42,6 +42,9 @@ namespace TinyFp
         function<Q(R&)> defaultMap,
         vector<tuple<function<bool(R&)>, function<Q(R&)>>> guards);
       template <class Q> Either<L, Q> Bind(function<Either<L, Q>(R&)> bind);
+      template <class Q> Either<L, Q> GuardBind(
+        function<Either<L, Q>(R&)> defaultBind,
+        vector<tuple<function<bool(R&)>, function<Either<L, Q>(R&)>>> guards);
       template <class Q> Q Match(function<Q(R&)> right, function<Q(L&)> left);
   };
 }
