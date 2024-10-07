@@ -6,13 +6,13 @@ APPNAME = test
 
 all: $(APPNAME)
 
-DEMOFILES = test.o
+DEMOFILES = test.o option.o either.o try.o
 
 $(APPNAME): $(DEMOFILES)
 	$(CCX) $(DEMOFILES)  $(LIBTINYFP)  -o $(APPNAME)  
 
-test.o: test.cpp
-	$(CCX) $(CFLAGS) -c test.cpp
+%.o: %.cpp
+	$(CCX) $(CFLAGS) -c $<
 
 clean:
 	rm -f $(APPNAME) *.o
