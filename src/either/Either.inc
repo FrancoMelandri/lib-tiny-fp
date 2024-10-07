@@ -38,15 +38,7 @@ namespace TinyFp
   {
     if(!IsRight())
       return Either<L, Q>::Left(_left);
-    auto mapToInvoke = defaultMap;
-    for (auto & guard : guards) {
-      auto selector = get<0>(guard);
-      if (selector(_right)) {
-        mapToInvoke = get<1>(guard);
-        break;
-      }
-    }
-    auto retVal = mapToInvoke(_right);
+    auto retVal = firstOrDefaultMap(guards, defaultMap, _right);
     return Either<L, Q>::Right(retVal);
   }
 

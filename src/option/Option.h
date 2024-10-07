@@ -2,6 +2,7 @@
 #define LIB_TINY_FP_OPTION
 
 #include "../Defines.h"
+#include "../extensions.h"
 
 using namespace std;
 

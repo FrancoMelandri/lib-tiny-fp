@@ -33,15 +33,7 @@ namespace TinyFp
   {
     if (!IsSome())
       return Option<R>::None();
-    auto mapToInvoke = defaultMap;
-    for (auto & guard : guards) {
-      auto selector = get<0>(guard);
-      if (selector(_value)) {
-        mapToInvoke = get<1>(guard);
-        break;
-      }
-    }
-    auto retVal = mapToInvoke(_value);
+    auto retVal = firstOrDefaultMap(guards, defaultMap, _value);
     return Option<R>::Some(retVal);
   }
 
