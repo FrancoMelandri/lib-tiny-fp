@@ -336,4 +336,111 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenSome_AndTwoSelector_SelectorMap)
     BOOST_CHECK(test1.mappedValue == 101);
 }
 
+BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenNone_IsSomeIsFalse)
+{
+    auto test = FakeClass(10);
+    auto defaultMap = [](FakeClass& value)
+    {
+        auto retVal = FakeClassMapped(value.value*20);
+        return Option<FakeClassMapped>::Some(retVal);
+    };
+    auto orElseDefault = [test]()
+    {
+        return FakeClassMapped(100);
+    };
+
+    auto funcSelector1 = [](FakeClass& value)
+    {
+        return true;
+    };
+    auto funcMap1 = [](FakeClass& value)
+    {
+        auto retVal = FakeClassMapped(99);
+        return Option<FakeClassMapped>::Some(retVal);
+    };
+    tuple<function<bool(FakeClass&)>, function<Option<FakeClassMapped>(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(FakeClass&)>, function<Option<FakeClassMapped>(FakeClass&)>>> guards =
+    {
+        tuple1
+    };
+    auto mapped = TinyFp::Option<FakeClass>::None()
+                    .GuardBind<FakeClassMapped>(
+                        defaultMap,
+                        guards);
+    auto test1 = mapped.OrElse<FakeClassMapped>(orElseDefault);
+    BOOST_CHECK(mapped.IsSome() == false);
+    BOOST_CHECK(test1.mappedValue == 100);
+}
+
+BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenSome_NoSelector_DefaultBind)
+{
+    auto test = FakeClass(10);
+    auto defaultBind = [](FakeClass& value)
+    {
+        auto retVal = FakeClassMapped(value.value*20);
+        return Option<FakeClassMapped>::Some(retVal);
+    };
+    auto orElseDefault = [test]()
+    {
+        return FakeClassMapped(100);
+    };
+
+    auto funcSelector1 = [](FakeClass& value)
+    {
+        return false;
+    };
+    auto funcMap1 = [](FakeClass& value)
+    {
+        auto retVal = FakeClassMapped(99);
+        return Option<FakeClassMapped>::Some(retVal);
+    };
+    tuple<function<bool(FakeClass&)>, function<Option<FakeClassMapped>(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(FakeClass&)>, function<Option<FakeClassMapped>(FakeClass&)>>> guards =
+    {
+        tuple1
+    };
+    auto mapped = TinyFp::Option<FakeClass>::Some(test)
+                    .GuardBind<FakeClassMapped>(
+                        defaultBind,
+                        guards);
+    auto test1 = mapped.OrElse<FakeClassMapped>(orElseDefault);
+    BOOST_CHECK(mapped.IsSome() == true);
+    BOOST_CHECK(test1.mappedValue == 200);
+}
+BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenSome_AndSelector_Select)
+{
+    auto test = FakeClass(10);
+    auto defaultBind = [](FakeClass& value)
+    {
+        auto retVal = FakeClassMapped(value.value*20);
+        return Option<FakeClassMapped>::Some(retVal);
+    };
+    auto orElseDefault = [test]()
+    {
+        return FakeClassMapped(100);
+    };
+
+    auto funcSelector1 = [](FakeClass& value)
+    {
+        return true;
+    };
+    auto funcMap1 = [](FakeClass& value)
+    {
+        auto retVal = FakeClassMapped(99);
+        return Option<FakeClassMapped>::Some(retVal);
+    };
+    tuple<function<bool(FakeClass&)>, function<Option<FakeClassMapped>(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(FakeClass&)>, function<Option<FakeClassMapped>(FakeClass&)>>> guards =
+    {
+        tuple1
+    };
+    auto mapped = TinyFp::Option<FakeClass>::Some(test)
+                    .GuardBind<FakeClassMapped>(
+                        defaultBind,
+                        guards);
+    auto test1 = mapped.OrElse<FakeClassMapped>(orElseDefault);
+    BOOST_CHECK(mapped.IsSome() == true);
+    BOOST_CHECK(test1.mappedValue == 99);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

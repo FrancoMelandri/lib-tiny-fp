@@ -41,10 +41,22 @@ namespace TinyFp
   template <class R>
   Option<R> Option<T>::Bind(function<Option<R>(T&)> bind)
   {
+    if (!IsSome())
+      return Option<R>::None();
     auto retVal = bind(_value);
-    return IsSome()
-      ? retVal
-      : Option<R>::None();
+    return retVal;
+  }
+
+  template <class T>
+  template <class R>
+  Option<R> Option<T>::GuardBind(
+    function<Option<R>(T&)> defaultBind,
+    vector<tuple<function<bool(T&)>, function<Option<R>(T&)>>> guards)
+  {
+    if (!IsSome())
+      return Option<R>::None();
+    auto retVal = firstOrDefaultMap(guards, defaultBind, _value);
+    return retVal;
   }
 
   template <class T>

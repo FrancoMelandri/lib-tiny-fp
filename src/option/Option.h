@@ -36,6 +36,9 @@ namespace TinyFp
         function<R(T&)> defaultMap,
         vector<tuple<function<bool(T&)>, function<R(T&)>>> guards);
       template <class R> Option<R> Bind(function<Option<R>(T&)> bind);
+      template <class R> Option<R> GuardBind(
+        function<Option<R>(T&)> defaultBind,
+        vector<tuple<function<bool(T&)>, function<Option<R>(T&)>>> guards);
       template <class R> R Match(function<R(T&)> some, function<R()> none);
   };
 }
