@@ -9,45 +9,36 @@ using namespace boost::unit_test;
 
 BOOST_AUTO_TEST_SUITE( test_suite_uber )
 
-// Option<FakeClass> _TrySuccess(int& value)
-// {
-//     auto val = FakeClass(value);
-//     auto retVal = Option<FakeClass>::Some(val);
-//     return retVal;
-// }
-
-// Option<FakeClass> _TryFailure(exception& ex)
-// {
-//     auto retVal = Option<FakeClass>::None();
-//     return retVal;
-// }
-
 BOOST_AUTO_TEST_CASE(ROP_Failure)
 {
-    auto onHandle = []()
+    auto retVal = FakeClass(42);
+    auto onHandle = [retVal]()
     {
-        auto retVal = FakeClass(42);
-        return retVal;
+        return (FakeClass*)&retVal;
     };
 
     auto _TrySuccess = [](FakeClass& value)
     {
-        auto retVal = FakeClass(value);
-        return retVal;
+        return (FakeClass*)&value;
     };
 
     auto _TryFailure = [](exception& ex)
     {
-        auto retVal = FakeClass(666);
-        return retVal;
+        return (FakeClass*)NULL;
     };
 
-    auto inner = TinyFp::Try<FakeClass>::Handle(onHandle)
-                    .Match(
-                        _TrySuccess,
-                        _TryFailure);
-                    // .OrElse<FakeClass>([](){ return FakeClass(666); });
-    BOOST_CHECK(inner.value == 42);
+    auto whenNone = [](FakeClass& vlaue)
+    {
+        return vlaue.value == 44;
+    };
+
+    auto sut = makeOption<FakeClass>(
+                        TinyFp::
+                            Try<FakeClass>::
+                            Handle(onHandle)
+                            .Match(_TrySuccess),
+                        whenNone);
+    BOOST_CHECK(sut.IsSome() == true);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

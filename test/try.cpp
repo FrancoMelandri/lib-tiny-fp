@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE(Try_WhenSuccess_ReturnSuccess)
     };
 
     auto inner = TinyFp::Try<int>::Handle(onHandle)
-                    .Match(
+                    .Match<int>(
                         onSuccess,
                         onFail);
     BOOST_CHECK(inner == 100);
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE(Try_WhenException_ReturnFail)
     };
 
     auto inner = TinyFp::Try<int>::Handle(onHandle)
-                    .Match(
+                    .Match<int>(
                         onSuccess,
                         onFail);
     BOOST_CHECK(inner == 42);

@@ -41,8 +41,23 @@ namespace TinyFp
           return Try<S>(failure);
         }
       };
+      static Try<S> Handle(std::function<S*()> func)
+      {
+        try
+        {
+          auto retVal = *func();
+          return Try<S>(retVal);
+        }
+        catch (...)
+        {
+          auto failure = std::exception();
+          return Try<S>(failure);
+        }
+      };
       bool IsSuccess();
       S Match(std::function<S(S&)> success, std::function<S(exception&)> fail);
+      S* Match(std::function<S*(S&)> success, std::function<S*(exception&)> fail);
+      S* Match(std::function<S*(S&)> success);
   };
 }
 

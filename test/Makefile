@@ -6,7 +6,8 @@ APPNAME = test
 
 all: $(APPNAME)
 
-DEMOFILES = test.o option.o either.o try.o uber.o prelude.o
+# DEMOFILES = test.o option.o either.o try.o uber.o prelude.o
+DEMOFILES = test.o uber.o
 
 $(APPNAME): $(DEMOFILES)
 	$(CCX) $(DEMOFILES)  $(LIBTINYFP)  -o $(APPNAME)  
@@ -15,7 +16,7 @@ $(APPNAME): $(DEMOFILES)
 	$(CCX) $(CFLAGS) -c $<
 
 clean:
-	rm -f $(APPNAME) *.o
+	rm -f $(APPNAME) $(DEMOFILES)
 
 rebuild: clean all
 
