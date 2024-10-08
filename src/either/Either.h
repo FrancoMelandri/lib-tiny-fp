@@ -2,6 +2,7 @@
 #define LIB_TINY_FP_EITHER
 
 #include "../Defines.h"
+#include "../extensions.h"
 
 using namespace std;
 
@@ -49,6 +50,6 @@ namespace TinyFp
   };
 }
 
-#include "Either.inc"
+#include "Either.imp.h"
 
 #endif

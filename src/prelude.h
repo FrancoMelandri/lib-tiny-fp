@@ -3,16 +3,28 @@
 
 #include "Defines.h"
 #include "option/Option.h"
-#include "either/Either.h"
+
+using namespace std;
 
 namespace TinyFp 
 { 
     template <class A>
-    Option<A> createOption(A* value)
+    Option<A> makeOption(A* value)
     {
-        return value == NO_VALUE ?
-            Option<A>::None() :
-            Option<A>::Some(*value);
+        if (value == NO_VALUE)
+            return Option<A>::None();
+        return Option<A>::Some(*value);
+    }
+
+    template <class A>
+    Option<A> makeOption(A* value, function<bool(A&)> whenNone)
+    {
+        if (value == NO_VALUE)
+            return Option<A>::None();
+        auto retVal = *value;
+        if (whenNone(retVal))
+            return Option<A>::None();
+        return Option<A>::Some(retVal);
     }
 }
 #endif

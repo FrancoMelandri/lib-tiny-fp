@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE(Option_IsSome_WhenSomeIsTrue)
 BOOST_AUTO_TEST_CASE(Option_OrElse_WhenSomeReturnValue)
 {
     int test = 10;
-    auto mapped = createOption(&test);
+    auto mapped = makeOption(&test);
     auto test1 = mapped.OrElse<int>([test]() { return test;});
     BOOST_CHECK(mapped.IsSome() == true);
     BOOST_CHECK(test == 10);
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(Option_OrElse_WhenSomeReturnValue)
 BOOST_AUTO_TEST_CASE(Option_OrElse_WhenNoneReturnDefault)
 {
     int test = 10;
-    auto mapped = createOption((int*)NULL);
+    auto mapped = makeOption((int*)NULL);
     auto test1 = mapped.OrElse<int>([test]() { return test*10;});
     BOOST_CHECK(mapped.IsSome() == false);
     BOOST_CHECK(test == 10);
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(Option_OrElse_WhenSomeReturnValue_Reference)
 BOOST_AUTO_TEST_CASE(Option_OrElse_WhenNoneReturnDefault_Reference_)
 {
     FakeClass* test = NULL;
-    auto mapped = createOption(test);
+    auto mapped = makeOption(test);
     auto test1 = mapped.OrElse<FakeClass>([]() { return FakeClass(100);});
     BOOST_CHECK(mapped.IsSome() == false);
     BOOST_CHECK(test1.value == 100);
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE(Option_Map_WhenNone_IsSomeIsFalse_Reference)
 BOOST_AUTO_TEST_CASE(Option_Map_WhenSome_IsSomeIsTrue_Reference)
 {
     auto test = FakeClass(10);
-    auto mapped = createOption(&test)
+    auto mapped = makeOption(&test)
                     .Map<FakeClassMapped>([](FakeClass& value) { return FakeClassMapped(value.value*20);} );
     auto test1 = mapped.OrElse<FakeClassMapped>([test]() { return FakeClassMapped(100);});
     BOOST_CHECK(mapped.IsSome() == true);
