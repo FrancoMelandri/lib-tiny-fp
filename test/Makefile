@@ -9,7 +9,7 @@ all: $(APPNAME)
 DEMOFILES = test.o option.o either.o try.o uber.o prelude.o
 
 $(APPNAME): $(DEMOFILES)
-	$(CCX) $(DEMOFILES)  $(LIBTINYFP)  -o $(APPNAME)  
+	$(CCX) $(DEMOFILES)  $(LIBTINYFP) -o $(APPNAME)
 
 %.o: %.cpp
 	$(CCX) $(CFLAGS) -c $<
