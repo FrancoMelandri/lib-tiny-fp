@@ -6,7 +6,7 @@ APPNAME = test
 
 all: $(APPNAME)
 
-DEMOFILES = test.o option.o either.o try.o
+DEMOFILES = test.o option.o either.o try.o uber.o prelude.o
 
 $(APPNAME): $(DEMOFILES)
 	$(CCX) $(DEMOFILES)  $(LIBTINYFP)  -o $(APPNAME)  
