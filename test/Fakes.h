@@ -1,6 +1,14 @@
 #ifndef LIB_TINY_FP_TEST_FAKES
 #define LIB_TINY_FP_TEST_FAKES
 
+class Error
+{
+public:
+    Error() { code = 0; };
+    Error(int val) { code = val; };
+    int code ;
+};
+
 class FakeClass
 {    
 public:

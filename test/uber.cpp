@@ -9,36 +9,95 @@ using namespace boost::unit_test;
 
 BOOST_AUTO_TEST_SUITE( test_suite_uber )
 
-BOOST_AUTO_TEST_CASE(ROP_Failure)
+FakeClass* _TrySuccess(FakeClass& value)
 {
-    auto retVal = FakeClass(42);
+    return (FakeClass*)&value;
+}
+
+int _OnRight(FakeClassMapped& mapped)
+{
+    return mapped.mappedValue;
+}
+
+int _OnLeft(Error& error)
+{
+    return error.code;
+}
+
+bool _WhenNone(FakeClass& vlaue)
+{
+    return vlaue.value == 44;
+}
+
+Error _LeftValue()
+{
+    auto left = Error(666);
+    return left;
+}
+
+FakeClassMapped _MapEither(FakeClass& vlaue)
+{
+    auto mapped = FakeClassMapped(vlaue.value * 2);
+    return mapped;
+}
+
+BOOST_AUTO_TEST_CASE(ROP_Success)
+{
+    auto retVal = FakeClass(21);
     auto onHandle = [retVal]()
     {
         return (FakeClass*)&retVal;
     };
 
-    auto _TrySuccess = [](FakeClass& value)
-    {
-        return (FakeClass*)&value;
-    };
+    auto sut = makeOption<FakeClass>(
+                        TinyFp::Try<FakeClass>::Handle(onHandle)
+                            .Match(_TrySuccess),
+                        _WhenNone)
+                .ToEither<Error>(_LeftValue)
+                .Map<FakeClassMapped>(_MapEither)
+                .Match<int>(
+                    _OnRight,
+                    _OnLeft);
+    BOOST_CHECK(sut == 42);
+}
 
-    auto _TryFailure = [](exception& ex)
+BOOST_AUTO_TEST_CASE(ROP_Failure_Exception)
+{
+    auto onHandle = []() -> FakeClass*
     {
-        return (FakeClass*)NULL;
-    };
-
-    auto whenNone = [](FakeClass& vlaue)
-    {
-        return vlaue.value == 44;
+        throw 999;
     };
 
     auto sut = makeOption<FakeClass>(
-                        TinyFp::
-                            Try<FakeClass>::
-                            Handle(onHandle)
+                        TinyFp::Try<FakeClass>::Handle(onHandle)
                             .Match(_TrySuccess),
-                        whenNone);
-    BOOST_CHECK(sut.IsSome() == true);
+                        _WhenNone)
+                .ToEither<Error>(_LeftValue)
+                .Map<FakeClassMapped>(_MapEither)
+                .Match<int>(
+                    _OnRight,
+                    _OnLeft);
+    BOOST_CHECK(sut == 666);
+}
+
+BOOST_AUTO_TEST_CASE(ROP_Failure_WhenNone)
+{
+    auto retVal = FakeClass(44);
+    auto onHandle = [retVal]()
+    {
+        return (FakeClass*)&retVal;
+    };
+
+    auto sut = makeOption<FakeClass>(
+                        TinyFp::Try<FakeClass>::Handle(onHandle)
+                            .Match(_TrySuccess),
+                        _WhenNone)
+                .ToEither<Error>(_LeftValue)
+                .Map<FakeClassMapped>(_MapEither)
+                .Match<int>(
+                    _OnRight,
+                    _OnLeft);
+    BOOST_CHECK(sut == 666);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

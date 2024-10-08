@@ -2,6 +2,7 @@
 #define LIB_TINY_FP_EITHER
 
 #include "../Defines.h"
+#include "../extensions.h"
 
 using namespace std;
 

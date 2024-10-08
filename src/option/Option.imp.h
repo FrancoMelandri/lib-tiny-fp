@@ -67,4 +67,14 @@ namespace TinyFp
       ? some(_value)
       : none();
   }
+
+  template <class T>
+  template <class L>
+  Either<L, T> Option<T>::ToEither(function<L()> leftValue)
+  {
+    if (IsSome())
+      return Either<L, T>::Right(_value);
+    auto left = leftValue();
+    return Either<L, T>::Left(left);
+  }
 }

@@ -2,6 +2,7 @@
 #define LIB_TINY_FP_OPTION
 
 #include "../Defines.h"
+#include "../either/Either.h"
 #include "../extensions.h"
 
 using namespace std;
@@ -40,6 +41,7 @@ namespace TinyFp
         function<Option<R>(T&)> defaultBind,
         vector<tuple<function<bool(T&)>, function<Option<R>(T&)>>> guards);
       template <class R> R Match(function<R(T&)> some, function<R()> none);
+      template <class L> Either<L, T> ToEither(function<L()> leftValue);
   };
 }
 
