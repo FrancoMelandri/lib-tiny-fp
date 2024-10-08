@@ -1,10 +1,12 @@
 # lib-tiny-fp
 
+C++ Functional programming library.
+
 ## abstract
 
 The aim of `lib-tiny-fp` library is to implement the basic functional data types allows you to use **Railway Oriented Programming** in native way.
 
-example:
+Example:
 ```c++
 
     auto sut = makeOption<FakeClass>(
@@ -33,7 +35,7 @@ clone the repository:
 
 The libray will be installed into `/usr/local/lib/libtinyfp` and `/usr/local/include/libtinyfp` folders.
 
-To build your own code you shoulD include these path in the build make file
+To build your own code you should include these path in the Kakefile
 
 ```makefile
 CFLAGS = -O1 -Wall -I/usr/local/inlcude/libtinyfp 
