@@ -24,3 +24,10 @@ clean:
 
 rebuild:
 	make clean && make all
+
+install: clean all
+	install -D $(LIBNAME) -t /usr/local/lib/$(LNAME) 
+	install -D *.h -t /usr/local/inlcude/$(LNAME)
+	install -D ./either/*.h -t /usr/local/inlcude/$(LNAME)/either/
+	install -D ./option/*.h -t /usr/local/inlcude/$(LNAME)/option/
+	install -D ./try/*.h -t /usr/local/inlcude/$(LNAME)/try/
