@@ -46,6 +46,6 @@ namespace TinyFp
   };
 }
 
-#include "Try.inc"
+#include "Try.imp.h"
 
 #endif

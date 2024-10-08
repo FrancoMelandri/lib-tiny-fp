@@ -49,6 +49,6 @@ namespace TinyFp
   };
 }
 
-#include "Either.inc"
+#include "Either.imp.h"
 
 #endif

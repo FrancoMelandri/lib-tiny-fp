@@ -43,6 +43,6 @@ namespace TinyFp
   };
 }
 
-#include "Option.inc"
+#include "Option.imp.h"
 
 #endif
