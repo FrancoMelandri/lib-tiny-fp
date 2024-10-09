@@ -28,12 +28,21 @@ namespace TinyFp
   template <class T>
   template <class R>
   Option<R> Option<T>::GuardMap(
-    function<R(T&)> defaultMap,
-    vector<tuple<function<bool(T&)>, function<R(T&)>>> guards)
+    function<R(const T&)> defaultMap,
+    const vector<tuple<function<bool(const T&)>, function<R(const T&)>>>& guards)
   {
     if (!IsSome())
       return Option<R>::None();
-    auto retVal = firstOrDefaultMap(guards, defaultMap, _value);
+
+    auto mapToInvoke = defaultMap;
+    for (auto & guard : guards) {
+        auto selector = get<0>(guard);
+        if (selector(_value)) {
+            mapToInvoke = get<1>(guard);
+            break;
+        }
+    }
+    auto retVal = mapToInvoke(_value);
     return Option<R>::Some(retVal);
   }
 
@@ -50,12 +59,21 @@ namespace TinyFp
   template <class T>
   template <class R>
   Option<R> Option<T>::GuardBind(
-    function<Option<R>(T&)> defaultBind,
-    vector<tuple<function<bool(T&)>, function<Option<R>(T&)>>> guards)
+    function<Option<R>(const T&)> defaultBind,
+    const vector<tuple<function<bool(const T&)>, function<Option<R>(const T&)>>>& guards)
   {
     if (!IsSome())
       return Option<R>::None();
-    auto retVal = firstOrDefaultMap(guards, defaultBind, _value);
+
+    auto mapToInvoke = defaultBind;
+    for (auto & guard : guards) {
+        auto selector = get<0>(guard);
+        if (selector(_value)) {
+            mapToInvoke = get<1>(guard);
+            break;
+        }
+    }
+    auto retVal = mapToInvoke(_value);
     return retVal;
   }
 

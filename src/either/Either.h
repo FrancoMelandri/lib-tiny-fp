@@ -37,12 +37,12 @@ namespace TinyFp
       R Right(function<R(L&)> onLeft);
       template <class Q> Either<L, Q> Map(function<Q(const R&)> map);
       template <class Q> Either<L, Q> GuardMap(
-        function<Q(R&)> defaultMap,
-        vector<tuple<function<bool(R&)>, function<Q(R&)>>> guards);
+        function<Q(const R&)> defaultMap,
+        const vector<tuple<function<bool(const R&)>, function<Q(const R&)>>>& guards);
       template <class Q> Either<L, Q> Bind(function<Either<L, Q>(R&)> bind);
       template <class Q> Either<L, Q> GuardBind(
-        function<Either<L, Q>(R&)> defaultBind,
-        vector<tuple<function<bool(R&)>, function<Either<L, Q>(R&)>>> guards);
+        function<Either<L, Q>(const R&)> defaultBind,
+        const vector<tuple<function<bool(const R&)>, function<Either<L, Q>(const R&)>>>& guards);
       template <class Q> Q Match(function<Q(R&)> right, function<Q(L&)> left);
   };
 }

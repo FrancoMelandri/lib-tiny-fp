@@ -32,9 +32,9 @@ namespace TinyFp::Extensions
     }
 
     template <class A, class B>
-    function<A(B&)> firstOrDefault(
-        vector<tuple<function<bool(B&)>, function<A(B&)>>>& guards,
-        function<A(B&)> defaultMap,
+    function<A(const B&)> firstOrDefault(
+        const vector<tuple<function<bool(const B&)>, function<A(const B&)>>>& guards,
+        function<A(const B&)> defaultMap,
         B& value)
     {
         auto mapToInvoke = defaultMap;
@@ -50,9 +50,9 @@ namespace TinyFp::Extensions
 
     template <class A, class B>
     A firstOrDefaultMap(
-        vector<tuple<function<bool(B&)>, function<A(B&)>>> guards,
-        function<A(B&)> defaultMap,
-        B& value)
+        const vector<tuple<function<bool(const B&)>, function<A(const B&)>>>& guards,
+        function<A(const B&)> defaultMap,
+        const B& value)
     {
         auto mapToInvoke = firstOrDefault(guards, defaultMap, value);
         auto retVal = mapToInvoke(value);

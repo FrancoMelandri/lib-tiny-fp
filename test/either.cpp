@@ -178,7 +178,7 @@ BOOST_AUTO_TEST_CASE(Either_WhenRight_AndMatch_ReturnRight)
 
 BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenNone_IsLeft)
 {
-    auto defaultMap = [](FakeClass& value)
+    auto defaultMap = [](const FakeClass& value)
     {
         return FakeClassMapped(value.value*20);
     };
@@ -187,16 +187,16 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenNone_IsLeft)
         return 100;
     };
 
-    auto funcSelector1 = [](FakeClass& value)
+    auto funcSelector1 = [](const FakeClass& value)
     {
         return true;
     };
-    auto funcMap1 = [](FakeClass& value)
+    auto funcMap1 = [](const FakeClass& value)
     {
         return FakeClassMapped(99);
     };
-    tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    vector<tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>>> guards =
+    tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>>> guards =
     {
         tuple1
     };
@@ -212,7 +212,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenNone_IsLeft)
 
 BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_NoSelector_DefaultMap)
 {
-    auto defaultMap = [](FakeClass& value)
+    auto defaultMap = [](const FakeClass& value)
     {
         return FakeClassMapped(value.value*20);
     };
@@ -221,16 +221,16 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_NoSelector_DefaultMap)
         return 100;
     };
 
-    auto funcSelector1 = [](FakeClass& value)
+    auto funcSelector1 = [](const FakeClass& value)
     {
         return false;
     };
-    auto funcMap1 = [](FakeClass& value)
+    auto funcMap1 = [](const FakeClass& value)
     {
         return FakeClassMapped(99);
     };
-    tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    vector<tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>>> guards =
+    tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>>> guards =
     {
         tuple1
     };
@@ -246,7 +246,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_NoSelector_DefaultMap)
 
 BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_OneSelector_Select)
 {
-    auto defaultMap = [](FakeClass& value)
+    auto defaultMap = [](const FakeClass& value)
     {
         return FakeClassMapped(value.value*20);
     };
@@ -255,16 +255,16 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_OneSelector_Select)
         return 100;
     };
 
-    auto funcSelector1 = [](FakeClass& value)
+    auto funcSelector1 = [](const FakeClass& value)
     {
         return true;
     };
-    auto funcMap1 = [](FakeClass& value)
+    auto funcMap1 = [](const FakeClass& value)
     {
         return FakeClassMapped(99);
     };
-    tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    vector<tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>>> guards =
+    tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>>> guards =
     {
         tuple1
     };
@@ -280,7 +280,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_OneSelector_Select)
 
 BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_TwoSelector_Select)
 {
-    auto defaultMap = [](FakeClass& value)
+    auto defaultMap = [](const FakeClass& value)
     {
         return FakeClassMapped(value.value*20);
     };
@@ -289,25 +289,25 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_TwoSelector_Select)
         return 100;
     };
 
-    auto funcSelector1 = [](FakeClass& value)
+    auto funcSelector1 = [](const FakeClass& value)
     {
         return false;
     };
-    auto funcMap1 = [](FakeClass& value)
+    auto funcMap1 = [](const FakeClass& value)
     {
         return FakeClassMapped(99);
     };
-    auto funcSelector2 = [](FakeClass& value)
+    auto funcSelector2 = [](const FakeClass& value)
     {
         return true;
     };
-    auto funcMap2 = [](FakeClass& value)
+    auto funcMap2 = [](const FakeClass& value)
     {
         return FakeClassMapped(101);
     };
-    tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>> tuple2 = { funcSelector2, funcMap2 };
-    vector<tuple<function<bool(FakeClass&)>, function<FakeClassMapped(FakeClass&)>>> guards =
+    tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>> tuple2 = { funcSelector2, funcMap2 };
+    vector<tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>>> guards =
     {
         tuple1,
         tuple2
@@ -324,7 +324,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_TwoSelector_Select)
 
 BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenNone_IsLeft)
 {
-    auto defaultBind = [](FakeClass& value)
+    auto defaultBind = [](const FakeClass& value)
     {
           auto retVal = FakeClassMapped(value.value*20);
           return Either<int, FakeClassMapped>::Right(retVal);
@@ -334,17 +334,17 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenNone_IsLeft)
         return 100;
     };
 
-    auto funcSelector1 = [](FakeClass& value)
+    auto funcSelector1 = [](const FakeClass& value)
     {
         return true;
     };
-    auto funcMap1 = [](FakeClass& value)
+    auto funcMap1 = [](const FakeClass& value)
     {
           auto retVal = FakeClassMapped(99);
           return Either<int, FakeClassMapped>::Right(retVal);
     };
-    tuple<function<bool(FakeClass&)>, function<Either<int, FakeClassMapped>(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    vector<tuple<function<bool(FakeClass&)>, function<Either<int, FakeClassMapped>(FakeClass&)>>> guards =
+    tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>>> guards =
     {
         tuple1
     };
@@ -361,7 +361,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenNone_IsLeft)
 BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_NoSelector_DefaultBind)
 {
      auto test = FakeClass(10);
-    auto defaultBind = [](FakeClass& value)
+    auto defaultBind = [](const FakeClass& value)
     {
           auto retVal = FakeClassMapped(value.value*20);
           return Either<int, FakeClassMapped>::Right(retVal);
@@ -371,17 +371,17 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_NoSelector_DefaultBind)
         return 100;
     };
 
-    auto funcSelector1 = [](FakeClass& value)
+    auto funcSelector1 = [](const FakeClass& value)
     {
         return false;
     };
-    auto funcMap1 = [](FakeClass& value)
+    auto funcMap1 = [](const FakeClass& value)
     {
           auto retVal = FakeClassMapped(99);
           return Either<int, FakeClassMapped>::Right(retVal);
     };
-    tuple<function<bool(FakeClass&)>, function<Either<int, FakeClassMapped>(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    vector<tuple<function<bool(FakeClass&)>, function<Either<int, FakeClassMapped>(FakeClass&)>>> guards =
+    tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>>> guards =
     {
         tuple1
     };
@@ -397,7 +397,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_NoSelector_DefaultBind)
 BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_AndSelector_Select)
 {
      auto test = FakeClass(10);
-    auto defaultBind = [](FakeClass& value)
+    auto defaultBind = [](const FakeClass& value)
     {
           auto retVal = FakeClassMapped(value.value*20);
           return Either<int, FakeClassMapped>::Right(retVal);
@@ -407,17 +407,17 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_AndSelector_Select)
         return 100;
     };
 
-    auto funcSelector1 = [](FakeClass& value)
+    auto funcSelector1 = [](const FakeClass& value)
     {
         return true;
     };
-    auto funcMap1 = [](FakeClass& value)
+    auto funcMap1 = [](const FakeClass& value)
     {
           auto retVal = FakeClassMapped(99);
           return Either<int, FakeClassMapped>::Right(retVal);
     };
-    tuple<function<bool(FakeClass&)>, function<Either<int, FakeClassMapped>(FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    vector<tuple<function<bool(FakeClass&)>, function<Either<int, FakeClassMapped>(FakeClass&)>>> guards =
+    tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
+    vector<tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>>> guards =
     {
         tuple1
     };

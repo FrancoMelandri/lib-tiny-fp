@@ -33,12 +33,21 @@ namespace TinyFp
   template <class L, class R>
   template <class Q>
   Either<L, Q> Either<L, R>::GuardMap(
-    function<Q(R&)> defaultMap,
-    vector<tuple<function<bool(R&)>, function<Q(R&)>>> guards)
+    function<Q(const R&)> defaultMap,
+    const vector<tuple<function<bool(const R&)>, function<Q(const R&)>>>& guards)
   {
     if(!IsRight())
       return Either<L, Q>::Left(_left);
-    auto retVal = firstOrDefaultMap(guards, defaultMap, _right);
+
+    auto mapToInvoke = defaultMap;
+    for (auto & guard : guards) {
+        auto selector = get<0>(guard);
+        if (selector(_right)) {
+            mapToInvoke = get<1>(guard);
+            break;
+        }
+    }
+    auto retVal = mapToInvoke(_right);
     return Either<L, Q>::Right(retVal);
   }
 
@@ -55,12 +64,21 @@ namespace TinyFp
   template <class L, class R>
   template <class Q>
   Either<L, Q> Either<L, R>::GuardBind(
-    function<Either<L, Q>(R&)> defaultBind,
-    vector<tuple<function<bool(R&)>, function<Either<L, Q>(R&)>>> guards)
+    function<Either<L, Q>(const R&)> defaultBind,
+    const vector<tuple<function<bool(const R&)>, function<Either<L, Q>(const R&)>>>& guards)
   {
     if (!IsRight())
       return Either<L, Q>::Left(_left);
-    auto retVal = firstOrDefaultMap(guards, defaultBind, _right);
+
+    auto mapToInvoke = defaultBind;
+    for (auto & guard : guards) {
+        auto selector = get<0>(guard);
+        if (selector(_right)) {
+            mapToInvoke = get<1>(guard);
+            break;
+        }
+    }
+    auto retVal = mapToInvoke(_right);
     return retVal;
   }
 
