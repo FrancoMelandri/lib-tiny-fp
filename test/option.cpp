@@ -10,92 +10,92 @@ using namespace std;
 
 BOOST_AUTO_TEST_SUITE( test_suite_option )
 
-BOOST_AUTO_TEST_CASE(Option_IsSome_WhenNone_IsFalse)
+BOOST_AUTO_TEST_CASE(Option_isSome_WhenNone_IsFalse)
 {
-    auto option = TinyFp::Option<int>::None();
-    BOOST_CHECK(option.IsSome() == false);
+    auto option = TinyFp::Option<int>::none();
+    BOOST_CHECK(option.isSome() == false);
 }
 
-BOOST_AUTO_TEST_CASE(Option_IsSome_WhenSomeIsTrue)
+BOOST_AUTO_TEST_CASE(Option_isSome_WhenSomeIsTrue)
 {
     int test = 10;
-    auto option = TinyFp::Option<int>::Some(test);
-    BOOST_CHECK(option.IsSome() == true);
+    auto option = TinyFp::Option<int>::some(test);
+    BOOST_CHECK(option.isSome() == true);
 }
 
-BOOST_AUTO_TEST_CASE(Option_OrElse_WhenSomeReturnValue)
+BOOST_AUTO_TEST_CASE(Option_orElse_WhenSomeReturnValue)
 {
     int test = 10;
     auto mapped = makeOption(&test);
-    auto test1 = mapped.OrElse<int>([test]() { return test;});
-    BOOST_CHECK(mapped.IsSome() == true);
+    auto test1 = mapped.orElse<int>([test]() { return test;});
+    BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test == 10);
     BOOST_CHECK(test1 == 10);
 }
 
-BOOST_AUTO_TEST_CASE(Option_OrElse_WhenNoneReturnDefault)
+BOOST_AUTO_TEST_CASE(Option_orElse_WhenNoneReturnDefault)
 {
     int test = 10;
     auto mapped = makeOption((int*)NULL);
-    auto test1 = mapped.OrElse<int>([test]() { return test*10;});
-    BOOST_CHECK(mapped.IsSome() == false);
+    auto test1 = mapped.orElse<int>([test]() { return test*10;});
+    BOOST_CHECK(mapped.isSome() == false);
     BOOST_CHECK(test == 10);
     BOOST_CHECK(test1 == 100);
 }
 
-BOOST_AUTO_TEST_CASE(Option_OrElse_WhenSomeReturnValue_Reference)
+BOOST_AUTO_TEST_CASE(Option_orElse_WhenSomeReturnValue_Reference)
 {
     auto test = FakeClass(10);
-    auto mapped = TinyFp::Option<FakeClass>::Some(test);
-    auto test1 = mapped.OrElse<FakeClass>([]() { return FakeClass(100);});
-    BOOST_CHECK(mapped.IsSome() == true);
+    auto mapped = TinyFp::Option<FakeClass>::some(test);
+    auto test1 = mapped.orElse<FakeClass>([]() { return FakeClass(100);});
+    BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test.value == 10);
     BOOST_CHECK(test1.value == 10);
 }
 
-BOOST_AUTO_TEST_CASE(Option_OrElse_WhenNoneReturnDefault_Reference_)
+BOOST_AUTO_TEST_CASE(Option_orElse_WhenNoneReturnDefault_Reference_)
 {
     FakeClass* test = NULL;
     auto mapped = makeOption(test);
-    auto test1 = mapped.OrElse<FakeClass>([]() { return FakeClass(100);});
-    BOOST_CHECK(mapped.IsSome() == false);
+    auto test1 = mapped.orElse<FakeClass>([]() { return FakeClass(100);});
+    BOOST_CHECK(mapped.isSome() == false);
     BOOST_CHECK(test1.value == 100);
 }
 
-BOOST_AUTO_TEST_CASE(Option_OrElse_WhenNoneReturnDefault_Reference)
+BOOST_AUTO_TEST_CASE(Option_orElse_WhenNoneReturnDefault_Reference)
 {
     auto test = FakeClass(10);
-    auto mapped = TinyFp::Option<FakeClass>::None();
-    auto test1 = mapped.OrElse<FakeClass>([]() { return FakeClass(100);});
-    BOOST_CHECK(mapped.IsSome() == false);
+    auto mapped = TinyFp::Option<FakeClass>::none();
+    auto test1 = mapped.orElse<FakeClass>([]() { return FakeClass(100);});
+    BOOST_CHECK(mapped.isSome() == false);
     BOOST_CHECK(test.value == 10);
     BOOST_CHECK(test1.value == 100);
 }
 
-BOOST_AUTO_TEST_CASE(Option_Map_WhenNone_IsSomeIsFalse_Reference)
+BOOST_AUTO_TEST_CASE(Option_Map_WhenNone_isSomeIsFalse_Reference)
 {
     auto test = FakeClass(10);
-    auto mapped = TinyFp::Option<FakeClass>::None()
-                    .Map<FakeClassMapped>([](const FakeClass& value) { return FakeClassMapped(value.value*20);} );
-    auto test1 = mapped.OrElse<FakeClassMapped>([test]() { return FakeClassMapped(100);});
-    BOOST_CHECK(mapped.IsSome() == false);
+    auto mapped = TinyFp::Option<FakeClass>::none()
+                    .map<FakeClassMapped>([](const FakeClass& value) { return FakeClassMapped(value.value*20);} );
+    auto test1 = mapped.orElse<FakeClassMapped>([test]() { return FakeClassMapped(100);});
+    BOOST_CHECK(mapped.isSome() == false);
     BOOST_CHECK(test1.mappedValue == 100);
 }
 
-BOOST_AUTO_TEST_CASE(Option_Map_WhenSome_IsSomeIsTrue_Reference)
+BOOST_AUTO_TEST_CASE(Option_Map_WhenSome_isSomeIsTrue_Reference)
 {
     auto test = FakeClass(10);
     auto mapped = makeOption(&test)
-                    .Map<FakeClassMapped>([](const FakeClass& value) { return FakeClassMapped(value.value*20);} );
-    auto test1 = mapped.OrElse<FakeClassMapped>([test]() { return FakeClassMapped(100);});
-    BOOST_CHECK(mapped.IsSome() == true);
+                    .map<FakeClassMapped>([](const FakeClass& value) { return FakeClassMapped(value.value*20);} );
+    auto test1 = mapped.orElse<FakeClassMapped>([test]() { return FakeClassMapped(100);});
+    BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test1.mappedValue == 200);
 }
 
 BOOST_AUTO_TEST_CASE(Option_Match_WhenNone_ReturnNone)
 {
-    auto mapped = TinyFp::Option<FakeClass>::None()
-                    .Match<FakeClassMapped>(
+    auto mapped = TinyFp::Option<FakeClass>::none()
+                    .match<FakeClassMapped>(
                         [](const FakeClass& value) { return FakeClassMapped(value.value*20);},
                         []() { return FakeClassMapped(100);});
     BOOST_CHECK(mapped.mappedValue == 100);
@@ -104,8 +104,8 @@ BOOST_AUTO_TEST_CASE(Option_Match_WhenNone_ReturnNone)
 BOOST_AUTO_TEST_CASE(Option_Match_WhenSome_ReturnSome)
 {
     auto test = FakeClass(10);
-    auto mapped = TinyFp::Option<FakeClass>::Some(test)
-                    .Match<FakeClassMapped>(
+    auto mapped = TinyFp::Option<FakeClass>::some(test)
+                    .match<FakeClassMapped>(
                         [](const FakeClass& value) { return FakeClassMapped(value.value*20);},
                         []() { return FakeClassMapped(100);});
     BOOST_CHECK(mapped.mappedValue == 200);
@@ -113,8 +113,8 @@ BOOST_AUTO_TEST_CASE(Option_Match_WhenSome_ReturnSome)
 
 BOOST_AUTO_TEST_CASE(Option_Match_WhenNone_ReturnNone_WithScalar)
 {
-    auto mapped = TinyFp::Option<FakeClass>::None()
-                    .Match<int>(
+    auto mapped = TinyFp::Option<FakeClass>::none()
+                    .match<int>(
                         [](const FakeClass& value) { return value.value*20;},
                         []() { return 100;});
     BOOST_CHECK(mapped == 100);
@@ -125,8 +125,8 @@ BOOST_AUTO_TEST_CASE(Option_Match_WhenSome_ReturnSome_WithScalar)
     auto someFunc = [](const FakeClass& value) { return value.value*20;};
     auto noneFunc = []() { return 100;};
     auto test = FakeClass(10);
-    auto mapped = TinyFp::Option<FakeClass>::Some(test)
-                    .Match<int>(
+    auto mapped = TinyFp::Option<FakeClass>::some(test)
+                    .match<int>(
                         someFunc,
                         noneFunc);
     BOOST_CHECK(mapped == 200);
@@ -137,15 +137,15 @@ BOOST_AUTO_TEST_CASE(Option_Bind_WhenNone_ReturnDefault)
     auto onBind = [](const FakeClass& value)
     {
         auto fake = FakeClassMapped(value.value*20);
-        return TinyFp::Option<FakeClassMapped>::Some(fake);
+        return TinyFp::Option<FakeClassMapped>::some(fake);
     };
     auto onDefault = []()
     {
         return FakeClassMapped(100);
     };
-    auto test1 = TinyFp::Option<FakeClass>::None()
-                    .Bind<FakeClassMapped>(onBind)
-                    .OrElse<FakeClassMapped>(onDefault);
+    auto test1 = TinyFp::Option<FakeClass>::none()
+                    .bind<FakeClassMapped>(onBind)
+                    .orElse<FakeClassMapped>(onDefault);
     BOOST_CHECK(test1.mappedValue == 100);
 }
 
@@ -154,16 +154,16 @@ BOOST_AUTO_TEST_CASE(Option_Bind_WhenSome_ReturnBinded)
     auto onBind = [](const FakeClass& value)
     {
         auto fake = FakeClassMapped(value.value*20);
-        return TinyFp::Option<FakeClassMapped>::Some(fake);
+        return TinyFp::Option<FakeClassMapped>::some(fake);
     };
     auto onDefault = []()
     {
         return FakeClassMapped(100);
     };
     auto fake = FakeClass(10);
-    auto test1 = TinyFp::Option<FakeClass>::Some(fake)
-                    .Bind<FakeClassMapped>(onBind)
-                    .OrElse<FakeClassMapped>(onDefault);
+    auto test1 = TinyFp::Option<FakeClass>::some(fake)
+                    .bind<FakeClassMapped>(onBind)
+                    .orElse<FakeClassMapped>(onDefault);
     BOOST_CHECK(test1.mappedValue == 200);
 }
 
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE(Option_Bind_Map_WhenSome_ReturnBinded)
     auto onBind = [](const FakeClass& value)
     {
         auto fake = FakeClassMapped(value.value*20);
-        return TinyFp::Option<FakeClassMapped>::Some(fake);
+        return TinyFp::Option<FakeClassMapped>::some(fake);
     };
     auto onMap = [](const FakeClass& value)
     {
@@ -183,14 +183,14 @@ BOOST_AUTO_TEST_CASE(Option_Bind_Map_WhenSome_ReturnBinded)
         return FakeClassMapped(100);
     };
     auto fake = FakeClass(10);
-    auto test1 = TinyFp::Option<FakeClass>::Some(fake)
-                    .Map<FakeClass>(onMap)
-                    .Bind<FakeClassMapped>(onBind)
-                    .OrElse<FakeClassMapped>(onDefault);
+    auto test1 = TinyFp::Option<FakeClass>::some(fake)
+                    .map<FakeClass>(onMap)
+                    .bind<FakeClassMapped>(onBind)
+                    .orElse<FakeClassMapped>(onDefault);
     BOOST_CHECK(test1.mappedValue == 400);
 }
 
-BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenNone_IsSomeIsFalse)
+BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenNone_isSomeIsFalse)
 {
     auto test = FakeClass(10);
     auto defaultMap = [](const FakeClass& value)
@@ -215,12 +215,12 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenNone_IsSomeIsFalse)
     {
         tuple1
     };
-    auto mapped = TinyFp::Option<FakeClass>::None()
-                    .GuardMap<FakeClassMapped>(
+    auto mapped = TinyFp::Option<FakeClass>::none()
+                    .guardMap<FakeClassMapped>(
                         defaultMap,
                         guards);
-    auto test1 = mapped.OrElse<FakeClassMapped>(orElseDefault);
-    BOOST_CHECK(mapped.IsSome() == false);
+    auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
+    BOOST_CHECK(mapped.isSome() == false);
     BOOST_CHECK(test1.mappedValue == 100);
 }
 
@@ -249,12 +249,12 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenSome_AndNoSelector_DefaultMap)
     {
         tuple1
     };
-    auto mapped = TinyFp::Option<FakeClass>::Some(test)
-                    .GuardMap<FakeClassMapped>(
+    auto mapped = TinyFp::Option<FakeClass>::some(test)
+                    .guardMap<FakeClassMapped>(
                         defaultMap,
                         guards);
-    auto test1 = mapped.OrElse<FakeClassMapped>(orElseDefault);
-    BOOST_CHECK(mapped.IsSome() == true);
+    auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
+    BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test1.mappedValue == 200);
 }
 
@@ -283,12 +283,12 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenSome_AndOneSelector_SelectorMap)
     {
         tuple1
     };
-    auto mapped = TinyFp::Option<FakeClass>::Some(test)
-                    .GuardMap<FakeClassMapped>(
+    auto mapped = TinyFp::Option<FakeClass>::some(test)
+                    .guardMap<FakeClassMapped>(
                         defaultMap,
                         guards);
-    auto test1 = mapped.OrElse<FakeClassMapped>(orElseDefault);
-    BOOST_CHECK(mapped.IsSome() == true);
+    auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
+    BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test1.mappedValue == 99);
 }
 
@@ -327,22 +327,22 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenSome_AndTwoSelector_SelectorMap)
         tuple1,
         tuple2
     };
-    auto mapped = TinyFp::Option<FakeClass>::Some(test)
-                    .GuardMap<FakeClassMapped>(
+    auto mapped = TinyFp::Option<FakeClass>::some(test)
+                    .guardMap<FakeClassMapped>(
                         defaultMap,
                         guards);
-    auto test1 = mapped.OrElse<FakeClassMapped>(orElseDefault);
-    BOOST_CHECK(mapped.IsSome() == true);
+    auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
+    BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test1.mappedValue == 101);
 }
 
-BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenNone_IsSomeIsFalse)
+BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenNone_isSomeIsFalse)
 {
     auto test = FakeClass(10);
     auto defaultMap = [](const FakeClass& value)
     {
         auto retVal = FakeClassMapped(value.value*20);
-        return Option<FakeClassMapped>::Some(retVal);
+        return Option<FakeClassMapped>::some(retVal);
     };
     auto orElseDefault = [test]()
     {
@@ -356,19 +356,19 @@ BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenNone_IsSomeIsFalse)
     auto funcMap1 = [](const FakeClass& value)
     {
         auto retVal = FakeClassMapped(99);
-        return Option<FakeClassMapped>::Some(retVal);
+        return Option<FakeClassMapped>::some(retVal);
     };
     tuple<function<bool(const FakeClass&)>, function<Option<FakeClassMapped>(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
     vector<tuple<function<bool(const FakeClass&)>, function<Option<FakeClassMapped>(const FakeClass&)>>> guards =
     {
         tuple1
     };
-    auto mapped = TinyFp::Option<FakeClass>::None()
-                    .GuardBind<FakeClassMapped>(
+    auto mapped = TinyFp::Option<FakeClass>::none()
+                    .guardBind<FakeClassMapped>(
                         defaultMap,
                         guards);
-    auto test1 = mapped.OrElse<FakeClassMapped>(orElseDefault);
-    BOOST_CHECK(mapped.IsSome() == false);
+    auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
+    BOOST_CHECK(mapped.isSome() == false);
     BOOST_CHECK(test1.mappedValue == 100);
 }
 
@@ -378,7 +378,7 @@ BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenSome_NoSelector_DefaultBind)
     auto defaultBind = [](const FakeClass& value)
     {
         auto retVal = FakeClassMapped(value.value*20);
-        return Option<FakeClassMapped>::Some(retVal);
+        return Option<FakeClassMapped>::some(retVal);
     };
     auto orElseDefault = [test]()
     {
@@ -392,19 +392,19 @@ BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenSome_NoSelector_DefaultBind)
     auto funcMap1 = [](const FakeClass& value)
     {
         auto retVal = FakeClassMapped(99);
-        return Option<FakeClassMapped>::Some(retVal);
+        return Option<FakeClassMapped>::some(retVal);
     };
     tuple<function<bool(const FakeClass&)>, function<Option<FakeClassMapped>(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
     vector<tuple<function<bool(const FakeClass&)>, function<Option<FakeClassMapped>(const FakeClass&)>>> guards =
     {
         tuple1
     };
-    auto mapped = TinyFp::Option<FakeClass>::Some(test)
-                    .GuardBind<FakeClassMapped>(
+    auto mapped = TinyFp::Option<FakeClass>::some(test)
+                    .guardBind<FakeClassMapped>(
                         defaultBind,
                         guards);
-    auto test1 = mapped.OrElse<FakeClassMapped>(orElseDefault);
-    BOOST_CHECK(mapped.IsSome() == true);
+    auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
+    BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test1.mappedValue == 200);
 }
 BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenSome_AndSelector_Select)
@@ -413,7 +413,7 @@ BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenSome_AndSelector_Select)
     auto defaultBind = [](const FakeClass& value)
     {
         auto retVal = FakeClassMapped(value.value*20);
-        return Option<FakeClassMapped>::Some(retVal);
+        return Option<FakeClassMapped>::some(retVal);
     };
     auto orElseDefault = [test]()
     {
@@ -427,19 +427,19 @@ BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenSome_AndSelector_Select)
     auto funcMap1 = [](const FakeClass& value)
     {
         auto retVal = FakeClassMapped(99);
-        return Option<FakeClassMapped>::Some(retVal);
+        return Option<FakeClassMapped>::some(retVal);
     };
     tuple<function<bool(const FakeClass&)>, function<Option<FakeClassMapped>(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
     vector<tuple<function<bool(const FakeClass&)>, function<Option<FakeClassMapped>(const FakeClass&)>>> guards =
     {
         tuple1
     };
-    auto mapped = TinyFp::Option<FakeClass>::Some(test)
-                    .GuardBind<FakeClassMapped>(
+    auto mapped = TinyFp::Option<FakeClass>::some(test)
+                    .guardBind<FakeClassMapped>(
                         defaultBind,
                         guards);
-    auto test1 = mapped.OrElse<FakeClassMapped>(orElseDefault);
-    BOOST_CHECK(mapped.IsSome() == true);
+    auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
+    BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test1.mappedValue == 99);
 }
 

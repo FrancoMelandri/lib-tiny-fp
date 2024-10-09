@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(ROP_Success)
                         TinyFp::Try<FakeClass>::Handle(onHandle)
                             .Match(_TrySuccess),
                         _WhenNone)
-                .ToEither<Error>(_LeftValue)
+                .toEither<Error>(_LeftValue)
                 .map<FakeClassMapped>(_MapEither)
                 .match<int>(
                     _OnRight,
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(ROP_Failure_Exception)
                         TinyFp::Try<FakeClass>::Handle(onHandle)
                             .Match(_TrySuccess),
                         _WhenNone)
-                .ToEither<Error>(_LeftValue)
+                .toEither<Error>(_LeftValue)
                 .map<FakeClassMapped>(_MapEither)
                 .match<int>(
                     _OnRight,
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE(ROP_Failure_WhenNone)
                         TinyFp::Try<FakeClass>::Handle(onHandle)
                             .Match(_TrySuccess),
                         _WhenNone)
-                .ToEither<Error>(_LeftValue)
+                .toEither<Error>(_LeftValue)
                 .map<FakeClassMapped>(_MapEither)
                 .match<int>(
                     _OnRight,
