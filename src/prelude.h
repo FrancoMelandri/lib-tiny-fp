@@ -1,7 +1,7 @@
 #ifndef LIB_TINY_FP_PRELUDE
 #define LIB_TINY_FP_PRELUDE
 
-#include "Defines.h"
+#include "common.h"
 #include "option/Option.h"
 
 using namespace std;

@@ -1,11 +1,12 @@
 #ifndef LIB_TINY_FP_OPTION
 #define LIB_TINY_FP_OPTION
 
-#include "../Defines.h"
+#include "../common.h"
 #include "../either/Either.h"
-#include "../extensions.h"
+#include "../extensions/vector.h"
 
 using namespace std;
+using namespace TinyFp::Extensions;
 
 namespace TinyFp
 {

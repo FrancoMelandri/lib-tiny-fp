@@ -1,4 +1,3 @@
 
-
 LIBOBJECTS += \
 	try/Try.o

@@ -1,8 +1,8 @@
 #ifndef LIB_TINY_FP_TRY
 #define LIB_TINY_FP_TRY
 
-#include "../Defines.h"
-#include "../extensions.h"
+#include "../common.h"
+#include "../extensions/vector.h"
 
 using namespace std;
 
