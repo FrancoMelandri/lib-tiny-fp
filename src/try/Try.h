@@ -29,7 +29,7 @@ namespace TinyFp
       }
 
     public:
-      static Try<S> Handle(std::function<S()> func)
+      static Try<S> handle(std::function<S()> func)
       {
         try
         {
@@ -42,7 +42,7 @@ namespace TinyFp
           return Try<S>(failure);
         }
       };
-      static Try<S> Handle(std::function<S*()> func)
+      static Try<S> handle(std::function<S*()> func)
       {
         try
         {
@@ -55,10 +55,10 @@ namespace TinyFp
           return Try<S>(failure);
         }
       };
-      bool IsSuccess();
-      S Match(std::function<S(const S&)> success, std::function<S(const exception&)> fail);
-      S* Match(std::function<S*(const S&)> success, std::function<S*(const exception&)> fail);
-      S* Match(std::function<S*(const S&)> success);
+      bool isSuccess();
+      S match(std::function<S(const S&)> success, std::function<S(const exception&)> fail);
+      S* match(std::function<S*(const S&)> success, std::function<S*(const exception&)> fail);
+      S* match(std::function<S*(const S&)> success);
   };
 }
 

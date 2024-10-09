@@ -10,12 +10,12 @@ Example:
 ```c++
 
     auto sut = makeOption<FakeClass>(
-            TinyFp::Try<FakeClass>::Handle(onHandle)
-                    .Match(_TrySuccess),
+            TinyFp::Try<FakeClass>::handle(onHandle)
+                    .match(_TrySuccess),
             _WhenNone)
-        .ToEither<Error>(_LeftValue)
-        .Map<FakeClassMapped>(_MapEither)
-        .Match<int>(_OnRight,
+        .toEither<Error>(_LeftValue)
+        .map<FakeClassMapped>(_MapEither)
+        .match<int>(_OnRight,
                     _OnLeft);
 
 ```

@@ -50,8 +50,8 @@ BOOST_AUTO_TEST_CASE(ROP_Success)
     };
 
     auto sut = makeOption<FakeClass>(
-                        TinyFp::Try<FakeClass>::Handle(onHandle)
-                            .Match(_TrySuccess),
+                        TinyFp::Try<FakeClass>::handle(onHandle)
+                            .match(_TrySuccess),
                         _WhenNone)
                 .toEither<Error>(_LeftValue)
                 .map<FakeClassMapped>(_MapEither)
@@ -69,8 +69,8 @@ BOOST_AUTO_TEST_CASE(ROP_Failure_Exception)
     };
 
     auto sut = makeOption<FakeClass>(
-                        TinyFp::Try<FakeClass>::Handle(onHandle)
-                            .Match(_TrySuccess),
+                        TinyFp::Try<FakeClass>::handle(onHandle)
+                            .match(_TrySuccess),
                         _WhenNone)
                 .toEither<Error>(_LeftValue)
                 .map<FakeClassMapped>(_MapEither)
@@ -89,8 +89,8 @@ BOOST_AUTO_TEST_CASE(ROP_Failure_WhenNone)
     };
 
     auto sut = makeOption<FakeClass>(
-                        TinyFp::Try<FakeClass>::Handle(onHandle)
-                            .Match(_TrySuccess),
+                        TinyFp::Try<FakeClass>::handle(onHandle)
+                            .match(_TrySuccess),
                         _WhenNone)
                 .toEither<Error>(_LeftValue)
                 .map<FakeClassMapped>(_MapEither)
