@@ -2,27 +2,32 @@ FROM francomelandri/lib-tiny-fp-builder:0.20.3
 
 WORKDIR /src
 COPY ./src/*.cpp .
-COPY ./src/*.inc .
 COPY ./src/*.h .
 COPY ./src/Makefile .
 
 WORKDIR /src/option
 COPY ./src/option/*.cpp .
-COPY ./src/option/*.inc .
 COPY ./src/option/*.h .
 COPY ./src/option/subdir.mk .
 
 WORKDIR /src/either
 COPY ./src/either/*.cpp .
-COPY ./src/either/*.inc .
 COPY ./src/either/*.h .
 COPY ./src/either/subdir.mk .
 
 WORKDIR /src/try
 COPY ./src/try/*.cpp .
-COPY ./src/try/*.inc .
 COPY ./src/try/*.h .
 COPY ./src/try/subdir.mk .
+
+WORKDIR /src/sequence
+COPY ./src/sequence/*.cpp .
+COPY ./src/sequence/*.h .
+COPY ./src/sequence/subdir.mk .
+
+WORKDIR /src/extensions
+COPY ./src/extensions/*.cpp .
+COPY ./src/extensions/*.h .
 
 WORKDIR /src
 RUN make all
