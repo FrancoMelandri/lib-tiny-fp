@@ -38,6 +38,17 @@ namespace TinyFp
     }
 
     template <class T>
+    Sequence<T> Sequence<T>::filter(function<bool(const T&)> item)
+    {
+        auto items = vector<T>();
+        for (auto & it : _vector) {
+            if(item(it))
+                items.push_back(it);
+        }
+        return Sequence<T>::from(items);
+    }
+
+    template <class T>
     T Sequence<T>::at(int index)
     {
         auto item = _vector.at(index);
