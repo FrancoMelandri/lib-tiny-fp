@@ -22,7 +22,7 @@ namespace TinyFp
           _isSome = false;
       }
 
-      Option(T& value)
+      Option(const T& value)
       {
           _isSome = true;
           _value = value;
@@ -30,18 +30,18 @@ namespace TinyFp
 
     public:
       static Option<T> None() { return Option<T>(); };
-      static Option<T> Some(T& value) { return Option<T>(value); };
+      static Option<T> Some(const T& value) { return Option<T>(value); };
       bool IsSome();
       template <class R> R OrElse(function<R()> none);
-      template <class R> Option<R> Map(function<R(T&)> map);
+      template <class R> Option<R> Map(function<R(const T&)> map);
       template <class R> Option<R> GuardMap(
-        function<R(T&)> defaultMap,
-        vector<tuple<function<bool(T&)>, function<R(T&)>>> guards);
-      template <class R> Option<R> Bind(function<Option<R>(T&)> bind);
+        function<R(const T&)> defaultMap,
+        const vector<tuple<function<bool(const T&)>, function<R(const T&)>>>& guards);
+      template <class R> Option<R> Bind(function<Option<R>(const T&)> bind);
       template <class R> Option<R> GuardBind(
-        function<Option<R>(T&)> defaultBind,
-        vector<tuple<function<bool(T&)>, function<Option<R>(T&)>>> guards);
-      template <class R> R Match(function<R(T&)> some, function<R()> none);
+        function<Option<R>(const T&)> defaultBind,
+        const vector<tuple<function<bool(const T&)>, function<Option<R>(const T&)>>>& guards);
+      template <class R> R Match(function<R(const T&)> some, function<R()> none);
       template <class L> Either<L, T> ToEither(function<L()> leftValue);
   };
 }

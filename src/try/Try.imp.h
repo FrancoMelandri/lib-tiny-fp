@@ -7,7 +7,7 @@ namespace TinyFp
   }
 
   template <class S>
-  S Try<S>::Match(std::function<S(S&)> success, std::function<S(exception&)> fail)
+  S Try<S>::Match(std::function<S(const S&)> success, std::function<S(const exception&)> fail)
   {
     auto failure = fail(_fail);
     if (!IsSuccess())
@@ -17,7 +17,7 @@ namespace TinyFp
   }
 
   template <class S>
-  S* Try<S>::Match(std::function<S*(S&)> success, std::function<S*(exception&)> fail)
+  S* Try<S>::Match(std::function<S*(const S&)> success, std::function<S*(const exception&)> fail)
   {
     auto failure = fail(_fail);
     if (!IsSuccess())
@@ -27,9 +27,9 @@ namespace TinyFp
   }
 
   template <class S>
-  S* Try<S>::Match(std::function<S*(S&)> success)
+  S* Try<S>::Match(std::function<S*(const S&)> success)
   {
-    auto fail = [](exception& ex)
+    auto fail = [](const exception& ex)
     {
         return (S*)NO_VALUE;
     };

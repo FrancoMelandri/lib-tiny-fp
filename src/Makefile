@@ -1,5 +1,3 @@
-# check if 32 or 64 bit system
-
 LNAME = libtinyfp
 CCX = g++
 AR = ar
@@ -13,6 +11,7 @@ LIBOBJECTS =
 -include option/subdir.mk
 -include either/subdir.mk
 -include try/subdir.mk
+-include sequence/subdir.mk
 
 all: $(LIBOBJECTS) $(LIBNAME)
 
@@ -31,3 +30,4 @@ install: clean all
 	install -D ./either/*.h -t /usr/local/inlcude/$(LNAME)/either/
 	install -D ./option/*.h -t /usr/local/inlcude/$(LNAME)/option/
 	install -D ./try/*.h -t /usr/local/inlcude/$(LNAME)/try/
+	install -D ./try/*.h -t /usr/local/inlcude/$(LNAME)/sequence/

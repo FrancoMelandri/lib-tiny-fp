@@ -56,9 +56,9 @@ namespace TinyFp
         }
       };
       bool IsSuccess();
-      S Match(std::function<S(S&)> success, std::function<S(exception&)> fail);
-      S* Match(std::function<S*(S&)> success, std::function<S*(exception&)> fail);
-      S* Match(std::function<S*(S&)> success);
+      S Match(std::function<S(const S&)> success, std::function<S(const exception&)> fail);
+      S* Match(std::function<S*(const S&)> success, std::function<S*(const exception&)> fail);
+      S* Match(std::function<S*(const S&)> success);
   };
 }
 

@@ -1,0 +1,3 @@
+
+LIBOBJECTS += \
+	sequence/sequence.o
