@@ -18,10 +18,46 @@ namespace TinyFp
     template<class R>
     R Sequence<T>::fold(const R& state, function<R(const R&, const T&)> step)
     {
-        R initState = state;
+        R accumulator = state;
         for (auto & item : _vector) {
-            initState = step(initState, item);
+            accumulator = step(accumulator, item);
         }
-        return initState;
+        return accumulator;
+    }
+
+    template <class T>
+    template<class R>
+    Sequence<R> Sequence<T>::map(function<R(const T&)> item)
+    {
+        auto items = vector<R>();
+        for (auto & it : _vector) {
+            auto mapped = item(it);
+            items.push_back(mapped);
+        }
+        return Sequence<R>::from(items);
+    }
+
+    template <class T>
+    Sequence<T> Sequence<T>::filter(function<bool(const T&)> item)
+    {
+        auto items = vector<T>();
+        for (auto & it : _vector) {
+            if(item(it))
+                items.push_back(it);
+        }
+        return Sequence<T>::from(items);
+    }
+
+    template <class T>
+    T Sequence<T>::at(int index)
+    {
+        auto item = _vector.at(index);
+        return item;
+    }
+
+    template <class T>
+    int Sequence<T>::size()
+    {
+        return _vector.size();
     }
 }

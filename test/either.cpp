@@ -17,11 +17,11 @@ BOOST_AUTO_TEST_CASE(Either_WhenLeft_IsLeftIsTrue)
     };
 
     int leftValue = 10;
-    auto either = TinyFp::Either<int, long>::Left(leftValue);
-    auto inner = either.Right(onLeft);
+    auto either = TinyFp::Either<int, long>::left(leftValue);
+    auto inner = either.right(onLeft);
 
-    BOOST_CHECK(either.IsLeft() == true);
-    BOOST_CHECK(either.IsRight() == false);
+    BOOST_CHECK(either.isLeft() == true);
+    BOOST_CHECK(either.isRight() == false);
     BOOST_CHECK(inner == 42);
 }
 
@@ -34,11 +34,11 @@ BOOST_AUTO_TEST_CASE(Either_WhenRight_IsRightIsTrue)
     };
 
     long rightValue = 10;
-    auto either = TinyFp::Either<int, long>::Right(rightValue);
-    auto inner = either.Right(onLeft);
+    auto either = TinyFp::Either<int, long>::right(rightValue);
+    auto inner = either.right(onLeft);
 
-    BOOST_CHECK(either.IsRight() == true);
-    BOOST_CHECK(either.IsLeft() == false);
+    BOOST_CHECK(either.isRight() == true);
+    BOOST_CHECK(either.isLeft() == false);
     BOOST_CHECK(inner == 10);
 }
 
@@ -56,12 +56,12 @@ BOOST_AUTO_TEST_CASE(Either_WhenRight_AndMap_ReturnMapped)
     };
 
     long rightValue = 10;
-    auto either = TinyFp::Either<int, long>::Right(rightValue)
-                    .Map<char>(onMap);
+    auto either = TinyFp::Either<int, long>::right(rightValue)
+                    .map<char>(onMap);
 
-    auto inner = either.Right(onLeft);
-    BOOST_CHECK(either.IsRight() == true);
-    BOOST_CHECK(either.IsLeft() == false);
+    auto inner = either.right(onLeft);
+    BOOST_CHECK(either.isRight() == true);
+    BOOST_CHECK(either.isLeft() == false);
     BOOST_CHECK(inner == 'a');
 }
 
@@ -79,12 +79,12 @@ BOOST_AUTO_TEST_CASE(Either_WhenLeft_AndMap_ReturnLeft)
     };
 
     int leftValue = 10;
-    auto either = TinyFp::Either<int, long>::Left(leftValue)
-                    .Map<char>(onMap);
+    auto either = TinyFp::Either<int, long>::left(leftValue)
+                    .map<char>(onMap);
 
-    auto inner = either.Right(onLeft);
-    BOOST_CHECK(either.IsRight() == false);
-    BOOST_CHECK(either.IsLeft() == true);
+    auto inner = either.right(onLeft);
+    BOOST_CHECK(either.isRight() == false);
+    BOOST_CHECK(either.isLeft() == true);
     BOOST_CHECK(inner == 'b');
 }
 
@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE(Either_WhenRight_AndBind_ReturnBinded)
     auto onBind = [](long value)
     {
         char retVal = 'a';
-        return Either<int, char>::Right(retVal);
+        return Either<int, char>::right(retVal);
     };
     auto onLeft = [](int value)
     {
@@ -102,12 +102,12 @@ BOOST_AUTO_TEST_CASE(Either_WhenRight_AndBind_ReturnBinded)
     };
 
     long rightValue = 10;
-    auto either = TinyFp::Either<int, long>::Right(rightValue)
-                    .Bind<char>(onBind);
+    auto either = TinyFp::Either<int, long>::right(rightValue)
+                    .bind<char>(onBind);
 
-    auto inner = either.Right(onLeft);
-    BOOST_CHECK(either.IsRight() == true);
-    BOOST_CHECK(either.IsLeft() == false);
+    auto inner = either.right(onLeft);
+    BOOST_CHECK(either.isRight() == true);
+    BOOST_CHECK(either.isLeft() == false);
     BOOST_CHECK(inner == 'a');
 }
 
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(Either_WhenLeft_AndBind_ReturnLEft)
     auto onBind = [](long value)
     {
         char retVal = 'a';
-        return Either<int, char>::Right(retVal);
+        return Either<int, char>::right(retVal);
     };
     auto onLeft = [](int value)
     {
@@ -125,12 +125,12 @@ BOOST_AUTO_TEST_CASE(Either_WhenLeft_AndBind_ReturnLEft)
     };
 
     int leftValue = 10;
-    auto either = TinyFp::Either<int, long>::Left(leftValue)
-                    .Bind<char>(onBind);
+    auto either = TinyFp::Either<int, long>::left(leftValue)
+                    .bind<char>(onBind);
 
-    auto inner = either.Right(onLeft);
-    BOOST_CHECK(either.IsRight() == false);
-    BOOST_CHECK(either.IsLeft() == true);
+    auto inner = either.right(onLeft);
+    BOOST_CHECK(either.isRight() == false);
+    BOOST_CHECK(either.isLeft() == true);
     BOOST_CHECK(inner == 'b');
 }
 
@@ -148,8 +148,8 @@ BOOST_AUTO_TEST_CASE(Either_WhenLeft_AndMatch_ReturnLeft)
     };
 
     int leftValue = 10;
-    auto inner = TinyFp::Either<int, long>::Left(leftValue)
-                    .Match<char>(
+    auto inner = TinyFp::Either<int, long>::left(leftValue)
+                    .match<char>(
                         onRight,
                         onLeft);
     BOOST_CHECK(inner == 'b');
@@ -169,8 +169,8 @@ BOOST_AUTO_TEST_CASE(Either_WhenRight_AndMatch_ReturnRight)
     };
 
     long rightValue = 10;
-    auto inner = TinyFp::Either<int, long>::Right(rightValue)
-                    .Match<char>(
+    auto inner = TinyFp::Either<int, long>::right(rightValue)
+                    .match<char>(
                         onRight,
                         onLeft);
     BOOST_CHECK(inner == 'a');
@@ -201,12 +201,12 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenNone_IsLeft)
         tuple1
     };
     int leftValue = 10;
-    auto mapped = TinyFp::Either<int, FakeClass>::Left(leftValue)
-                    .GuardMap<FakeClassMapped>(
+    auto mapped = TinyFp::Either<int, FakeClass>::left(leftValue)
+                    .guardMap<FakeClassMapped>(
                         defaultMap,
                         guards);
-    auto test1 = mapped.Right(onLeft);
-    BOOST_CHECK(mapped.IsLeft() == true);
+    auto test1 = mapped.right(onLeft);
+    BOOST_CHECK(mapped.isLeft() == true);
     BOOST_CHECK(test1.mappedValue == 100);
 }
 
@@ -235,12 +235,12 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_NoSelector_DefaultMap)
         tuple1
     };
     auto rightValue = FakeClass(10);
-    auto mapped = TinyFp::Either<int, FakeClass>::Right(rightValue)
-                    .GuardMap<FakeClassMapped>(
+    auto mapped = TinyFp::Either<int, FakeClass>::right(rightValue)
+                    .guardMap<FakeClassMapped>(
                         defaultMap,
                         guards);
-    auto test1 = mapped.Right(onLeft);
-    BOOST_CHECK(mapped.IsRight() == true);
+    auto test1 = mapped.right(onLeft);
+    BOOST_CHECK(mapped.isRight() == true);
     BOOST_CHECK(test1.mappedValue == 200);
 }
 
@@ -269,12 +269,12 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_OneSelector_Select)
         tuple1
     };
     auto rightValue = FakeClass(10);
-    auto mapped = TinyFp::Either<int, FakeClass>::Right(rightValue)
-                    .GuardMap<FakeClassMapped>(
+    auto mapped = TinyFp::Either<int, FakeClass>::right(rightValue)
+                    .guardMap<FakeClassMapped>(
                         defaultMap,
                         guards);
-    auto test1 = mapped.Right(onLeft);
-    BOOST_CHECK(mapped.IsRight() == true);
+    auto test1 = mapped.right(onLeft);
+    BOOST_CHECK(mapped.isRight() == true);
     BOOST_CHECK(test1.mappedValue == 99);
 }
 
@@ -313,12 +313,12 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_TwoSelector_Select)
         tuple2
     };
     auto rightValue = FakeClass(10);
-    auto mapped = TinyFp::Either<int, FakeClass>::Right(rightValue)
-                    .GuardMap<FakeClassMapped>(
+    auto mapped = TinyFp::Either<int, FakeClass>::right(rightValue)
+                    .guardMap<FakeClassMapped>(
                         defaultMap,
                         guards);
-    auto test1 = mapped.Right(onLeft);
-    BOOST_CHECK(mapped.IsRight() == true);
+    auto test1 = mapped.right(onLeft);
+    BOOST_CHECK(mapped.isRight() == true);
     BOOST_CHECK(test1.mappedValue == 101);
 }
 
@@ -327,7 +327,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenNone_IsLeft)
     auto defaultBind = [](const FakeClass& value)
     {
           auto retVal = FakeClassMapped(value.value*20);
-          return Either<int, FakeClassMapped>::Right(retVal);
+          return Either<int, FakeClassMapped>::right(retVal);
     };
     auto onLeft = [](const int& value)
     {
@@ -341,7 +341,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenNone_IsLeft)
     auto funcMap1 = [](const FakeClass& value)
     {
           auto retVal = FakeClassMapped(99);
-          return Either<int, FakeClassMapped>::Right(retVal);
+          return Either<int, FakeClassMapped>::right(retVal);
     };
     tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
     vector<tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>>> guards =
@@ -349,12 +349,12 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenNone_IsLeft)
         tuple1
     };
     int leftValue = 10;
-    auto mapped = TinyFp::Either<int, FakeClass>::Left(leftValue)
-                    .GuardBind<FakeClassMapped>(
+    auto mapped = TinyFp::Either<int, FakeClass>::left(leftValue)
+                    .guardBind<FakeClassMapped>(
                         defaultBind,
                         guards);
-    auto test1 = mapped.Right(onLeft);
-    BOOST_CHECK(mapped.IsLeft() == true);
+    auto test1 = mapped.right(onLeft);
+    BOOST_CHECK(mapped.isLeft() == true);
     BOOST_CHECK(test1.mappedValue == 100);
 }
 
@@ -364,7 +364,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_NoSelector_DefaultBind)
     auto defaultBind = [](const FakeClass& value)
     {
           auto retVal = FakeClassMapped(value.value*20);
-          return Either<int, FakeClassMapped>::Right(retVal);
+          return Either<int, FakeClassMapped>::right(retVal);
     };
     auto onLeft = [](const int& value)
     {
@@ -378,19 +378,19 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_NoSelector_DefaultBind)
     auto funcMap1 = [](const FakeClass& value)
     {
           auto retVal = FakeClassMapped(99);
-          return Either<int, FakeClassMapped>::Right(retVal);
+          return Either<int, FakeClassMapped>::right(retVal);
     };
     tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
     vector<tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>>> guards =
     {
         tuple1
     };
-    auto mapped = TinyFp::Either<int, FakeClass>::Right(test)
-                    .GuardBind<FakeClassMapped>(
+    auto mapped = TinyFp::Either<int, FakeClass>::right(test)
+                    .guardBind<FakeClassMapped>(
                         defaultBind,
                         guards);
-    auto test1 = mapped.Right(onLeft);
-    BOOST_CHECK(mapped.IsRight() == true);
+    auto test1 = mapped.right(onLeft);
+    BOOST_CHECK(mapped.isRight() == true);
     BOOST_CHECK(test1.mappedValue == 200);
 }
 
@@ -400,7 +400,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_AndSelector_Select)
     auto defaultBind = [](const FakeClass& value)
     {
           auto retVal = FakeClassMapped(value.value*20);
-          return Either<int, FakeClassMapped>::Right(retVal);
+          return Either<int, FakeClassMapped>::right(retVal);
     };
     auto onLeft = [](const int& value)
     {
@@ -414,19 +414,19 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_AndSelector_Select)
     auto funcMap1 = [](const FakeClass& value)
     {
           auto retVal = FakeClassMapped(99);
-          return Either<int, FakeClassMapped>::Right(retVal);
+          return Either<int, FakeClassMapped>::right(retVal);
     };
     tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
     vector<tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>>> guards =
     {
         tuple1
     };
-    auto mapped = TinyFp::Either<int, FakeClass>::Right(test)
-                    .GuardBind<FakeClassMapped>(
+    auto mapped = TinyFp::Either<int, FakeClass>::right(test)
+                    .guardBind<FakeClassMapped>(
                         defaultBind,
                         guards);
-    auto test1 = mapped.Right(onLeft);
-    BOOST_CHECK(mapped.IsRight() == true);
+    auto test1 = mapped.right(onLeft);
+    BOOST_CHECK(mapped.isRight() == true);
     BOOST_CHECK(test1.mappedValue == 99);
 }
 

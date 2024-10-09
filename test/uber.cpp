@@ -50,12 +50,12 @@ BOOST_AUTO_TEST_CASE(ROP_Success)
     };
 
     auto sut = makeOption<FakeClass>(
-                        TinyFp::Try<FakeClass>::Handle(onHandle)
-                            .Match(_TrySuccess),
+                        TinyFp::Try<FakeClass>::handle(onHandle)
+                            .match(_TrySuccess),
                         _WhenNone)
-                .ToEither<Error>(_LeftValue)
-                .Map<FakeClassMapped>(_MapEither)
-                .Match<int>(
+                .toEither<Error>(_LeftValue)
+                .map<FakeClassMapped>(_MapEither)
+                .match<int>(
                     _OnRight,
                     _OnLeft);
     BOOST_CHECK(sut == 42);
@@ -69,12 +69,12 @@ BOOST_AUTO_TEST_CASE(ROP_Failure_Exception)
     };
 
     auto sut = makeOption<FakeClass>(
-                        TinyFp::Try<FakeClass>::Handle(onHandle)
-                            .Match(_TrySuccess),
+                        TinyFp::Try<FakeClass>::handle(onHandle)
+                            .match(_TrySuccess),
                         _WhenNone)
-                .ToEither<Error>(_LeftValue)
-                .Map<FakeClassMapped>(_MapEither)
-                .Match<int>(
+                .toEither<Error>(_LeftValue)
+                .map<FakeClassMapped>(_MapEither)
+                .match<int>(
                     _OnRight,
                     _OnLeft);
     BOOST_CHECK(sut == 666);
@@ -89,12 +89,12 @@ BOOST_AUTO_TEST_CASE(ROP_Failure_WhenNone)
     };
 
     auto sut = makeOption<FakeClass>(
-                        TinyFp::Try<FakeClass>::Handle(onHandle)
-                            .Match(_TrySuccess),
+                        TinyFp::Try<FakeClass>::handle(onHandle)
+                            .match(_TrySuccess),
                         _WhenNone)
-                .ToEither<Error>(_LeftValue)
-                .Map<FakeClassMapped>(_MapEither)
-                .Match<int>(
+                .toEither<Error>(_LeftValue)
+                .map<FakeClassMapped>(_MapEither)
+                .match<int>(
                     _OnRight,
                     _OnLeft);
     BOOST_CHECK(sut == 666);

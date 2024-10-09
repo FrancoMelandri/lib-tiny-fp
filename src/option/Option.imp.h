@@ -1,38 +1,38 @@
 namespace TinyFp
 {
   template <class T>
-  bool Option<T>::IsSome()
+  bool Option<T>::isSome()
   {
     return _isSome;
   }
 
   template <class T>
   template <class R>
-  R Option<T>::OrElse(function<R()> none)
+  R Option<T>::orElse(function<R()> none)
   {
-    return IsSome()
+    return isSome()
       ? _value
       : none();
   }
 
   template <class T>
   template <class R>
-  Option<R> Option<T>::Map(function<R(const T&)> map)
+  Option<R> Option<T>::map(function<R(const T&)> map)
   {
-    if (!IsSome())
-      return Option<R>::None();
+    if (!isSome())
+      return Option<R>::none();
     auto retVal = map(_value);
-    return Option<R>::Some(retVal);
+    return Option<R>::some(retVal);
   }
 
   template <class T>
   template <class R>
-  Option<R> Option<T>::GuardMap(
+  Option<R> Option<T>::guardMap(
     function<R(const T&)> defaultMap,
     const vector<tuple<function<bool(const T&)>, function<R(const T&)>>>& guards)
   {
-    if (!IsSome())
-      return Option<R>::None();
+    if (!isSome())
+      return Option<R>::none();
 
     auto mapToInvoke = defaultMap;
     for (auto & guard : guards) {
@@ -43,27 +43,27 @@ namespace TinyFp
         }
     }
     auto retVal = mapToInvoke(_value);
-    return Option<R>::Some(retVal);
+    return Option<R>::some(retVal);
   }
 
   template <class T>
   template <class R>
-  Option<R> Option<T>::Bind(function<Option<R>(const T&)> bind)
+  Option<R> Option<T>::bind(function<Option<R>(const T&)> bind)
   {
-    if (!IsSome())
-      return Option<R>::None();
+    if (!isSome())
+      return Option<R>::none();
     auto retVal = bind(_value);
     return retVal;
   }
 
   template <class T>
   template <class R>
-  Option<R> Option<T>::GuardBind(
+  Option<R> Option<T>::guardBind(
     function<Option<R>(const T&)> defaultBind,
     const vector<tuple<function<bool(const T&)>, function<Option<R>(const T&)>>>& guards)
   {
-    if (!IsSome())
-      return Option<R>::None();
+    if (!isSome())
+      return Option<R>::none();
 
     auto mapToInvoke = defaultBind;
     for (auto & guard : guards) {
@@ -79,20 +79,20 @@ namespace TinyFp
 
   template <class T>
   template <class R>
-  R Option<T>::Match(function<R(const T&)> some, function<R()> none)
+  R Option<T>::match(function<R(const T&)> some, function<R()> none)
   {
-    return IsSome()
+    return isSome()
       ? some(_value)
       : none();
   }
 
   template <class T>
   template <class L>
-  Either<L, T> Option<T>::ToEither(function<L()> leftValue)
+  Either<L, T> Option<T>::toEither(function<L()> leftValue)
   {
-    if (IsSome())
-      return Either<L, T>::Right(_value);
+    if (isSome())
+      return Either<L, T>::right(_value);
     auto left = leftValue();
-    return Either<L, T>::Left(left);
+    return Either<L, T>::left(left);
   }
 }

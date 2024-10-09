@@ -79,4 +79,59 @@ BOOST_AUTO_TEST_CASE(Sequence_fold_ReturnAggregate)
     BOOST_CHECK(aggregation == 6);
 }
 
+BOOST_AUTO_TEST_CASE(Sequence_at_ReturnItem)
+{
+    vector<FakeClass> items = 
+    { 
+        FakeClass(1), 
+        FakeClass(2), 
+        FakeClass(3)
+    };
+    auto sequence = Sequence<FakeClass>::from(items);
+    auto item = sequence.at(1);
+    BOOST_CHECK(item.value == 2);
+}
+
+BOOST_AUTO_TEST_CASE(Sequence_map_ReturnMapped)
+{
+    vector<FakeClass> items = 
+    { 
+        FakeClass(1), 
+        FakeClass(2), 
+        FakeClass(3)
+    };
+    auto mapItem = [](const FakeClass& item)
+    {
+        return FakeClass(item.value *2);
+    };
+    auto sequence = Sequence<FakeClass>::from(items);
+    auto mapped = sequence.map<FakeClass>(mapItem);
+    auto item = items.at(1);
+    auto itemMapped = mapped.at(1);
+    BOOST_CHECK(item.value == 2);
+    BOOST_CHECK(itemMapped.value == 4);
+    BOOST_CHECK(mapped.size() == 3);
+}
+
+BOOST_AUTO_TEST_CASE(Sequence_filter_ReturnFiltered)
+{
+    vector<FakeClass> items = 
+    { 
+        FakeClass(1), 
+        FakeClass(2), 
+        FakeClass(3)
+    };
+    auto filterItem = [](const FakeClass& item)
+    {
+        return item.value != 2;
+    };
+    auto sequence = Sequence<FakeClass>::from(items);
+    auto filtered = sequence.filter(filterItem);
+    auto item = items.at(1);
+    auto itemFiltered = filtered.at(1);
+    BOOST_CHECK(item.value == 2);
+    BOOST_CHECK(itemFiltered.value == 3);
+    BOOST_CHECK(filtered.size() == 2);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

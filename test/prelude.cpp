@@ -13,7 +13,7 @@ BOOST_AUTO_TEST_SUITE( test_suite_prelude )
 BOOST_AUTO_TEST_CASE(MakeOption_WhenNull_ReturnNone)
 {
     auto option = makeOption<FakeClass>(NULL);
-    BOOST_CHECK(option.IsSome() == false);
+    BOOST_CHECK(option.isSome() == false);
 }
 
 BOOST_AUTO_TEST_CASE(MakeOption_WhenNotNull_ButWhenNone_ReturnNone)
@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE(MakeOption_WhenNotNull_ButWhenNone_ReturnNone)
         return vlaue.value == 42;
     };
     auto option = makeOption<FakeClass>(&test, whenNone);
-    BOOST_CHECK(option.IsSome() == false);
+    BOOST_CHECK(option.isSome() == false);
 }
 
 BOOST_AUTO_TEST_CASE(MakeOption_WhenNotNull_AndNottWhenNone_ReturnSome)
@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE(MakeOption_WhenNotNull_AndNottWhenNone_ReturnSome)
         return vlaue.value == 666;
     };
     auto option = makeOption<FakeClass>(&test, whenNone);
-    BOOST_CHECK(option.IsSome() == true);
+    BOOST_CHECK(option.isSome() == true);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
