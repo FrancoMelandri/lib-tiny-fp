@@ -5,9 +5,40 @@ using namespace std;
 
 namespace TinyFp::Extensions
 { 
+    template <class A>
+    A firstOf(
+        vector<A>& items,
+        function<bool(A&)> of)
+    {
+        A retVal;
+        for (auto & item : items) {
+            if (of(item)) {
+                retVal = item;
+                break;
+            }
+        }
+        return retVal;
+    }
+
+    template <class A>
+    A firstOfOrDefault(
+        vector<A>& items,
+        function<bool(A&)> of,
+        A& def)
+    {
+        A retVal = def;
+        for (auto & item : items) {
+            if (of(item)) {
+                retVal = item;
+                break;
+            }
+        }
+        return retVal;
+    }
+
     template <class A, class B>
     function<A(B&)> firstOrDefault(
-        vector<tuple<function<bool(B&)>, function<A(B&)>>> guards,
+        vector<tuple<function<bool(B&)>, function<A(B&)>>>& guards,
         function<A(B&)> defaultMap,
         B& value)
     {
