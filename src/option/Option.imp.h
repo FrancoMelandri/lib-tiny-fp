@@ -91,8 +91,8 @@ namespace TinyFp
   Either<L, T> Option<T>::ToEither(function<L()> leftValue)
   {
     if (IsSome())
-      return Either<L, T>::Right(_value);
+      return Either<L, T>::right(_value);
     auto left = leftValue();
-    return Either<L, T>::Left(left);
+    return Either<L, T>::left(left);
   }
 }

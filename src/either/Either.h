@@ -30,20 +30,20 @@ namespace TinyFp
       }
 
     public:
-      static Either<L, R> Right(const R& value) { return Either<L, R>(value); };
-      static Either<L, R> Left(const L& value) { return Either<L, R>(value); };
-      bool IsRight();
-      bool IsLeft();
-      R Right(function<R(const L&)> onLeft);
-      template <class Q> Either<L, Q> Map(function<Q(const R&)> map);
-      template <class Q> Either<L, Q> GuardMap(
+      static Either<L, R> right(const R& value) { return Either<L, R>(value); };
+      static Either<L, R> left(const L& value) { return Either<L, R>(value); };
+      bool isRight();
+      bool isLeft();
+      R right(function<R(const L&)> onLeft);
+      template <class Q> Either<L, Q> map(function<Q(const R&)> map);
+      template <class Q> Either<L, Q> guardMap(
         function<Q(const R&)> defaultMap,
         const vector<tuple<function<bool(const R&)>, function<Q(const R&)>>>& guards);
-      template <class Q> Either<L, Q> Bind(function<Either<L, Q>(const R&)> bind);
-      template <class Q> Either<L, Q> GuardBind(
+      template <class Q> Either<L, Q> bind(function<Either<L, Q>(const R&)> bind);
+      template <class Q> Either<L, Q> guardBind(
         function<Either<L, Q>(const R&)> defaultBind,
         const vector<tuple<function<bool(const R&)>, function<Either<L, Q>(const R&)>>>& guards);
-      template <class Q> Q Match(function<Q(const R&)> right, function<Q(const L&)> left);
+      template <class Q> Q match(function<Q(const R&)> right, function<Q(const L&)> left);
   };
 }
 

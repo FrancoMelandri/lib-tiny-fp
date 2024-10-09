@@ -54,8 +54,8 @@ BOOST_AUTO_TEST_CASE(ROP_Success)
                             .Match(_TrySuccess),
                         _WhenNone)
                 .ToEither<Error>(_LeftValue)
-                .Map<FakeClassMapped>(_MapEither)
-                .Match<int>(
+                .map<FakeClassMapped>(_MapEither)
+                .match<int>(
                     _OnRight,
                     _OnLeft);
     BOOST_CHECK(sut == 42);
@@ -73,8 +73,8 @@ BOOST_AUTO_TEST_CASE(ROP_Failure_Exception)
                             .Match(_TrySuccess),
                         _WhenNone)
                 .ToEither<Error>(_LeftValue)
-                .Map<FakeClassMapped>(_MapEither)
-                .Match<int>(
+                .map<FakeClassMapped>(_MapEither)
+                .match<int>(
                     _OnRight,
                     _OnLeft);
     BOOST_CHECK(sut == 666);
@@ -93,8 +93,8 @@ BOOST_AUTO_TEST_CASE(ROP_Failure_WhenNone)
                             .Match(_TrySuccess),
                         _WhenNone)
                 .ToEither<Error>(_LeftValue)
-                .Map<FakeClassMapped>(_MapEither)
-                .Match<int>(
+                .map<FakeClassMapped>(_MapEither)
+                .match<int>(
                     _OnRight,
                     _OnLeft);
     BOOST_CHECK(sut == 666);
