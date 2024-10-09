@@ -1,10 +1,11 @@
 #ifndef LIB_TINY_FP_EITHER
 #define LIB_TINY_FP_EITHER
 
-#include "../Defines.h"
-#include "../extensions.h"
+#include "../common.h"
+#include "../extensions/vector.h"
 
 using namespace std;
+using namespace TinyFp::Extensions;
 
 namespace TinyFp
 {
@@ -15,10 +16,6 @@ namespace TinyFp
       bool _isRight;
       L _left;
       R _right;
-
-      Either()
-      {
-      }
 
       Either(R& value)
       {

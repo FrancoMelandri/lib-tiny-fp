@@ -1,4 +1,3 @@
 
-
 LIBOBJECTS += \
 	either/Either.o
