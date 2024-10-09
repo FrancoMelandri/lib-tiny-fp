@@ -35,7 +35,7 @@ Error _LeftValue()
     return left;
 }
 
-FakeClassMapped _MapEither(FakeClass& vlaue)
+FakeClassMapped _MapEither(const FakeClass& vlaue)
 {
     auto mapped = FakeClassMapped(vlaue.value * 2);
     return mapped;

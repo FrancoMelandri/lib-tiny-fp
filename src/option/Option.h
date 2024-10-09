@@ -22,7 +22,7 @@ namespace TinyFp
           _isSome = false;
       }
 
-      Option(T& value)
+      Option(const T& value)
       {
           _isSome = true;
           _value = value;
@@ -30,10 +30,10 @@ namespace TinyFp
 
     public:
       static Option<T> None() { return Option<T>(); };
-      static Option<T> Some(T& value) { return Option<T>(value); };
+      static Option<T> Some(const T& value) { return Option<T>(value); };
       bool IsSome();
       template <class R> R OrElse(function<R()> none);
-      template <class R> Option<R> Map(function<R(T&)> map);
+      template <class R> Option<R> Map(function<R(const T&)> map);
       template <class R> Option<R> GuardMap(
         function<R(T&)> defaultMap,
         vector<tuple<function<bool(T&)>, function<R(T&)>>> guards);

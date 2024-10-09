@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE(firstOf_WhenMatch_ReturnItem)
         FakeClass(2), 
         FakeClass(3)
     };
-    auto selector = [](FakeClass& value)->bool
+    auto selector = [](const FakeClass& value)->bool
     {
         return value.value == 2;
     };
@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE(firstOf_WhenNoMatch_ReturnUndefined)
         FakeClass(2), 
         FakeClass(3)
     };
-    auto selector = [](FakeClass& value)->bool
+    auto selector = [](const FakeClass& value)->bool
     {
         return value.value == 4;
     };
@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE(firstOfOrDefault_WhenMatch_ReturnItem)
         FakeClass(2), 
         FakeClass(3)
     };
-    auto selector = [](FakeClass& value)->bool
+    auto selector = [](const FakeClass& value)->bool
     {
         return value.value == 2;
     };
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE(firstOfOrDefault_WhenNoMatch_ReturnDefault)
         FakeClass(2), 
         FakeClass(3)
     };
-    auto selector = [](FakeClass& value)->bool
+    auto selector = [](const FakeClass& value)->bool
     {
         return value.value == 4;
     };

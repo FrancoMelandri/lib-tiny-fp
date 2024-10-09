@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(Sequence_firstOf_WhenMatch_ReturnItem)
         FakeClass(3)
     };
     auto sequence = Sequence<FakeClass>::from(items);
-    auto selector = [](FakeClass& value)->bool
+    auto selector = [](const FakeClass& value)->bool
     {
         return value.value == 2;
     };
@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE(Sequence_firstOfOrDefault_WhenMatch_ReturnItem)
         FakeClass(3)
     };
     auto sequence = Sequence<FakeClass>::from(items);
-    auto selector = [](FakeClass& value)->bool
+    auto selector = [](const FakeClass& value)->bool
     {
         return value.value == 2;
     };
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE(Sequence_firstOfOrDefault_WhenNoMatch_ReturnDefault)
         FakeClass(3)
     };
     auto sequence = Sequence<FakeClass>::from(items);
-    auto selector = [](FakeClass& value)->bool
+    auto selector = [](const FakeClass& value)->bool
     {
         return value.value == 4;
     };
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE(Sequence_fold_ReturnAggregate)
         FakeClass(2), 
         FakeClass(3)
     };
-    auto step = [](int& acc, FakeClass& item)
+    auto step = [](const int& acc, const FakeClass& item)
     {
         return acc + item.value;
     };

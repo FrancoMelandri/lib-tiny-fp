@@ -2,8 +2,8 @@ namespace TinyFp::Extensions
 { 
     template <class A>
     A firstOf(
-        vector<A>& items,
-        function<bool(A&)> of)
+        const vector<A>& items,
+        function<bool(const A&)> of)
     {
         A retVal;
         for (auto & item : items) {
@@ -17,9 +17,9 @@ namespace TinyFp::Extensions
 
     template <class A>
     A firstOfOrDefault(
-        vector<A>& items,
-        function<bool(A&)> of,
-        A& def)
+        const vector<A>& items,
+        function<bool(const A&)> of,
+        const A& def)
     {
         A retVal = def;
         for (auto & item : items) {

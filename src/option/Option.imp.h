@@ -17,7 +17,7 @@ namespace TinyFp
 
   template <class T>
   template <class R>
-  Option<R> Option<T>::Map(function<R(T&)> map)
+  Option<R> Option<T>::Map(function<R(const T&)> map)
   {
     if (!IsSome())
       return Option<R>::None();

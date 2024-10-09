@@ -22,7 +22,7 @@ namespace TinyFp
 
   template <class L, class R>
   template <class Q>
-  Either<L, Q> Either<L, R>::Map(function<Q(R&)> map)
+  Either<L, Q> Either<L, R>::Map(function<Q(const R&)> map)
   {
     if(!IsRight())
       return Either<L, Q>::Left(_left);

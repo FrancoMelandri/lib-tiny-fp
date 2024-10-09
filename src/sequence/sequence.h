@@ -21,9 +21,9 @@ namespace TinyFp
 
     public:
         static Sequence from(const std::vector<T>& vector) { return Sequence(vector); };
-        T firstOf(function<bool(T&)> of);
-        T firstOfOrDefault(function<bool(T&)> of, T& def);
-        template<class R> R fold(const R& state, function<R(R&, T&)> step);
+        T firstOf(function<bool(const T&)> of);
+        T firstOfOrDefault(function<bool(const T&)> of, const T& def);
+        template<class R> R fold(const R& state, function<R(const R&, const T&)> step);
     };
 }
 
