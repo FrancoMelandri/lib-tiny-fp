@@ -48,7 +48,7 @@ namespace TinyFp
 
   template <class T>
   template <class R>
-  Option<R> Option<T>::Bind(function<Option<R>(T&)> bind)
+  Option<R> Option<T>::Bind(function<Option<R>(const T&)> bind)
   {
     if (!IsSome())
       return Option<R>::None();
@@ -79,7 +79,7 @@ namespace TinyFp
 
   template <class T>
   template <class R>
-  R Option<T>::Match(function<R(T&)> some, function<R()> none)
+  R Option<T>::Match(function<R(const T&)> some, function<R()> none)
   {
     return IsSome()
       ? some(_value)

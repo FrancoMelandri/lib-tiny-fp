@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(Option_Match_WhenNone_ReturnNone)
 {
     auto mapped = TinyFp::Option<FakeClass>::None()
                     .Match<FakeClassMapped>(
-                        [](FakeClass& value) { return FakeClassMapped(value.value*20);},
+                        [](const FakeClass& value) { return FakeClassMapped(value.value*20);},
                         []() { return FakeClassMapped(100);});
     BOOST_CHECK(mapped.mappedValue == 100);
 }
@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_CASE(Option_Match_WhenSome_ReturnSome)
     auto test = FakeClass(10);
     auto mapped = TinyFp::Option<FakeClass>::Some(test)
                     .Match<FakeClassMapped>(
-                        [](FakeClass& value) { return FakeClassMapped(value.value*20);},
+                        [](const FakeClass& value) { return FakeClassMapped(value.value*20);},
                         []() { return FakeClassMapped(100);});
     BOOST_CHECK(mapped.mappedValue == 200);
 }
@@ -115,14 +115,14 @@ BOOST_AUTO_TEST_CASE(Option_Match_WhenNone_ReturnNone_WithScalar)
 {
     auto mapped = TinyFp::Option<FakeClass>::None()
                     .Match<int>(
-                        [](FakeClass& value) { return value.value*20;},
+                        [](const FakeClass& value) { return value.value*20;},
                         []() { return 100;});
     BOOST_CHECK(mapped == 100);
 }
 
 BOOST_AUTO_TEST_CASE(Option_Match_WhenSome_ReturnSome_WithScalar)
 {
-    auto someFunc = [](FakeClass& value) { return value.value*20;};
+    auto someFunc = [](const FakeClass& value) { return value.value*20;};
     auto noneFunc = []() { return 100;};
     auto test = FakeClass(10);
     auto mapped = TinyFp::Option<FakeClass>::Some(test)
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE(Option_Match_WhenSome_ReturnSome_WithScalar)
 
 BOOST_AUTO_TEST_CASE(Option_Bind_WhenNone_ReturnDefault)
 {
-    auto onBind = [](FakeClass& value)
+    auto onBind = [](const FakeClass& value)
     {
         auto fake = FakeClassMapped(value.value*20);
         return TinyFp::Option<FakeClassMapped>::Some(fake);
@@ -151,7 +151,7 @@ BOOST_AUTO_TEST_CASE(Option_Bind_WhenNone_ReturnDefault)
 
 BOOST_AUTO_TEST_CASE(Option_Bind_WhenSome_ReturnBinded)
 {
-    auto onBind = [](FakeClass& value)
+    auto onBind = [](const FakeClass& value)
     {
         auto fake = FakeClassMapped(value.value*20);
         return TinyFp::Option<FakeClassMapped>::Some(fake);
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE(Option_Bind_WhenSome_ReturnBinded)
 
 BOOST_AUTO_TEST_CASE(Option_Bind_Map_WhenSome_ReturnBinded)
 {
-    auto onBind = [](FakeClass& value)
+    auto onBind = [](const FakeClass& value)
     {
         auto fake = FakeClassMapped(value.value*20);
         return TinyFp::Option<FakeClassMapped>::Some(fake);

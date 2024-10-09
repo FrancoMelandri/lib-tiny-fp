@@ -37,11 +37,11 @@ namespace TinyFp
       template <class R> Option<R> GuardMap(
         function<R(const T&)> defaultMap,
         const vector<tuple<function<bool(const T&)>, function<R(const T&)>>>& guards);
-      template <class R> Option<R> Bind(function<Option<R>(T&)> bind);
+      template <class R> Option<R> Bind(function<Option<R>(const T&)> bind);
       template <class R> Option<R> GuardBind(
         function<Option<R>(const T&)> defaultBind,
         const vector<tuple<function<bool(const T&)>, function<Option<R>(const T&)>>>& guards);
-      template <class R> R Match(function<R(T&)> some, function<R()> none);
+      template <class R> R Match(function<R(const T&)> some, function<R()> none);
       template <class L> Either<L, T> ToEither(function<L()> leftValue);
   };
 }
