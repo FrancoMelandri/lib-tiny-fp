@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_CASE(Try_WhenSuccess_ReturnSuccess)
         return value;
     };
 
-    auto onFail = [](exception& ex)
+    auto onFail = [](const exception& ex)
     {
         int retVal = 42;
         return retVal;
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(Try_WhenException_ReturnFail)
         return value;
     };
 
-    auto onFail = [](exception& ex)
+    auto onFail = [](const exception& ex)
     {
         int retVal = 42;
         return retVal;

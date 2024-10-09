@@ -13,7 +13,7 @@ namespace TinyFp
   }
 
   template <class L, class R>
-  R Either<L, R>::Right(function<R(L&)> onLeft)
+  R Either<L, R>::Right(function<R(const L&)> onLeft)
   {
     return _isRight ?
       _right :
@@ -53,7 +53,7 @@ namespace TinyFp
 
   template <class L, class R>
   template <class Q>
-  Either<L, Q> Either<L, R>::Bind(function<Either<L, Q>(R&)> bind)
+  Either<L, Q> Either<L, R>::Bind(function<Either<L, Q>(const R&)> bind)
   {
     if (!IsRight())
       return Either<L, Q>::Left(_left);
@@ -84,7 +84,7 @@ namespace TinyFp
 
   template <class L, class R>
   template <class Q>
-  Q Either<L, R>::Match(function<Q(R&)> right, function<Q(L&)> left)
+  Q Either<L, R>::Match(function<Q(const R&)> right, function<Q(const L&)> left)
   {
     return IsRight()
       ? right(_right)

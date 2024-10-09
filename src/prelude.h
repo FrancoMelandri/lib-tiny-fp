@@ -17,7 +17,7 @@ namespace TinyFp
     }
 
     template <class A>
-    Option<A> makeOption(A* value, function<bool(A&)> whenNone)
+    Option<A> makeOption(A* value, function<bool(const A&)> whenNone)
     {
         if (value == NO_VALUE)
             return Option<A>::None();

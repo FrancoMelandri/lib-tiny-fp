@@ -182,7 +182,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenNone_IsLeft)
     {
         return FakeClassMapped(value.value*20);
     };
-    auto onLeft = [](int& value)
+    auto onLeft = [](const int& value)
     {
         return 100;
     };
@@ -216,7 +216,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_NoSelector_DefaultMap)
     {
         return FakeClassMapped(value.value*20);
     };
-    auto onLeft = [](int& value)
+    auto onLeft = [](const int& value)
     {
         return 100;
     };
@@ -250,7 +250,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_OneSelector_Select)
     {
         return FakeClassMapped(value.value*20);
     };
-    auto onLeft = [](int& value)
+    auto onLeft = [](const int& value)
     {
         return 100;
     };
@@ -284,7 +284,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_TwoSelector_Select)
     {
         return FakeClassMapped(value.value*20);
     };
-    auto onLeft = [](int& value)
+    auto onLeft = [](const int& value)
     {
         return 100;
     };
@@ -329,7 +329,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenNone_IsLeft)
           auto retVal = FakeClassMapped(value.value*20);
           return Either<int, FakeClassMapped>::Right(retVal);
     };
-    auto onLeft = [](int& value)
+    auto onLeft = [](const int& value)
     {
         return 100;
     };
@@ -366,7 +366,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_NoSelector_DefaultBind)
           auto retVal = FakeClassMapped(value.value*20);
           return Either<int, FakeClassMapped>::Right(retVal);
     };
-    auto onLeft = [](int& value)
+    auto onLeft = [](const int& value)
     {
         return 100;
     };
@@ -402,7 +402,7 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_AndSelector_Select)
           auto retVal = FakeClassMapped(value.value*20);
           return Either<int, FakeClassMapped>::Right(retVal);
     };
-    auto onLeft = [](int& value)
+    auto onLeft = [](const int& value)
     {
         return 100;
     };

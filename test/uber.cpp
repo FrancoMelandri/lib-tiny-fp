@@ -9,22 +9,22 @@ using namespace boost::unit_test;
 
 BOOST_AUTO_TEST_SUITE( test_suite_uber )
 
-FakeClass* _TrySuccess(FakeClass& value)
+FakeClass* _TrySuccess(const FakeClass& value)
 {
     return (FakeClass*)&value;
 }
 
-int _OnRight(FakeClassMapped& mapped)
+int _OnRight(const FakeClassMapped& mapped)
 {
     return mapped.mappedValue;
 }
 
-int _OnLeft(Error& error)
+int _OnLeft(const Error& error)
 {
     return error.code;
 }
 
-bool _WhenNone(FakeClass& vlaue)
+bool _WhenNone(const FakeClass& vlaue)
 {
     return vlaue.value == 44;
 }

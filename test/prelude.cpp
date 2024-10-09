@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(MakeOption_WhenNull_ReturnNone)
 BOOST_AUTO_TEST_CASE(MakeOption_WhenNotNull_ButWhenNone_ReturnNone)
 {
     FakeClass test = FakeClass(42);
-    auto whenNone = [](FakeClass& vlaue)
+    auto whenNone = [](const FakeClass& vlaue)
     {
         return vlaue.value == 42;
     };
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE(MakeOption_WhenNotNull_ButWhenNone_ReturnNone)
 BOOST_AUTO_TEST_CASE(MakeOption_WhenNotNull_AndNottWhenNone_ReturnSome)
 {
     FakeClass test = FakeClass(42);
-    auto whenNone = [](FakeClass& vlaue)
+    auto whenNone = [](const FakeClass& vlaue)
     {
         return vlaue.value == 666;
     };
