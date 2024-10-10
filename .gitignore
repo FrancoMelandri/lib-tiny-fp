@@ -35,3 +35,4 @@
 *.tar
 
 /test/test
+.vscode/

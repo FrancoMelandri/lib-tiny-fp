@@ -1,5 +1,7 @@
 #ifndef LIB_TINY_FP_DEFINES
 #define LIB_TINY_FP_DEFINES
+#include <iostream>
+#include <vector>
 #include <cstddef>
 #include <functional>
 #include <stdexcept>

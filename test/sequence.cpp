@@ -8,6 +8,18 @@ using namespace boost::unit_test;
 
 BOOST_AUTO_TEST_SUITE( test_suite_sequence )
 
+BOOST_AUTO_TEST_CASE(Sequence_from_list)
+{
+    list<FakeClass> items = 
+    { 
+        FakeClass(1), 
+        FakeClass(2), 
+        FakeClass(3)
+    };
+    auto sequence = Sequence<FakeClass>::from(items);
+    BOOST_CHECK(sequence.size() == 3);
+}
+
 BOOST_AUTO_TEST_CASE(Sequence_firstOf_WhenMatch_ReturnItem)
 {
     vector<FakeClass> items = 
@@ -132,6 +144,22 @@ BOOST_AUTO_TEST_CASE(Sequence_filter_ReturnFiltered)
     BOOST_CHECK(item.value == 2);
     BOOST_CHECK(itemFiltered.value == 3);
     BOOST_CHECK(filtered.size() == 2);
+}
+
+BOOST_AUTO_TEST_CASE(Sequence_iterator)
+{
+    list<FakeClass> items =
+    {
+        FakeClass(1),
+        FakeClass(2),
+        FakeClass(3)
+    };
+    auto sequence = Sequence<FakeClass>::from(items);
+    int count = 0;
+    for (auto & item : sequence) {
+        count += item.value;
+    }
+    BOOST_CHECK(count == 6);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
