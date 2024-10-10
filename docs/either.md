@@ -31,8 +31,8 @@ template <class Q> Either<L, Q> map(function<Q(const R&)> map);
 
 ```c++
 template <class Q> Either<L, Q> guardMap(
-function<Q(const R&)> defaultMap,
-const vector<tuple<function<bool(const R&)>, function<Q(const R&)>& guards);
+        function<Q(const R&)> defaultMap,
+        const vector<tuple<function<bool(const R&)>, function<Q(const R&)>& guards);
 ```
 
 ### bind
@@ -45,8 +45,8 @@ template <class Q> Either<L, Q> bind(function<Either<L, Q>(const R&)> bind);
 
 ```c++
 template <class Q> Either<L, Q> guardBind(
-function<Either<L, Q>(const R&)> defaultBind,
-const vector<tuple<function<bool(const R&)>, function<Either<L, Q>(const R&)>>>& guards);
+        function<Either<L, Q>(const R&)> defaultBind,
+        const vector<tuple<function<bool(const R&)>, function<Either<L, Q>(const R&)>>>& guards);
 ```
 
 ## accessing

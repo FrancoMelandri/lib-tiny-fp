@@ -32,8 +32,8 @@ template <class R> Option<R> map(function<R(const T&)> map);
 
 ```c++
 template <class R> Option<R> guardMap(
-function<R(const T&)> defaultMap,
-const vector<tuple<function<bool(const T&)>, function<R(const T&)>>>& guards);
+        function<R(const T&)> defaultMap,
+        const vector<tuple<function<bool(const T&)>, function<R(const T&)>>>& guards);
 ```
 
 ## bind
@@ -46,8 +46,8 @@ template <class R> Option<R> bind(function<Option<R>(const T&)> bind);
 
 ```c++
 template <class R> Option<R> guardBind(
-function<Option<R>(const T&)> defaultBind,
-const vector<tuple<function<bool(const T&)>, function<Option<R>(const T&)>>>& guards);
+        function<Option<R>(const T&)> defaultBind,
+        const vector<tuple<function<bool(const T&)>, function<Option<R>(const T&)>>>& guards);
 ```
 
 ## accessing
