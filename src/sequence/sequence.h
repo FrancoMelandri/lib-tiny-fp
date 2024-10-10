@@ -19,8 +19,17 @@ namespace TinyFp
             _vector = vector;
         };
 
+        Sequence(const std::list<T>& list)
+        {
+            _vector = std::vector<T>();
+            for (auto & it : list) {
+                _vector.push_back(it);
+            }
+        };
+
     public:
         static Sequence from(const std::vector<T>& vector) { return Sequence(vector); };
+        static Sequence from(const std::list<T>& list) { return Sequence(list); };
         T firstOf(function<bool(const T&)> of);
         T firstOfOrDefault(function<bool(const T&)> of, const T& def);
         template<class R> R fold(const R& state, function<R(const R&, const T&)> step);
