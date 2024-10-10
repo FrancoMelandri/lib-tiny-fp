@@ -7,18 +7,28 @@ C++ Functional programming library.
 The aim of `lib-tiny-fp` library is to implement the basic functional data types allows you to use **Railway Oriented Programming** in native way.
 
 Example:
+
 ```c++
 
-    auto sut = makeOption<FakeClass>(
-            TinyFp::Try<FakeClass>::handle(onHandle)
-                    .match(_TrySuccess),
-            _WhenNone)
-        .toEither<Error>(_LeftValue)
-        .map<FakeClassMapped>(_MapEither)
-        .match<int>(_OnRight,
-                    _OnLeft);
+auto sut = makeOption<FakeClass>(
+                TinyFp::Try<FakeClass>::handle(onHandle)
+                        .match(trySuccees),
+                whenNonde)
+        .toEither<Error>(LeftValue)
+        .map<FakeClassMapped>(mapEither)
+        .match<int>(onRight,
+                    onLeft);
 
 ```
+
+## types
+
+- [Option](./docs/option.md) 
+- [Either](./docs/either.md) 
+- [Try](./docs/try.md) 
+- [Sequence](./docs/sequence.md) 
+- [Extensions](./docs/extensions.md) 
+
 
 ## install
 
