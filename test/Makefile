@@ -6,7 +6,8 @@ APPNAME = test
 
 all: $(APPNAME)
 
-DEMOFILES = test.o option.o either.o try.o uber.o prelude.o extensions.vector.o sequence.o
+# DEMOFILES = test.o option.o either.o try.o uber.o prelude.o extensions.vector.o sequence.o
+DEMOFILES = test.o sequence.o
 
 $(APPNAME): $(DEMOFILES)
 	$(CCX) $(DEMOFILES)  $(LIBTINYFP) -o $(APPNAME)
@@ -14,10 +15,15 @@ $(APPNAME): $(DEMOFILES)
 %.o: %.cpp
 	$(CCX) $(CFLAGS) -c $<
 
+
+clear:
+	clear
+
 clean:
+	clear
 	rm -f $(APPNAME) $(DEMOFILES)
 
-rebuild: clean all
+rebuild: clean clear all
 
 t: clean all
 	./test

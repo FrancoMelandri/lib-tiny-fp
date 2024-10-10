@@ -54,10 +54,4 @@ namespace TinyFp
         auto item = _vector.at(index);
         return item;
     }
-
-    template <class T>
-    int Sequence<T>::size()
-    {
-        return _vector.size();
-    }
 }
