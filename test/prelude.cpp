@@ -38,4 +38,10 @@ BOOST_AUTO_TEST_CASE(MakeOption_WhenNotNull_AndNottWhenNone_ReturnSome)
     BOOST_CHECK(option.isSome() == true);
 }
 
+BOOST_AUTO_TEST_CASE(MakeOption_WithUnit_ReturnSome)
+{
+    auto option = Option<Unit>::some(Unit::Default());
+    BOOST_CHECK(option.isSome() == true);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

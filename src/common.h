@@ -1,5 +1,5 @@
-#ifndef LIB_TINY_FP_DEFINES
-#define LIB_TINY_FP_DEFINES
+#ifndef LIB_TINY_FP_COMMON
+#define LIB_TINY_FP_COMMON
 #include <iostream>
 #include <vector>
 #include <list>
@@ -9,5 +9,14 @@
 #include <stdexcept>
 
 #define NO_VALUE NULL
+
+namespace TinyFp 
+{ 
+    struct Unit
+    {
+    public:
+        static Unit Default() { return Unit();}
+    };
+}
 
 #endif
