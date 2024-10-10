@@ -34,3 +34,17 @@ S While(function<S()> init, function<bool(const S&)> enabled, function<S(const S
 Functional `While` whit initial state, exit condition and body function.
 
 Due the fact it is functional, the **return** value is the state update by the body funciton after initializazion.
+
+example:
+
+```c++
+BOOST_AUTO_TEST_CASE(while_should_works_fine)
+{
+    auto loop = While<int>(
+        []() { return 0; },                             // init
+        [](const int& state) { return state < 10; },    // enabled
+        [](const int& state) { return state + 1; }      // body
+    );
+    BOOST_CHECK(loop == 10);
+}
+```
