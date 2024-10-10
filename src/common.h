@@ -2,6 +2,8 @@
 #define LIB_TINY_FP_DEFINES
 #include <iostream>
 #include <vector>
+#include <list>
+#include <vector>
 #include <cstddef>
 #include <functional>
 #include <stdexcept>
