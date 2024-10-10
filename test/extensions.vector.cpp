@@ -2,7 +2,7 @@
 #include <boost/test/unit_test.hpp>
 #include "Fakes.h"
 #include "prelude.h"
-#include "extensions/vector.h"
+#include "extensions/extensions.h"
 
 using namespace TinyFp::Extensions;
 using namespace boost::unit_test;
