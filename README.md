@@ -1,3 +1,6 @@
+[![CI](https://github.com/FrancoMelandri/lib-tiny-fp/actions/workflows/ci.yaml/badge.svg)](https://github.com/FrancoMelandri/lib-tiny-fp/actions/workflows/ci.yaml/badge.svg)
+
+
 # lib-tiny-fp
 
 C++ Functional programming library.
