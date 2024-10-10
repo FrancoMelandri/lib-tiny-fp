@@ -28,6 +28,7 @@ COPY ./src/sequence/subdir.mk .
 WORKDIR /src/extensions
 COPY ./src/extensions/*.cpp .
 COPY ./src/extensions/*.h .
+COPY ./src/extensions/subdir.mk .
 
 WORKDIR /src
 RUN make all

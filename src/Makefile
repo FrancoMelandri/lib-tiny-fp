@@ -12,6 +12,7 @@ LIBOBJECTS =
 -include either/subdir.mk
 -include try/subdir.mk
 -include sequence/subdir.mk
+-include extensions/subdir.mk
 
 all: $(LIBOBJECTS) $(LIBNAME)
 
