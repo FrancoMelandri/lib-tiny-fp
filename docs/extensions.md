@@ -48,3 +48,48 @@ BOOST_AUTO_TEST_CASE(while_should_works_fine)
     BOOST_CHECK(loop == 10);
 }
 ```
+
+### which
+
+```c++
+template <class S>
+S which(function<bool()> condition, function<S()> onTrue, function<S()> onFalse);
+
+template <class S, class T>
+S which(const T& input,
+        function<bool(const T&)> condition,
+        function<S(const T&)> onTrue,
+        function<S(const T&)> onFalse);
+
+```
+
+`which` is a functional `if`; it will call the onTrue callback when the condition result is true.
+Otherwise the onFalse callback will be called.
+
+Due the fact it is functional, the **return** value is returned in both onTrue and onFalse high order functions.
+
+example:
+
+```c++
+BOOST_AUTO_TEST_CASE(which_Input_WhenFalse_onFalse)
+{
+    int value = 10;
+    auto retVal = which<int, int>(value,
+        [](const int& val) { return val == 1; },    // condition
+        [](const int& val) { return 1; },           // onTrue
+        [](const int& val) { return 10; }           // onFalse
+    );
+    BOOST_CHECK(retVal == 10);
+}
+
+BOOST_AUTO_TEST_CASE(which_Input_WhenTrue_onTrue)
+{
+    int value = 1;
+    auto retVal = which<int, int>(value,
+        [](const int& val) { return val == 1; },    // condition
+        [](const int& val) { return 1; },           // onTrue
+        [](const int& val) { return 10; }           // onFalse
+    );
+    BOOST_CHECK(retVal == 1);
+}
+```
