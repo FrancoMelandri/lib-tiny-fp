@@ -93,3 +93,65 @@ BOOST_AUTO_TEST_CASE(which_Input_WhenTrue_onTrue)
     BOOST_CHECK(retVal == 1);
 }
 ```
+
+### guard
+
+```c++
+template <class S>
+S guard(
+    function<S()> onDefault,
+    const vector<tuple<function<bool()>, function<S()>>>& guards);
+
+template <class S, class T>
+S guard(
+    const T& value,
+    function<S(const T&)> onDefault,
+    const vector<tuple<function<bool(const T&)>, function<S(const T&)>>>& guards);
+```
+
+`guard` is a functional `switch`; it will call the right callback when the related condition (a predicate selector) is verified.
+If not match was found the default callback will be called.
+
+Due the fact it is functional, the **return** value is returned i all function at the right of the selector in the tuple.
+
+example:
+
+```c++
+BOOST_AUTO_TEST_CASE(Guard_WhenMatch_Matched)
+{
+   auto onDefault = [](const int& value)
+    {
+        return 999;
+    };
+    auto funcSelector1 = [](const int& value)
+    {
+        return false;
+    };
+    auto funcMap1 = [](const int& value)
+    {
+        return 666;
+    };
+    auto funcSelector2 = [](const int& value)
+    {
+        return value == 1;
+    };
+    auto funcMap2 = [](const int& value)
+    {
+        return 42;
+    };
+    tuple<function<bool(const int&)>, function<int(const int&)>> tuple1 = { funcSelector1, funcMap1 };
+    tuple<function<bool(const int&)>, function<int(const int&)>> tuple2 = { funcSelector2, funcMap2 };
+    vector<tuple<function<bool(const int&)>, function<int(const int&)>>> guards =
+    {
+        tuple1,
+        tuple2
+    };
+
+    int value = 1;
+    auto retVal = guard<int, int>(value,
+        onDefault,
+        guards
+    );
+    BOOST_CHECK(retVal == 42);
+}
+```

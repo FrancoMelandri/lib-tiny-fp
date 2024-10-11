@@ -72,4 +72,116 @@ BOOST_AUTO_TEST_CASE(which_Input_WhenTrue_onTrue)
     BOOST_CHECK(retVal == 1);
 }
 
+BOOST_AUTO_TEST_CASE(Guard_WhenNoMatch_Default)
+{
+   auto onDefault = [](const int& value)
+    {
+        return 999;
+    };
+    auto funcSelector1 = [](const int& value)
+    {
+        return false;
+    };
+    auto funcMap1 = [](const int& value)
+    {
+        return 666;
+    };
+    auto funcSelector2 = [](const int& value)
+    {
+        return false;
+    };
+    auto funcMap2 = [](const FakeClass& value)
+    {
+        return 42;
+    };
+    tuple<function<bool(const int&)>, function<int(const int&)>> tuple1 = { funcSelector1, funcMap1 };
+    tuple<function<bool(const int&)>, function<int(const int&)>> tuple2 = { funcSelector2, funcMap2 };
+    vector<tuple<function<bool(const int&)>, function<int(const int&)>>> guards =
+    {
+        tuple1,
+        tuple2
+    };
+
+    int value = 1;
+    auto retVal = guard<int, int>(value,
+        onDefault,
+        guards
+    );
+    BOOST_CHECK(retVal == 999);
+}
+
+BOOST_AUTO_TEST_CASE(Guard_WhenMatch_Matched)
+{
+   auto onDefault = [](const int& value)
+    {
+        return 999;
+    };
+    auto funcSelector1 = [](const int& value)
+    {
+        return false;
+    };
+    auto funcMap1 = [](const int& value)
+    {
+        return 666;
+    };
+    auto funcSelector2 = [](const int& value)
+    {
+        return value == 1;
+    };
+    auto funcMap2 = [](const int& value)
+    {
+        return 42;
+    };
+    tuple<function<bool(const int&)>, function<int(const int&)>> tuple1 = { funcSelector1, funcMap1 };
+    tuple<function<bool(const int&)>, function<int(const int&)>> tuple2 = { funcSelector2, funcMap2 };
+    vector<tuple<function<bool(const int&)>, function<int(const int&)>>> guards =
+    {
+        tuple1,
+        tuple2
+    };
+
+    int value = 1;
+    auto retVal = guard<int, int>(value,
+        onDefault,
+        guards
+    );
+    BOOST_CHECK(retVal == 42);
+}
+
+BOOST_AUTO_TEST_CASE(Guard_NoInput_WhenMatch_Matched)
+{
+   auto onDefault = []()
+    {
+        return 999;
+    };
+    auto funcSelector1 = []()
+    {
+        return false;
+    };
+    auto funcMap1 = []()
+    {
+        return 666;
+    };
+    auto funcSelector2 = []()
+    {
+        return true;
+    };
+    auto funcMap2 = []()
+    {
+        return 42;
+    };
+    tuple<function<bool()>, function<int()>> tuple1 = { funcSelector1, funcMap1 };
+    tuple<function<bool()>, function<int()>> tuple2 = { funcSelector2, funcMap2 };
+    vector<tuple<function<bool()>, function<int()>>> guards =
+    {
+        tuple1,
+        tuple2
+    };
+
+    auto retVal = guard<int>(
+        onDefault,
+        guards);
+    BOOST_CHECK(retVal == 42);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
