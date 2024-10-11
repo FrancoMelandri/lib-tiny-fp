@@ -33,4 +33,4 @@ clean:
 rebuild: clean clear all
 
 t: clean all
-	./test
+	valgrind --leak-check=yes --error-exitcode=1 ./test
