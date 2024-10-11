@@ -32,4 +32,39 @@ namespace TinyFp::Extensions
             onFalse(input); 
         return current;
     }
+
+    template <class S>
+    S guard(
+        function<S()> onDefault,
+        const vector<tuple<function<bool()>, function<S()>>>& guards)
+    {
+        auto toInvoke = onDefault;
+        for (auto & guard : guards) {
+            auto selector = get<0>(guard);
+            if (selector()) {
+                toInvoke = get<1>(guard);
+                break;
+            }
+        }
+        auto retVal = toInvoke();
+        return retVal;
+    }
+
+    template <class S, class T>
+    S guard(
+        const T& value,
+        function<S(const T&)> onDefault,
+        const vector<tuple<function<bool(const T&)>, function<S(const T&)>>>& guards)
+    {
+        auto toInvoke = onDefault;
+        for (auto & guard : guards) {
+            auto selector = get<0>(guard);
+            if (selector(value)) {
+                toInvoke = get<1>(guard);
+                break;
+            }
+        }
+        auto retVal = toInvoke(value);
+        return retVal;
+    }
 }
