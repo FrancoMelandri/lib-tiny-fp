@@ -72,3 +72,10 @@ clean:
 
 rebuild: clean all
 ```
+
+## developer
+
+Some advices on how to build the code in windows; the day by day work.
+
+[Developer](./docs/developer.md) 
+

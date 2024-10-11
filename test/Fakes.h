@@ -25,4 +25,12 @@ public:
     int mappedValue;
 };
 
+class FakeString
+{    
+public:
+    FakeString() { value = ""; };
+    FakeString(std::string val) { value = val; };
+    std::string value;
+};
+
 #endif
