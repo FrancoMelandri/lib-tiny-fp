@@ -34,7 +34,7 @@ jobs:
 
     - name: Execute test
       run: |
-        docker exec -t ${{ env.DOCKER_CONTAINER_NAME }} valgrind --leak-check=yes --error-exitcode=1 /test/test3
+        docker exec -t ${{ env.DOCKER_CONTAINER_NAME }} valgrind --leak-check=yes --error-exitcode=1 /test/test
         docker stop ${{ env.DOCKER_CONTAINER_NAME }}
 
     - name: Create release
