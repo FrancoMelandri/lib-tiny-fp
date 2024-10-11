@@ -11,4 +11,25 @@ namespace TinyFp::Extensions
         }
         return current;
     }
+
+    template <class S>
+    S which(function<bool()> condition, function<S()> onTrue, function<S()> onFalse)
+    {
+        auto current = condition() ? 
+            onTrue() :
+            onFalse(); 
+        return current;
+    }
+
+    template <class S, class T>
+    S which(const T& input,
+            function<bool(const T&)> condition,
+            function<S(const T&)> onTrue,
+            function<S(const T&)> onFalse)
+    {
+        auto current = condition(input) ? 
+            onTrue(input) :
+            onFalse(input); 
+        return current;
+    }
 }
