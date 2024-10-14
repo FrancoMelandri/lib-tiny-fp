@@ -10,6 +10,10 @@ namespace TinyFp
         continue;
       }
       auto newContext = item.forward(_context);
+      if(!newContext.isRight())
+      {
+        return newContext;
+      }
       auto ctx = _context;
       _context = newContext.right([ctx](const E& error) { return ctx; } );
     };

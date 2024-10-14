@@ -33,6 +33,12 @@ Either<Error, FakeContext> secondStep(const FakeContext& context)
     return Either<Error, FakeContext>::right(newContext);
 };
 
+Either<Error, FakeContext> secondStepLeft(const FakeContext& context)
+{
+    auto error = Error(42);
+    return Either<Error, FakeContext>::left(error);
+};
+
 bool thirdStepEnabled(const FakeContext& context)
 {
     return true;
@@ -80,6 +86,24 @@ BOOST_AUTO_TEST_CASE(Pipeline_builder_some_stage_acitve)
                     .right([](const Error& err) { return err.code; });
 
     BOOST_CHECK(result.context == 6);
+}
+
+BOOST_AUTO_TEST_CASE(Pipeline_builder_whenLeft_handleError)
+{
+    auto context = FakeContext(1);
+    vector<Stage<Error, FakeContext>> stagesVector = 
+    {
+        Stage<Error, FakeContext>(firstStep, firstStepEnabled),
+        Stage<Error, FakeContext>(secondStepLeft, secondStepEnabled),
+        Stage<Error, FakeContext>(thirdStep, thirdStepEnabled)
+    };
+    auto seq = Sequence<Stage<Error, FakeContext>>::from(stagesVector);
+
+    auto result = Pipeline<FakeContext>::given(context)
+                    .fit<Error>(seq)
+                    .right([](const Error& err) { return err.code; });
+
+    BOOST_CHECK(result.context == 42);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
