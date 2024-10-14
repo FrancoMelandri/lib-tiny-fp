@@ -3,11 +3,28 @@
 
 #include "../common.h"
 #include "../either/Either.h"
+#include "../sequence/Sequence.h"
 
 using namespace std;
 
 namespace TinyFp
 {
+  template <class E, class C>
+  struct Stage
+  {
+  private:
+    function<Either<E, C>(const C& context)> _forward;
+    function<bool(const C& context)> _enabled;
+  public:
+    Stage(function<Either<E, C>(const C& context)> forward, function<bool(const C& context)> enabled)
+    {
+        _forward = forward;
+        _enabled = enabled;
+    };
+    Either<E, C> forward (const C& context) { return _forward(context); };
+    bool enabled (const C& context) { return _enabled(context); };
+  };
+
   template <class C>
   struct Pipeline
   {
@@ -21,7 +38,7 @@ namespace TinyFp
 
     public:
         static Pipeline<C> given(const C& context) { return Pipeline<C>(context); };
-        template<class E> Either<E, C> fit();
+        template<class E> Either<E, C> fit(const Sequence<Stage<E, C>>& stages);
   };
 }
 

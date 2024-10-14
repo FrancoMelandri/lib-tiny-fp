@@ -6,16 +6,17 @@ APPNAME = test
 
 all: $(APPNAME)
 
-DEMOFILES = test.o \
-			option.o \
-			either.o \
-			try.o \
-			uber.o \
-			prelude.o \
-			extensions.vector.o \
-			sequence.o \
-			extensions.flow.o \
-			pipeline.o
+# DEMOFILES = test.o \
+# 			option.o \
+# 			either.o \
+# 			try.o \
+# 			uber.o \
+# 			prelude.o \
+# 			extensions.vector.o \
+# 			sequence.o \
+# 			extensions.flow.o \
+# 			pipeline.o
+DEMOFILES = test.o pipeline.o
 
 $(APPNAME): $(DEMOFILES)
 	$(CCX) $(DEMOFILES)  $(LIBTINYFP) -o $(APPNAME)
