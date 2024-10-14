@@ -16,6 +16,7 @@ namespace TinyFp
     function<Either<E, C>(const C& context)> _forward;
     function<bool(const C& context)> _enabled;
   public:
+    Stage(){};
     Stage(function<Either<E, C>(const C& context)> forward, function<bool(const C& context)> enabled)
     {
         _forward = forward;
@@ -31,14 +32,14 @@ namespace TinyFp
     private:
         C _context;
 
-        Pipeline(const C& context)
+        Pipeline(C& context)
         {
             _context = context;
         }
 
     public:
-        static Pipeline<C> given(const C& context) { return Pipeline<C>(context); };
-        template<class E> Either<E, C> fit(const Sequence<Stage<E, C>>& stages);
+        static Pipeline<C> given(C& context) { return Pipeline<C>(context); };
+        template<class E> Either<E, C> fit(Sequence<Stage<E, C>>& stages);
   };
 }
 
