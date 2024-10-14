@@ -25,6 +25,11 @@ COPY ./src/sequence/*.cpp .
 COPY ./src/sequence/*.h .
 COPY ./src/sequence/subdir.mk .
 
+WORKDIR /src/pipeline
+COPY ./src/pipeline/*.cpp .
+COPY ./src/pipeline/*.h .
+COPY ./src/pipeline/subdir.mk .
+
 WORKDIR /src/extensions
 COPY ./src/extensions/*.cpp .
 COPY ./src/extensions/*.h .
