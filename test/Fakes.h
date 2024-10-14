@@ -6,7 +6,7 @@ class Error
 public:
     Error() { code = 0; };
     Error(int val) { code = val; };
-    int code ;
+    int code;
 };
 
 class FakeClass
@@ -31,6 +31,14 @@ public:
     FakeString() { value = ""; };
     FakeString(std::string val) { value = val; };
     std::string value;
+};
+
+class FakeContext
+{
+public:
+    FakeContext() { context = 0; };
+    FakeContext(int val) { context = val; };
+    int context;
 };
 
 #endif
