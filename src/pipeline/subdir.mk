@@ -1,0 +1,3 @@
+
+LIBOBJECTS += \
+	pipeline/Pipeline.o
