@@ -3,7 +3,7 @@
 
 #include "../common.h"
 #include "../either/Either.h"
-#include "../sequence/Sequence.h"
+#include "../sequence/sequence.h"
 
 using namespace std;
 
