@@ -26,11 +26,12 @@ auto sut = makeOption<FakeClass>(
 
 ## types
 
-- [Option](./docs/option.md) 
-- [Either](./docs/either.md) 
-- [Try](./docs/try.md) 
-- [Sequence](./docs/sequence.md) 
-- [Extensions](./docs/extensions.md) 
+- [Option](./docs/option.md)
+- [Either](./docs/either.md)
+- [Try](./docs/try.md)
+- [Sequence](./docs/sequence.md)
+- [Pipelins](./docs/pipeline.md)
+- [Extensions](./docs/extensions.md)
 
 
 ## install

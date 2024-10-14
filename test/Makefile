@@ -14,7 +14,8 @@ DEMOFILES = test.o \
 			prelude.o \
 			extensions.vector.o \
 			sequence.o \
-			extensions.flow.o
+			extensions.flow.o \
+			pipeline.o
 
 $(APPNAME): $(DEMOFILES)
 	$(CCX) $(DEMOFILES)  $(LIBTINYFP) -o $(APPNAME)
