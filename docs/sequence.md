@@ -9,7 +9,7 @@ static Sequence from(const std::vector<T>& vector);
 static Sequence from(const std::list<T>& list);
 ```
 
-## funcitonal
+## functional
 
 ### firstOf
 
