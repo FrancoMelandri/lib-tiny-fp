@@ -26,6 +26,7 @@ auto sut = makeOption<FakeClass>(
 
 ## types
 
+- [Types](./docs/types.md)
 - [Option](./docs/option.md)
 - [Either](./docs/either.md)
 - [Try](./docs/try.md)

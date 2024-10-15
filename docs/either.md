@@ -24,29 +24,25 @@ creating `Either` in left status
 ### map
 
 ```c++
-template <class Q> Either<L, Q> map(function<Q(const R&)> map);
+template <class Q> Either<L, Q> map(FuncValue<Q, R> map);
 ```
 
 ### guardMap
 
 ```c++
-template <class Q> Either<L, Q> guardMap(
-        function<Q(const R&)> defaultMap,
-        const vector<tuple<function<bool(const R&)>, function<Q(const R&)>& guards);
+template <class Q> Either<L, Q> guardMap(FuncValue<Q, R> defaultMap, const Guards<Q, R>& guards);
 ```
 
 ### bind
 
 ```c++
-template <class Q> Either<L, Q> bind(function<Either<L, Q>(const R&)> bind);
+template <class Q> Either<L, Q> bind(FuncValue<Either<L, Q>, R> bind);
 ```
 
 ### guardBind
 
 ```c++
-template <class Q> Either<L, Q> guardBind(
-        function<Either<L, Q>(const R&)> defaultBind,
-        const vector<tuple<function<bool(const R&)>, function<Either<L, Q>(const R&)>>>& guards);
+template <class Q> Either<L, Q> guardBind(function<Either<L, Q>(const R&)> defaultBind, const Guards<Either<L, Q>, R>& guards);
 ```
 
 ## accessing
@@ -67,13 +63,13 @@ bool isLeft();
 ### right
 
 ```c++
-R right(function<R(const L&)> onLeft);
+R right(FuncValue<R, L> onLeft);
 ```
 
 ### match
 
 ```c++
-template <class Q> Q match(function<Q(const R&)> right, function<Q(const L&)> left);
+template <class Q> Q match(FuncValue<Q, R> right, FuncValue<Q, L> left);
 ```
 access to the wrapped status using succes and fail callback to map the internal status.
 
