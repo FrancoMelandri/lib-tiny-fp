@@ -14,6 +14,7 @@ LIBOBJECTS =
 -include sequence/subdir.mk
 -include extensions/subdir.mk
 -include pipeline/subdir.mk
+-include types/subdir.mk
 
 all: $(LIBOBJECTS) $(LIBNAME)
 

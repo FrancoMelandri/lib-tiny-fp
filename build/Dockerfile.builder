@@ -35,6 +35,11 @@ COPY ./src/extensions/*.cpp .
 COPY ./src/extensions/*.h .
 COPY ./src/extensions/subdir.mk .
 
+WORKDIR /src/types
+COPY ./src/types/*.cpp .
+COPY ./src/types/*.h .
+COPY ./src/types/subdir.mk .
+
 WORKDIR /src
 RUN make all
 
