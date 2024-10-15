@@ -195,13 +195,13 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenNone_IsLeft)
     {
         return FakeClassMapped(99);
     };
-    tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    vector<tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>>> guards =
+    Guard<FakeClassMapped, FakeClass> tuple1 = { funcSelector1, funcMap1 };
+    GuardVector<FakeClassMapped, FakeClass> guards =
     {
         tuple1
     };
+    auto sequence = TinyFp::Types::Guards<FakeClassMapped, FakeClass>::from(guards);
     int leftValue = 10;
-    auto sequence = Guards<FakeClassMapped, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::left(leftValue)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
@@ -230,13 +230,13 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_NoSelector_DefaultMap)
     {
         return FakeClassMapped(99);
     };
-    tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    vector<tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>>> guards =
+    Guard<FakeClassMapped, FakeClass> tuple1 = { funcSelector1, funcMap1 };
+    GuardVector<FakeClassMapped, FakeClass> guards =
     {
         tuple1
     };
+    auto sequence = TinyFp::Types::Guards<FakeClassMapped, FakeClass>::from(guards);
     auto rightValue = FakeClass(10);
-    auto sequence = Guards<FakeClassMapped, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::right(rightValue)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
@@ -265,13 +265,13 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_OneSelector_Select)
     {
         return FakeClassMapped(99);
     };
-    tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    vector<tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>>> guards =
+    Guard<FakeClassMapped, FakeClass> tuple1 = { funcSelector1, funcMap1 };
+    GuardVector<FakeClassMapped, FakeClass> guards =
     {
         tuple1
     };
+    auto sequence = TinyFp::Types::Guards<FakeClassMapped, FakeClass>::from(guards);
     auto rightValue = FakeClass(10);
-    auto sequence = Guards<FakeClassMapped, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::right(rightValue)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
@@ -308,15 +308,16 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_TwoSelector_Select)
     {
         return FakeClassMapped(101);
     };
-    tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>> tuple2 = { funcSelector2, funcMap2 };
-    vector<tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>>> guards =
+    Guard<FakeClassMapped, FakeClass> tuple1 = { funcSelector1, funcMap1 };
+    Guard<FakeClassMapped, FakeClass> tuple2 = { funcSelector2, funcMap2 };
+    GuardVector<FakeClassMapped, FakeClass> guards =
     {
         tuple1,
         tuple2
     };
+    auto sequence = TinyFp::Types::Guards<FakeClassMapped, FakeClass>::from(guards);
+
     auto rightValue = FakeClass(10);
-    auto sequence = Guards<FakeClassMapped, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::right(rightValue)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
@@ -347,13 +348,14 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenNone_IsLeft)
           auto retVal = FakeClassMapped(99);
           return Either<int, FakeClassMapped>::right(retVal);
     };
-    tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    vector<tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>>> guards =
+
+    Guard<Either<int, FakeClassMapped>, FakeClass> tuple1 = { funcSelector1, funcMap1 };
+    GuardVector<Either<int, FakeClassMapped>, FakeClass> guards =
     {
         tuple1
     };
+    auto sequence = TinyFp::Types::Guards<Either<int, FakeClassMapped>, FakeClass>::from(guards);
     int leftValue = 10;
-    auto sequence = Guards<Either<int, FakeClassMapped>, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::left(leftValue)
                     .guardBind<FakeClassMapped>(
                         defaultBind,
@@ -385,12 +387,12 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_NoSelector_DefaultBind)
           auto retVal = FakeClassMapped(99);
           return Either<int, FakeClassMapped>::right(retVal);
     };
-    tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    vector<tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>>> guards =
+    Guard<Either<int, FakeClassMapped>, FakeClass> tuple1 = { funcSelector1, funcMap1 };
+    GuardVector<Either<int, FakeClassMapped>, FakeClass> guards =
     {
         tuple1
     };
-    auto sequence = Guards<Either<int, FakeClassMapped>, FakeClass>::from(guards);
+    auto sequence = TinyFp::Types::Guards<Either<int, FakeClassMapped>, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::right(test)
                     .guardBind<FakeClassMapped>(
                         defaultBind,
@@ -422,12 +424,12 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_AndSelector_Select)
           auto retVal = FakeClassMapped(99);
           return Either<int, FakeClassMapped>::right(retVal);
     };
-    tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>> tuple1 = { funcSelector1, funcMap1 };
-    vector<tuple<function<bool(const FakeClass&)>, function<Either<int, FakeClassMapped>(const FakeClass&)>>> guards =
+    Guard<Either<int, FakeClassMapped>, FakeClass> tuple1 = { funcSelector1, funcMap1 };
+    GuardVector<Either<int, FakeClassMapped>, FakeClass> guards =
     {
         tuple1
     };
-    auto sequence = Guards<Either<int, FakeClassMapped>, FakeClass>::from(guards);
+    auto sequence = TinyFp::Types::Guards<Either<int, FakeClassMapped>, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::right(test)
                     .guardBind<FakeClassMapped>(
                         defaultBind,
