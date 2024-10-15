@@ -1,7 +1,7 @@
-name: CI
+name: Publish
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -36,6 +36,13 @@ jobs:
       run: |
         docker exec -t ${{ env.DOCKER_CONTAINER_NAME }} valgrind --leak-check=yes --error-exitcode=1 /test/test
         docker stop ${{ env.DOCKER_CONTAINER_NAME }}
+
+    - name: Create release
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        VERSION=$(cat version)
+        gh release create $VERSION -t "$VERSION" -n "$VERSION"
 
     - name: Cleanup
       run: |
