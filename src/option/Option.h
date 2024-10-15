@@ -3,11 +3,13 @@
 
 #include "../common.h"
 #include "../types/types.h"
+#include "../types/types.complex.h"
 #include "../either/Either.h"
 #include "../extensions/vector.h"
 
 using namespace std;
 using namespace TinyFp::Extensions;
+using namespace TinyFp::Types;
 
 namespace TinyFp
 {

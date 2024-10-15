@@ -3,10 +3,12 @@
 
 #include "../common.h"
 #include "../types/types.h"
+#include "../types/types.complex.h"
 #include "../extensions/vector.h"
 
 using namespace std;
 using namespace TinyFp::Extensions;
+using namespace TinyFp::Types;
 
 namespace TinyFp
 {
@@ -34,15 +36,11 @@ namespace TinyFp
       static Either<L, R> left(const L& value) { return Either<L, R>(value); };
       bool isRight();
       bool isLeft();
-      R right(function<R(const L&)> onLeft);
+      R right(FuncValue<R, L> onLeft);
       template <class Q> Either<L, Q> map(FuncValue<Q, R> map);
-      template <class Q> Either<L, Q> guardMap(
-        FuncValue<Q, R> defaultMap,
-        const Guards<Q, R>& guards);
+      template <class Q> Either<L, Q> guardMap(FuncValue<Q, R> defaultMap, const Guards<Q, R>& guards);
       template <class Q> Either<L, Q> bind(FuncValue<Either<L, Q>, R> bind);
-      template <class Q> Either<L, Q> guardBind(
-        function<Either<L, Q>(const R&)> defaultBind,
-        const Guards<Either<L, Q>, R>& guards);
+      template <class Q> Either<L, Q> guardBind(function<Either<L, Q>(const R&)> defaultBind, const Guards<Either<L, Q>, R>& guards);
       template <class Q> Q match(FuncValue<Q, R> right, FuncValue<Q, L> left);
   };
 }

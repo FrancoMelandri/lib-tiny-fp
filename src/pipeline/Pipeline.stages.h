@@ -2,6 +2,7 @@
 #define LIB_TINY_FP_PIPELINE_STAGES
 
 #include "../common.h"
+#include "../types/types.h"
 
 using namespace std;
 
@@ -11,11 +12,11 @@ namespace TinyFp
   struct ConditionalStage
   {
   private:
-    function<Either<E, C>(const C& context)> _forward;
-    function<bool(const C& context)> _enabled;
+    FuncValue<Either<E, C>, C> _forward;
+    FuncSelector<C> _enabled;
   public:
     ConditionalStage(){};
-    ConditionalStage(function<Either<E, C>(const C& context)> forward, function<bool(const C& context)> enabled)
+    ConditionalStage(FuncValue<Either<E, C>, C> forward, FuncSelector<C> enabled)
     {
         _forward = forward;
         _enabled = enabled;
@@ -28,10 +29,10 @@ namespace TinyFp
   struct Stage
   {
   private:
-    function<Either<E, C>(const C& context)> _forward;
+    FuncValue<Either<E, C>, C> _forward;
   public:
     Stage(){};
-    Stage(function<Either<E, C>(const C& context)> forward)
+    Stage(FuncValue<Either<E, C>, C> forward)
     {
         _forward = forward;
     };
