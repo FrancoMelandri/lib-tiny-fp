@@ -1,7 +1,7 @@
-name: CI
+name: Publish
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
