@@ -6,6 +6,7 @@ APPNAME = test
 
 all: $(APPNAME)
 
+# DEMOFILES = test.o pipeline.o
 DEMOFILES = test.o \
 			option.o \
 			either.o \

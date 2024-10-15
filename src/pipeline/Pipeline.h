@@ -39,7 +39,7 @@ namespace TinyFp
 
     public:
         static Pipeline<C> given(C& context) { return Pipeline<C>(context); };
-        template<class E> Either<E, C> fit(Sequence<Stage<E, C>>& stages);
+        template<class E> Either<E, C> flow(Sequence<Stage<E, C>>& stages);
   };
 }
 

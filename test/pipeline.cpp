@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE(Pipeline_builder_all_stage_acitve)
     auto seq = Sequence<Stage<Error, FakeContext>>::from(stagesVector);
 
     auto result = Pipeline<FakeContext>::given(context)
-                    .fit<Error>(seq)
+                    .flow<Error>(seq)
                     .right([](const Error& err) { return err.code; });
 
     BOOST_CHECK(result.context == 8);
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE(Pipeline_builder_some_stage_acitve)
     auto seq = Sequence<Stage<Error, FakeContext>>::from(stagesVector);
 
     auto result = Pipeline<FakeContext>::given(context)
-                    .fit<Error>(seq)
+                    .flow<Error>(seq)
                     .right([](const Error& err) { return err.code; });
 
     BOOST_CHECK(result.context == 6);
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE(Pipeline_builder_whenLeft_handleError)
     auto seq = Sequence<Stage<Error, FakeContext>>::from(stagesVector);
 
     auto result = Pipeline<FakeContext>::given(context)
-                    .fit<Error>(seq)
+                    .flow<Error>(seq)
                     .right([](const Error& err) { return err.code; });
 
     BOOST_CHECK(result.context == 42);

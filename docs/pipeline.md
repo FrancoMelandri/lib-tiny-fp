@@ -17,10 +17,10 @@ static Pipeline<C> given(C& context);
 
 ## functional
 
-### fit
+### flow
 
 ```c++
-template<class E> Either<E, C> fit(Sequence<Stage<E, C>>& stages);
+template<class E> Either<E, C> flow(Sequence<Stage<E, C>>& stages);
 ```
 
 Execute the pipeline flow invoking the **forward()** function for all **enabled()** stage
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE(Pipeline_builder_some_stage_acitve)
     auto seq = Sequence<Stage<Error, FakeContext>>::from(stagesVector);
 
     auto result = Pipeline<FakeContext>::given(context)
-                    .fit<Error>(seq)
+                    .flow<Error>(seq)
                     .right([](const Error& err) { return err.code; });
 
     BOOST_CHECK(result.context == 6);
