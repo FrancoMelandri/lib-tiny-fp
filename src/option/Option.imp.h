@@ -29,7 +29,7 @@ namespace TinyFp
   template <class R>
   Option<R> Option<T>::guardMap(
     function<R(const T&)> defaultMap,
-    const vector<tuple<function<bool(const T&)>, function<R(const T&)>>>& guards)
+    const Sequence<tuple<function<bool(const T&)>, function<R(const T&)>>>& guards)
   {
     if (!isSome())
       return Option<R>::none();
@@ -60,7 +60,7 @@ namespace TinyFp
   template <class R>
   Option<R> Option<T>::guardBind(
     function<Option<R>(const T&)> defaultBind,
-    const vector<tuple<function<bool(const T&)>, function<Option<R>(const T&)>>>& guards)
+    const Sequence<tuple<function<bool(const T&)>, function<Option<R>(const T&)>>>& guards)
   {
     if (!isSome())
       return Option<R>::none();

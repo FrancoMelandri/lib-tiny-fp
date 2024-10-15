@@ -215,10 +215,11 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenNone_isSomeIsFalse)
     {
         tuple1
     };
+    auto sequence = TinyFp::Sequence<tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>>>::from(guards);
     auto mapped = TinyFp::Option<FakeClass>::none()
                     .guardMap<FakeClassMapped>(
                         defaultMap,
-                        guards);
+                        sequence);
     auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
     BOOST_CHECK(mapped.isSome() == false);
     BOOST_CHECK(test1.mappedValue == 100);
@@ -249,10 +250,11 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenSome_AndNoSelector_DefaultMap)
     {
         tuple1
     };
+    auto sequence = TinyFp::Sequence<tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>>>::from(guards);
     auto mapped = TinyFp::Option<FakeClass>::some(test)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
-                        guards);
+                        sequence);
     auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
     BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test1.mappedValue == 200);
@@ -283,10 +285,11 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenSome_AndOneSelector_SelectorMap)
     {
         tuple1
     };
+    auto sequence = TinyFp::Sequence<tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>>>::from(guards);
     auto mapped = TinyFp::Option<FakeClass>::some(test)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
-                        guards);
+                        sequence);
     auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
     BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test1.mappedValue == 99);
@@ -327,10 +330,11 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenSome_AndTwoSelector_SelectorMap)
         tuple1,
         tuple2
     };
+    auto sequence = TinyFp::Sequence<tuple<function<bool(const FakeClass&)>, function<FakeClassMapped(const FakeClass&)>>>::from(guards);
     auto mapped = TinyFp::Option<FakeClass>::some(test)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
-                        guards);
+                        sequence);
     auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
     BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test1.mappedValue == 101);
@@ -363,10 +367,11 @@ BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenNone_isSomeIsFalse)
     {
         tuple1
     };
+    auto sequence = TinyFp::Sequence<tuple<function<bool(const FakeClass&)>, function<Option<FakeClassMapped>(const FakeClass&)>>>::from(guards);
     auto mapped = TinyFp::Option<FakeClass>::none()
                     .guardBind<FakeClassMapped>(
                         defaultMap,
-                        guards);
+                        sequence);
     auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
     BOOST_CHECK(mapped.isSome() == false);
     BOOST_CHECK(test1.mappedValue == 100);
@@ -399,10 +404,11 @@ BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenSome_NoSelector_DefaultBind)
     {
         tuple1
     };
+    auto sequence = TinyFp::Sequence<tuple<function<bool(const FakeClass&)>, function<Option<FakeClassMapped>(const FakeClass&)>>>::from(guards);
     auto mapped = TinyFp::Option<FakeClass>::some(test)
                     .guardBind<FakeClassMapped>(
                         defaultBind,
-                        guards);
+                        sequence);
     auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
     BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test1.mappedValue == 200);
@@ -434,10 +440,11 @@ BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenSome_AndSelector_Select)
     {
         tuple1
     };
+    auto sequence = TinyFp::Sequence<tuple<function<bool(const FakeClass&)>, function<Option<FakeClassMapped>(const FakeClass&)>>>::from(guards);
     auto mapped = TinyFp::Option<FakeClass>::some(test)
                     .guardBind<FakeClassMapped>(
                         defaultBind,
-                        guards);
+                        sequence);
     auto test1 = mapped.orElse<FakeClassMapped>(orElseDefault);
     BOOST_CHECK(mapped.isSome() == true);
     BOOST_CHECK(test1.mappedValue == 99);

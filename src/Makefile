@@ -23,8 +23,7 @@ $(LIBNAME): $(LIBOBJECTS)
 clean:
 	-$(RM) $(LIBOBJECTS)  *.a
 
-rebuild:
-	make clean && make all
+rebuild: clean all
 
 install: clean all
 	install -D $(LIBNAME) -t /usr/local/lib/$(LNAME) 

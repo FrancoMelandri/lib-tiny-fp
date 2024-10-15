@@ -2,6 +2,7 @@
 #define LIB_TINY_FP_OPTION
 
 #include "../common.h"
+#include "../types/types.h"
 #include "../either/Either.h"
 #include "../extensions/vector.h"
 
@@ -17,11 +18,7 @@ namespace TinyFp
       bool _isSome;
       T _value;
 
-      Option()
-      {
-          _isSome = false;
-      }
-
+      Option() { _isSome = false; }
       Option(const T& value)
       {
           _isSome = true;
@@ -33,15 +30,11 @@ namespace TinyFp
       static Option<T> some(const T& value) { return Option<T>(value); };
       bool isSome();
       template <class R> R orElse(function<R()> none);
-      template <class R> Option<R> map(function<R(const T&)> map);
-      template <class R> Option<R> guardMap(
-        function<R(const T&)> defaultMap,
-        const vector<tuple<function<bool(const T&)>, function<R(const T&)>>>& guards);
-      template <class R> Option<R> bind(function<Option<R>(const T&)> bind);
-      template <class R> Option<R> guardBind(
-        function<Option<R>(const T&)> defaultBind,
-        const vector<tuple<function<bool(const T&)>, function<Option<R>(const T&)>>>& guards);
-      template <class R> R match(function<R(const T&)> some, function<R()> none);
+      template <class R> Option<R> map(FuncValue<R, T> map);
+      template <class R> Option<R> guardMap(FuncValue<R, T> defaultMap, const Guards<R, T>& guards);
+      template <class R> Option<R> bind(FuncValue<Option<R>, T> bind);
+      template <class R> Option<R> guardBind(FuncValue<Option<R>, T> defaultBind, const Guards<Option<R>, T>& guards);
+      template <class R> R match(FuncValue<R, T> some, function<R()> none);
       template <class L> Either<L, T> toEither(function<L()> leftValue);
   };
 }
