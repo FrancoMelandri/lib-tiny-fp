@@ -1,6 +1,8 @@
 #ifndef LIB_TINY_FP_TEST_FAKES
 #define LIB_TINY_FP_TEST_FAKES
 
+#include "common.h"
+
 class Error
 {
 public:
@@ -39,6 +41,33 @@ public:
     FakeContext() { context = 0; };
     FakeContext(int val) { context = val; };
     int context;
+};
+
+class FakeBuilderContext
+{
+private:
+    FakeContext _first;
+    FakeContext _second;
+public:
+    FakeBuilderContext() { };
+    TinyFp::Unit setFirst(FakeContext& first)
+    {
+        _first = first;
+        return TinyFp::Unit::Default();
+    };
+    TinyFp::Unit setSecond(const FakeContext& second)
+    {
+        _second = second;
+        return TinyFp::Unit::Default();
+    };
+    FakeContext& getFirst()
+    {
+        return _first;
+    };
+    FakeContext& getSecond()
+    {
+        return _second;
+    };
 };
 
 #endif

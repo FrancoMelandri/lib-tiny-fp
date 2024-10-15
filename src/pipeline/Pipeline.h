@@ -10,20 +10,34 @@ using namespace std;
 namespace TinyFp
 {
   template <class E, class C>
-  struct Stage
+  struct ConditionalStage
   {
   private:
     function<Either<E, C>(const C& context)> _forward;
     function<bool(const C& context)> _enabled;
   public:
-    Stage(){};
-    Stage(function<Either<E, C>(const C& context)> forward, function<bool(const C& context)> enabled)
+    ConditionalStage(){};
+    ConditionalStage(function<Either<E, C>(const C& context)> forward, function<bool(const C& context)> enabled)
     {
         _forward = forward;
         _enabled = enabled;
     };
     Either<E, C> forward (const C& context) { return _forward(context); };
     bool enabled (const C& context) { return _enabled(context); };
+  };
+
+  template <class E, class C>
+  struct Stage
+  {
+  private:
+    function<Either<E, C>(const C& context)> _forward;
+  public:
+    Stage(){};
+    Stage(function<Either<E, C>(const C& context)> forward)
+    {
+        _forward = forward;
+    };
+    Either<E, C> forward (const C& context) { return _forward(context); };
   };
 
   template <class C>
@@ -39,6 +53,7 @@ namespace TinyFp
 
     public:
         static Pipeline<C> given(C& context) { return Pipeline<C>(context); };
+        template<class E> Either<E, C> flow(Sequence<ConditionalStage<E, C>>& stages);
         template<class E> Either<E, C> flow(Sequence<Stage<E, C>>& stages);
   };
 }

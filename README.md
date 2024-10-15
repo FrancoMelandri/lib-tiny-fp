@@ -30,7 +30,7 @@ auto sut = makeOption<FakeClass>(
 - [Either](./docs/either.md)
 - [Try](./docs/try.md)
 - [Sequence](./docs/sequence.md)
-- [Pipelins](./docs/pipeline.md)
+- [Pipeline](./docs/pipeline.md)
 - [Extensions](./docs/extensions.md)
 
 
