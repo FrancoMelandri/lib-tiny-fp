@@ -36,7 +36,7 @@ struct Stage
 {
 public:
     Stage();
-    Stage(function<Either<E, C>(const C& context)> forward);
+    Stage(FuncValue<Either<E, C>, C> forward);
 };
 
 ```
@@ -50,7 +50,7 @@ struct ConditionalStage
 {
 public:
     ConditionalStage();
-    ConditionalStage(function<Either<E, C>(const C& context)> forward, function<bool(const C& context)> enabled);
+    ConditionalStage(FuncValue<Either<E, C>, C> forward, FuncSelector<C> enabled> enabled);
 };
 ```
 

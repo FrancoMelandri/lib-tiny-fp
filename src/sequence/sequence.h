@@ -2,9 +2,11 @@
 #define LIB_TINY_FP_SEQUENCE
 
 #include "../common.h"
+#include "../types/types.h"
 #include "../extensions/vector.h"
 
 using namespace TinyFp::Extensions;
+using namespace TinyFp::Types;
 using namespace std;
 
 namespace TinyFp
@@ -34,11 +36,12 @@ namespace TinyFp
 
         static Sequence from(const std::vector<T>& vector) { return Sequence(vector); };
         static Sequence from(const std::list<T>& list) { return Sequence(list); };
-        T firstOf(function<bool(const T&)> of);
-        T firstOfOrDefault(function<bool(const T&)> of, const T& def);
+
+        T firstOf(FuncSelector<T> of);
+        T firstOfOrDefault(FuncSelector<T> of, const T& def);
         template<class R> R fold(const R& state, function<R(const R&, const T&)> step);
-        template<class R> Sequence<R> map(function<R(const T&)> item);
-        Sequence<T> filter(function<bool(const T&)> item);
+        template<class R> Sequence<R> map(FuncValue<R, T> item);
+        Sequence<T> filter(FuncSelector<T> item);
         T at(int n);
         int size() { return _vector.size(); }
         iterator begin() { return _vector.begin(); }

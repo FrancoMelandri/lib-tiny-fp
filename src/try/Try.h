@@ -2,6 +2,7 @@
 #define LIB_TINY_FP_TRY
 
 #include "../common.h"
+#include "../types/types.h"
 #include "../extensions/vector.h"
 
 using namespace std;

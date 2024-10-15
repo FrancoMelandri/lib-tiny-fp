@@ -201,10 +201,11 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenNone_IsLeft)
         tuple1
     };
     int leftValue = 10;
+    auto sequence = Guards<FakeClassMapped, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::left(leftValue)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
-                        guards);
+                        sequence);
     auto test1 = mapped.right(onLeft);
     BOOST_CHECK(mapped.isLeft() == true);
     BOOST_CHECK(test1.mappedValue == 100);
@@ -235,10 +236,11 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_NoSelector_DefaultMap)
         tuple1
     };
     auto rightValue = FakeClass(10);
+    auto sequence = Guards<FakeClassMapped, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::right(rightValue)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
-                        guards);
+                        sequence);
     auto test1 = mapped.right(onLeft);
     BOOST_CHECK(mapped.isRight() == true);
     BOOST_CHECK(test1.mappedValue == 200);
@@ -269,10 +271,11 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_OneSelector_Select)
         tuple1
     };
     auto rightValue = FakeClass(10);
+    auto sequence = Guards<FakeClassMapped, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::right(rightValue)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
-                        guards);
+                        sequence);
     auto test1 = mapped.right(onLeft);
     BOOST_CHECK(mapped.isRight() == true);
     BOOST_CHECK(test1.mappedValue == 99);
@@ -313,10 +316,11 @@ BOOST_AUTO_TEST_CASE(Either_GuardMap_WhenSome_TwoSelector_Select)
         tuple2
     };
     auto rightValue = FakeClass(10);
+    auto sequence = Guards<FakeClassMapped, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::right(rightValue)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
-                        guards);
+                        sequence);
     auto test1 = mapped.right(onLeft);
     BOOST_CHECK(mapped.isRight() == true);
     BOOST_CHECK(test1.mappedValue == 101);
@@ -349,10 +353,11 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenNone_IsLeft)
         tuple1
     };
     int leftValue = 10;
+    auto sequence = Guards<Either<int, FakeClassMapped>, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::left(leftValue)
                     .guardBind<FakeClassMapped>(
                         defaultBind,
-                        guards);
+                        sequence);
     auto test1 = mapped.right(onLeft);
     BOOST_CHECK(mapped.isLeft() == true);
     BOOST_CHECK(test1.mappedValue == 100);
@@ -385,10 +390,11 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_NoSelector_DefaultBind)
     {
         tuple1
     };
+    auto sequence = Guards<Either<int, FakeClassMapped>, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::right(test)
                     .guardBind<FakeClassMapped>(
                         defaultBind,
-                        guards);
+                        sequence);
     auto test1 = mapped.right(onLeft);
     BOOST_CHECK(mapped.isRight() == true);
     BOOST_CHECK(test1.mappedValue == 200);
@@ -421,10 +427,11 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_AndSelector_Select)
     {
         tuple1
     };
+    auto sequence = Guards<Either<int, FakeClassMapped>, FakeClass>::from(guards);
     auto mapped = TinyFp::Either<int, FakeClass>::right(test)
                     .guardBind<FakeClassMapped>(
                         defaultBind,
-                        guards);
+                        sequence);
     auto test1 = mapped.right(onLeft);
     BOOST_CHECK(mapped.isRight() == true);
     BOOST_CHECK(test1.mappedValue == 99);

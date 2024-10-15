@@ -14,6 +14,7 @@ LIBOBJECTS =
 -include sequence/subdir.mk
 -include extensions/subdir.mk
 -include pipeline/subdir.mk
+-include types/subdir.mk
 
 all: $(LIBOBJECTS) $(LIBNAME)
 
@@ -23,8 +24,7 @@ $(LIBNAME): $(LIBOBJECTS)
 clean:
 	-$(RM) $(LIBOBJECTS)  *.a
 
-rebuild:
-	make clean && make all
+rebuild: clean all
 
 install: clean all
 	install -D $(LIBNAME) -t /usr/local/lib/$(LNAME) 
