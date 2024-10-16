@@ -84,7 +84,6 @@ template <class Q> Either<L, Q> guardBind(function<Either<L, Q>(const R&)> defau
 
 **Bind** the `Either` using a list of `Guard`, or the **defaulBind** if no match was found.
 
-
 ## accessing
 
 ### isRight
@@ -109,7 +108,9 @@ bool isLeft();
 R right(Func<R, L> onLeft);
 ```
 
-Get the right value of the `Either`. Incase the `Either`is in left state the parameter function should provde a default right value considering the left value.
+Get the right value of the `Either`.
+
+In case the `Either`is in left state the parameter function should provde a default right value considering the left value.
 
 
 ### match
@@ -117,7 +118,7 @@ Get the right value of the `Either`. Incase the `Either`is in left state the par
 ```c++
 template <class Q> Q match(Func<R, Q> right, Func<Q, L> left);
 ```
-Access to the wrapped status using succes and fail callback to map the internal status.
+Access to the wrapped status using **right** and **left** callback to map the internal status.
 
 
 ```c++
