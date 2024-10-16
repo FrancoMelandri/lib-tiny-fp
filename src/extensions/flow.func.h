@@ -13,7 +13,9 @@ namespace TinyFp::Extensions
     }
 
     template <class S>
-    S which(Nullary<bool> condition, Nullary<S> onTrue, Nullary<S> onFalse)
+    S which(Nullary<bool> condition,
+            Nullary<S> onTrue,
+            Nullary<S> onFalse)
     {
         auto current = condition() ? 
             onTrue() :
@@ -23,9 +25,9 @@ namespace TinyFp::Extensions
 
     template <class S, class T>
     S which(const T& input,
-            function<bool(const T&)> condition,
-            function<S(const T&)> onTrue,
-            function<S(const T&)> onFalse)
+            Unary<T, bool> condition,
+            Unary<T, S> onTrue,
+            Unary<T, S> onFalse)
     {
         auto current = condition(input) ? 
             onTrue(input) :

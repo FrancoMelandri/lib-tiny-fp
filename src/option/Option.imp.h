@@ -8,7 +8,7 @@ namespace TinyFp
 
   template <class T>
   template <class R>
-  R Option<T>::orElse(function<R()> none)
+  R Option<T>::orElse(Nullary<R> none)
   {
     return isSome()
       ? _value
@@ -25,7 +25,7 @@ namespace TinyFp
 
   template <class T>
   template <class R>
-  Option<R> Option<T>::map(function<R(const T&)> map)
+  Option<R> Option<T>::map(Unary<T, R> map)
   {
     if (!isSome())
       return Option<R>::none();
@@ -35,9 +35,7 @@ namespace TinyFp
 
   template <class T>
   template <class R>
-  Option<R> Option<T>::guardMap(
-    function<R(const T&)> defaultMap,
-    const Sequence<tuple<function<bool(const T&)>, function<R(const T&)>>>& guards)
+  Option<R> Option<T>::guardMap(Unary<T, R> defaultMap, const Guards<T, R>& guards)
   {
     if (!isSome())
       return Option<R>::none();
@@ -56,7 +54,7 @@ namespace TinyFp
 
   template <class T>
   template <class R>
-  Option<R> Option<T>::bind(function<Option<R>(const T&)> bind)
+  Option<R> Option<T>::bind(Unary<T, Option<R>> bind)
   {
     if (!isSome())
       return Option<R>::none();
@@ -66,9 +64,7 @@ namespace TinyFp
 
   template <class T>
   template <class R>
-  Option<R> Option<T>::guardBind(
-    function<Option<R>(const T&)> defaultBind,
-    const Sequence<tuple<function<bool(const T&)>, function<Option<R>(const T&)>>>& guards)
+  Option<R> Option<T>::guardBind(Unary<T, Option<R>> defaultBind, const Guards<T, Option<R>>& guards)
   {
     if (!isSome())
       return Option<R>::none();
@@ -87,7 +83,7 @@ namespace TinyFp
 
   template <class T>
   template <class R>
-  R Option<T>::match(function<R(const T&)> some, function<R()> none)
+  R Option<T>::match(Unary<T, R> some, Nullary<R> none)
   {
     return isSome()
       ? some(_value)
@@ -96,7 +92,7 @@ namespace TinyFp
 
   template <class T>
   template <class L>
-  Either<L, T> Option<T>::toEither(function<L()> leftValue)
+  Either<L, T> Option<T>::toEither(Nullary<L> leftValue)
   {
     if (isSome())
       return Either<L, T>::right(_value);

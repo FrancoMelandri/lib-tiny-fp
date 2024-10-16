@@ -8,6 +8,7 @@ RM = rm -rf
 
 LIBOBJECTS =
 
+-include subdir.mk
 -include option/subdir.mk
 -include either/subdir.mk
 -include try/subdir.mk
@@ -33,3 +34,6 @@ install: clean all
 	install -D ./option/*.h -t /usr/local/inlcude/$(LNAME)/option/
 	install -D ./try/*.h -t /usr/local/inlcude/$(LNAME)/try/
 	install -D ./try/*.h -t /usr/local/inlcude/$(LNAME)/sequence/
+	install -D ./types/*.h -t /usr/local/inlcude/$(LNAME)/types/
+	install -D ./pipeline/*.h -t /usr/local/inlcude/$(LNAME)/pipeline/
+	install -D ./extensions/*.h -t /usr/local/inlcude/$(LNAME)/extensions/

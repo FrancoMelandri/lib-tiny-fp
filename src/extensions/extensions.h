@@ -4,6 +4,7 @@
 using namespace std;
 
 #include "../common.h"
+#include "../types/types.h"
 
 #include "vector.h"
 #include "flow.h"

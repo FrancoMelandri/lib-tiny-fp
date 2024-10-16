@@ -30,7 +30,7 @@ namespace TinyFp
 
   template <class L, class R>
   template <class Q>
-  Either<L, Q> Either<L, R>::map(function<Q(const R&)> map)
+  Either<L, Q> Either<L, R>::map(Unary<R, Q> map)
   {
     if(!isRight())
       return Either<L, Q>::left(_left);
@@ -40,9 +40,7 @@ namespace TinyFp
 
   template <class L, class R>
   template <class Q>
-  Either<L, Q> Either<L, R>::guardMap(
-    function<Q(const R&)> defaultMap,
-    const Sequence<tuple<function<bool(const R&)>, function<Q(const R&)>>>& guards)
+  Either<L, Q> Either<L, R>::guardMap(Unary<R, Q> defaultMap, const Guards<R, Q>& guards)
   {
     if(!isRight())
       return Either<L, Q>::left(_left);
@@ -61,7 +59,7 @@ namespace TinyFp
 
   template <class L, class R>
   template <class Q>
-  Either<L, Q> Either<L, R>::bind(function<Either<L, Q>(const R&)> bind)
+  Either<L, Q> Either<L, R>::bind(Unary<R, Either<L, Q>> bind)
   {
     if (!isRight())
       return Either<L, Q>::left(_left);
@@ -71,9 +69,7 @@ namespace TinyFp
 
   template <class L, class R>
   template <class Q>
-  Either<L, Q> Either<L, R>::guardBind(
-    function<Either<L, Q>(const R&)> defaultBind,
-    const Sequence<tuple<function<bool(const R&)>, function<Either<L, Q>(const R&)>>>& guards)
+  Either<L, Q> Either<L, R>::guardBind(Unary<R, Either<L, Q>> defaultBind, const Guards<R, Either<L, Q>>& guards)
   {
     if (!isRight())
       return Either<L, Q>::left(_left);
@@ -92,7 +88,7 @@ namespace TinyFp
 
   template <class L, class R>
   template <class Q>
-  Q Either<L, R>::match(function<Q(const R&)> right, function<Q(const L&)> left)
+  Q Either<L, R>::match(Unary<R, Q> right, Unary<L, Q> left)
   {
     return isRight()
       ? right(_right)
