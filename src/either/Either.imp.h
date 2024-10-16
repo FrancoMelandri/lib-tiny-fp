@@ -13,7 +13,7 @@ namespace TinyFp
   }
 
   template <class L, class R>
-  R Either<L, R>::right(Func<L, R> onLeft)
+  R Either<L, R>::right(Unary<L, R> onLeft)
   {
     return _isRight ?
       _right :

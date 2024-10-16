@@ -36,13 +36,13 @@ namespace TinyFp
       static Either<L, R> left(const L& value) { return Either<L, R>(value); };
       bool isRight();
       bool isLeft();
-      R right(Func<L, R> onLeft);
+      R right(Unary<L, R> onLeft);
       R unwrap();
-      template <class Q> Either<L, Q> map(Func<R, Q> map);
-      template <class Q> Either<L, Q> guardMap(Func<R, Q> defaultMap, const Guards<R, Q>& guards);
-      template <class Q> Either<L, Q> bind(Func<R, Either<L, Q>> bind);
-      template <class Q> Either<L, Q> guardBind(Func<R, Either<L, Q>> defaultBind, const Guards<R, Either<L, Q>>& guards);
-      template <class Q> Q match(Func<R, Q> right, Func<L, Q> left);
+      template <class Q> Either<L, Q> map(Unary<R, Q> map);
+      template <class Q> Either<L, Q> guardMap(Unary<R, Q> defaultMap, const Guards<R, Q>& guards);
+      template <class Q> Either<L, Q> bind(Unary<R, Either<L, Q>> bind);
+      template <class Q> Either<L, Q> guardBind(Unary<R, Either<L, Q>> defaultBind, const Guards<R, Either<L, Q>>& guards);
+      template <class Q> Q match(Unary<R, Q> right, Unary<L, Q> left);
   };
 }
 

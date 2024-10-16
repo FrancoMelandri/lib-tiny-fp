@@ -23,7 +23,7 @@ creating some `Option`; a fullfilled option.
 ## toEither
 
 ```c++
-template <class L> Either<L, T> toEither(function<L()> leftValue);
+template <class L> Either<L, T> toEither(Nullary<L> leftValue);
 ```
 
 convert an `Option` into an `Either`.
@@ -35,7 +35,7 @@ The right value will be the some value; in case of none the **leftValue** callba
 ## map
 
 ```c++
-template <class R> Option<R> map(Func<R, T> map);
+template <class R> Option<R> map(Unary<R, T> map);
 ```
 
 Map the `Option` using a function as parameter. the uplift to `Option` is done by the map itself.
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(Option_Map_WhenSome_isSomeIsTrue)
 ## guardMap
 
 ```c++
-template <class R> Option<R> guardMap(Func<R, T> defaultMap, const Guards<R, T>& guards);
+template <class R> Option<R> guardMap(Unary<R, T> defaultMap, const Guards<R, T>& guards);
 ```
 
 **Map** the `Option` using a list of `Guard`, or the **defaultMap** if no match was found.
@@ -69,7 +69,7 @@ template <class R> Option<R> guardMap(Func<R, T> defaultMap, const Guards<R, T>&
 ## bind
 
 ```c++
-template <class R> Option<R> bind(Func<Option<R>, T> bind);
+template <class R> Option<R> bind(Unary<Option<R>, T> bind);
 ```
 
 **Bind** the `Option` using a function as parameter. The difference between map is that you have to define the uplift to option must be in the function inject as parameter.
@@ -79,7 +79,7 @@ The paramater function will be called only for some option state, otherwise a no
 ## guardBind
 
 ```c++
-template <class R> Option<R> guardBind(Func<Option<R>, T> defaultBind, const Guards<Option<R>, T>& guards);
+template <class R> Option<R> guardBind(Unary<Option<R>, T> defaultBind, const Guards<Option<R>, T>& guards);
 ```
 
 **Bind** the `Option` using a list of `Guard`, or the **defaulBind** if no match was found.
@@ -97,7 +97,7 @@ bool isSome();
 ## orElse
 
 ```c++
-template <class R> R orElse(function<R()> none);
+template <class R> R orElse(Nullary<R> none);
 ```
 
 Get the some value of the `Option`.
@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_CASE(Option_unwrap_whenone_exception)
 ## match
 
 ```c++
-template <class R> R match(Func<R, T> some, function<R()> none);
+template <class R> R match(Unary<R, T> some, function<R()> none);
 ```
 
 Access to the wrapped status using **some** and **none** callback to map the internal status.

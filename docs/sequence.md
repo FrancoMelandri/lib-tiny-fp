@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_CASE(Sequence_filter_ReturnFiltered)
 ### map
 
 ```c++
-template<class R> Sequence<R> map(Func<R, T> item);
+template<class R> Sequence<R> map(Unary<R, T> item);
 ```
 
 This method allows you to **map (convert)** all the sequence items into a new sequence. 
