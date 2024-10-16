@@ -37,6 +37,7 @@ namespace TinyFp
       bool isRight();
       bool isLeft();
       R right(Func<L, R> onLeft);
+      R unwrap();
       template <class Q> Either<L, Q> map(Func<R, Q> map);
       template <class Q> Either<L, Q> guardMap(Func<R, Q> defaultMap, const Guards<R, Q>& guards);
       template <class Q> Either<L, Q> bind(Func<R, Either<L, Q>> bind);

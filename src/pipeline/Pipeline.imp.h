@@ -10,10 +10,10 @@ namespace TinyFp
         continue;
       
       auto nextState = item.forward(ctx);
-      if(!nextState.isRight())
+      if(nextState.isLeft())
         return nextState;
 
-      ctx = nextState.right([ctx](const E& error) { return ctx; } );
+      ctx = nextState.unwrap();
     };
     _context = ctx;
     return Either<E, C>::right(_context);
@@ -26,10 +26,10 @@ namespace TinyFp
     auto ctx = _context;
     for (auto & item : stages) {
       auto nextState = item.forward(ctx);
-      if(!nextState.isRight())
+      if(nextState.isLeft())
         return nextState;
 
-      ctx = nextState.right([ctx](const E& error) { return ctx; } );
+      ctx = nextState.unwrap();
     };
     _context = ctx;
     return Either<E, C>::right(_context);

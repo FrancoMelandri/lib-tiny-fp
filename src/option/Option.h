@@ -31,6 +31,7 @@ namespace TinyFp
       static Option<T> none() { return Option<T>(); };
       static Option<T> some(const T& value) { return Option<T>(value); };
       bool isSome();
+      T unwrap();
       template <class R> R orElse(function<R()> none);
       template <class R> Option<R> map(Func<T, R> map);
       template <class R> Option<R> guardMap(Func<T, R> defaultMap, const Guards<T, R>& guards);

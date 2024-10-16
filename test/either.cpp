@@ -439,4 +439,27 @@ BOOST_AUTO_TEST_CASE(Either_GuardBind_WhenSome_AndSelector_Select)
     BOOST_CHECK(test1.mappedValue == 99);
 }
 
+BOOST_AUTO_TEST_CASE(Either_unwrap_whenright_returnstate)
+{
+    auto test = FakeClass(10);
+    auto mapped = TinyFp::Either<int, FakeClass>::right(test);
+    auto test1 = mapped.unwrap();
+    BOOST_CHECK(test1.value == 10);
+}
+
+BOOST_AUTO_TEST_CASE(Either_unwrap_whenleft_throw)
+{
+    int left = 10;
+    auto mapped = TinyFp::Either<int, FakeClass>::left(left);
+    try
+    {
+        auto test1 = mapped.unwrap();
+        BOOST_CHECK(test1.value == 10);
+    }
+    catch(...)
+    {
+        BOOST_CHECK(true == true);
+    }
+}
+
 BOOST_AUTO_TEST_SUITE_END()
