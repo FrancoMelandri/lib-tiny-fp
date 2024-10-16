@@ -1,14 +1,14 @@
 namespace TinyFp 
 {
     template <class T>
-    T Sequence<T>::firstOf(function<bool(const T&)> of)
+    T Sequence<T>::firstOf(Predicate<T> of)
     {
         auto item = TinyFp::Extensions::firstOf(_vector, of);
         return item;
     }
 
     template <class T>
-    T Sequence<T>::firstOfOrDefault(function<bool(const T&)> of, const T& def)
+    T Sequence<T>::firstOfOrDefault(Predicate<T> of, const T& def)
     {
         auto item = TinyFp::Extensions::firstOfOrDefault(_vector, of, def);
         return item;
@@ -16,7 +16,7 @@ namespace TinyFp
 
     template <class T>
     template<class R>
-    R Sequence<T>::fold(const R& state, function<R(const R&, const T&)> step)
+    R Sequence<T>::fold(const R& state, Binary<R, T, R> step)
     {
         R accumulator = state;
         for (auto & item : _vector) {
@@ -27,7 +27,7 @@ namespace TinyFp
 
     template <class T>
     template<class R>
-    Sequence<R> Sequence<T>::map(Func<T, R> item)
+    Sequence<R> Sequence<T>::map(Unary<T, R> item)
     {
         auto items = vector<R>();
         for (auto & it : _vector) {
@@ -38,7 +38,7 @@ namespace TinyFp
     }
 
     template <class T>
-    Sequence<T> Sequence<T>::filter(function<bool(const T&)> item)
+    Sequence<T> Sequence<T>::filter(Predicate<T> item)
     {
         auto items = vector<T>();
         for (auto & it : _vector) {

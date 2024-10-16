@@ -24,7 +24,7 @@ creating `Either` in left status
 ### map
 
 ```c++
-template <class Q> Either<L, Q> map(Func<R, Q> map);
+template <class Q> Either<L, Q> map(Unary<R, Q> map);
 ```
 
 Map the `Either` using a function as parameter. the uplift to `Either` is done by the map itself.
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(Either_WhenRight_AndMap_ReturnMapped)
 ### guardMap
 
 ```c++
-template <class Q> Either<L, Q> guardMap(Func<R, Q> defaultMap, const Guards<Q, R>& guards);
+template <class Q> Either<L, Q> guardMap(Unary<R, Q> defaultMap, const Guards<Q, R>& guards);
 ```
 
 **Map** the `Either` using a list of `Guard`, or the **defaultMap** if no match was found.
@@ -69,7 +69,7 @@ template <class Q> Either<L, Q> guardMap(Func<R, Q> defaultMap, const Guards<Q, 
 ### bind
 
 ```c++
-template <class Q> Either<L, Q> bind(Func<R, Either<L, Q>> bind);
+template <class Q> Either<L, Q> bind(Unary<R, Either<L, Q>> bind);
 ```
 
 **Bind** the `Either` using a function as parameter. The difference between map is that you have to define the uplift to either must be in the function inject as parameter.
@@ -105,7 +105,7 @@ bool isLeft();
 ### right
 
 ```c++
-R right(Func<R, L> onLeft);
+R right(Unary<R, L> onLeft);
 ```
 
 Get the right value of the `Either`.
@@ -151,7 +151,7 @@ BOOST_AUTO_TEST_CASE(Either_unwrap_whenleft_throw)
 ### match
 
 ```c++
-template <class Q> Q match(Func<R, Q> right, Func<Q, L> left);
+template <class Q> Q match(Unary<R, Q> right, Unary<Q, L> left);
 ```
 Access to the wrapped status using **right** and **left** callback to map the internal status.
 

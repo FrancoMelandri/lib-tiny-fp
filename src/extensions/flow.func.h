@@ -1,7 +1,7 @@
 namespace TinyFp::Extensions
 {
     template <class S>
-    S loop(function<S()> init, function<bool(const S&)> enabled, function<S(const S&)> body)
+    S loop(Nullary<S> init, function<bool(const S&)> enabled, function<S(const S&)> body)
     {
         auto current = init();
         while(enabled(current))
@@ -13,7 +13,9 @@ namespace TinyFp::Extensions
     }
 
     template <class S>
-    S which(function<bool()> condition, function<S()> onTrue, function<S()> onFalse)
+    S which(Nullary<bool> condition,
+            Nullary<S> onTrue,
+            Nullary<S> onFalse)
     {
         auto current = condition() ? 
             onTrue() :
@@ -23,9 +25,9 @@ namespace TinyFp::Extensions
 
     template <class S, class T>
     S which(const T& input,
-            function<bool(const T&)> condition,
-            function<S(const T&)> onTrue,
-            function<S(const T&)> onFalse)
+            Unary<T, bool> condition,
+            Unary<T, S> onTrue,
+            Unary<T, S> onFalse)
     {
         auto current = condition(input) ? 
             onTrue(input) :
@@ -35,7 +37,7 @@ namespace TinyFp::Extensions
 
     template <class S>
     S guard(
-        function<S()> onDefault,
+        Nullary<S> onDefault,
         const vector<tuple<function<bool()>, function<S()>>>& guards)
     {
         auto toInvoke = onDefault;

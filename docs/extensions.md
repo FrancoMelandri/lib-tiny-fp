@@ -28,7 +28,7 @@ find the first item satisfy the predicate of(); if no match return the default v
 
 ```c++
 template <class S>
-S loop(function<S()> init, function<bool(const S&)> enabled, function<S(const S&)> body)
+S loop(Nullary<S> init, function<bool(const S&)> enabled, function<S(const S&)> body)
 ```
 
 `loop` is a functional `while` whit initial state, exit condition and body function.
@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(while_should_works_fine)
 
 ```c++
 template <class S>
-S which(function<bool()> condition, function<S()> onTrue, function<S()> onFalse);
+S which(Nullary<bool> condition, Nullary<S> onTrue, Nullary<S> onFalse);
 
 template <class S, class T>
 S which(const T& input,

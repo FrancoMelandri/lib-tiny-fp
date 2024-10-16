@@ -39,8 +39,8 @@ namespace TinyFp
 
         T firstOf(Predicate<T> of);
         T firstOfOrDefault(Predicate<T> of, const T& def);
-        template<class R> R fold(const R& state, function<R(const R&, const T&)> step);
-        template<class R> Sequence<R> map(Func<T, R> item);
+        template<class R> R fold(const R& state, Binary<R, T, R> step);
+        template<class R> Sequence<R> map(Unary<T, R> item);
         Sequence<T> filter(Predicate<T> item);
 
         T at(int n);

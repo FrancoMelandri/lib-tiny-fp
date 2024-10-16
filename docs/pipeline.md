@@ -36,7 +36,7 @@ struct Stage
 {
 public:
     Stage();
-    Stage(Func<Either<E, C>, C> forward);
+    Stage(Unary<Either<E, C>, C> forward);
 };
 
 ```
@@ -50,7 +50,7 @@ struct ConditionalStage
 {
 public:
     ConditionalStage();
-    ConditionalStage(Func<Either<E, C>, C> forward, Predicate<C> enabled> enabled);
+    ConditionalStage(Unary<Either<E, C>, C> forward, Predicate<C> enabled> enabled);
 };
 ```
 
