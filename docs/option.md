@@ -104,6 +104,41 @@ Get the some value of the `Option`.
 
 In case the `Option`is in none state the parameter function should provde a default some value.
 
+## unwrap
+
+```c++
+T Option<T>::unwrap();
+```
+
+Get the some value of the `Option`.
+
+In case the `Option`is in none state an exception will be thrown.
+
+
+```c++
+BOOST_AUTO_TEST_CASE(Option_unwrap_whenSome_returnstate)
+{
+    auto test = FakeClass(10);
+    auto mapped = TinyFp::Option<FakeClass>::some(test);
+    auto test1 = mapped.unwrap();
+    BOOST_CHECK(test1.value == 10);
+}
+
+BOOST_AUTO_TEST_CASE(Option_unwrap_whenone_exception)
+{
+    auto mapped = TinyFp::Option<FakeClass>::none();
+    try
+    {
+        auto test1 = mapped.unwrap();
+        BOOST_CHECK(test1.value == 10);
+    }
+    catch(...)
+    {
+        BOOST_CHECK(true == true);
+    }
+}
+```
+
 ## match
 
 ```c++

@@ -72,6 +72,28 @@ BOOST_AUTO_TEST_CASE(Option_orElse_WhenNoneReturnDefault_Reference)
     BOOST_CHECK(test1.value == 100);
 }
 
+BOOST_AUTO_TEST_CASE(Option_unwrap_whenSome_returnstate)
+{
+    auto test = FakeClass(10);
+    auto mapped = TinyFp::Option<FakeClass>::some(test);
+    auto test1 = mapped.unwrap();
+    BOOST_CHECK(test1.value == 10);
+}
+
+BOOST_AUTO_TEST_CASE(Option_unwrap_whenone_exception)
+{
+    auto mapped = TinyFp::Option<FakeClass>::none();
+    try
+    {
+        auto test1 = mapped.unwrap();
+        BOOST_CHECK(test1.value == 10);
+    }
+    catch(...)
+    {
+        BOOST_CHECK(true == true);
+    }
+}
+
 BOOST_AUTO_TEST_CASE(Option_Map_WhenNone_isSomeIsFalse_Reference)
 {
     auto test = FakeClass(10);

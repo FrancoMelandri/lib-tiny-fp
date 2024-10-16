@@ -16,6 +16,14 @@ namespace TinyFp
   }
 
   template <class T>
+  T Option<T>::unwrap()
+  {
+    if (isSome())
+      return _value;
+    throw exception();
+  }
+
+  template <class T>
   template <class R>
   Option<R> Option<T>::map(function<R(const T&)> map)
   {
