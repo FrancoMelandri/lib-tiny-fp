@@ -25,25 +25,25 @@ template <class L> Either<L, T> toEither(function<L()> leftValue);
 ## map
 
 ```c++
-template <class R> Option<R> map(FuncValue<R, T> map);
+template <class R> Option<R> map(Func<R, T> map);
 ```
 
 ## guardMap
 
 ```c++
-template <class R> Option<R> guardMap(FuncValue<R, T> defaultMap, const Guards<R, T>& guards);
+template <class R> Option<R> guardMap(Func<R, T> defaultMap, const Guards<R, T>& guards);
 ```
 
 ## bind
 
 ```c++
-template <class R> Option<R> bind(FuncValue<Option<R>, T> bind);
+template <class R> Option<R> bind(Func<Option<R>, T> bind);
 ```
 
 ## guardBind
 
 ```c++
-template <class R> Option<R> guardBind(FuncValue<Option<R>, T> defaultBind, const Guards<Option<R>, T>& guards);
+template <class R> Option<R> guardBind(Func<Option<R>, T> defaultBind, const Guards<Option<R>, T>& guards);
 ```
 
 ## accessing
@@ -63,5 +63,5 @@ template <class R> R orElse(function<R()> none);
 ## match
 
 ```c++
-template <class R> R match(FuncValue<R, T> some, function<R()> none);
+template <class R> R match(Func<R, T> some, function<R()> none);
 ```

@@ -5,8 +5,8 @@
 
 namespace TinyFp::Types
 {
-    template<class B, class A>
-    using Guards = TinyFp::Sequence<Guard<B, A>>;
+    template<class A, class B>
+    using Guards = TinyFp::Sequence<Guard<A, B>>;
 }
 
 #endif

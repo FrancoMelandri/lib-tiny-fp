@@ -14,13 +14,13 @@ static Sequence from(const std::list<T>& list);
 ### firstOf
 
 ```c++
-T firstOf(FuncSelector<T> of);
+T firstOf(Predicate<T> of);
 ```
 
 ### firstOfOrDefault
 
 ```c++
-T firstOfOrDefault(FuncSelector<T> of, const T& def);
+T firstOfOrDefault(Predicate<T> of, const T& def);
 ```
 
 ### fold
@@ -32,8 +32,8 @@ template<class R> R fold(const R& state, function<R(const R&, const T&)> step);
 ### map
 
 ```c++
-template<class R> Sequence<R> map(FuncValue<R, T> item);
-Sequence<T> filter(FuncSelector<T> item);
+template<class R> Sequence<R> map(Func<R, T> item);
+Sequence<T> filter(Predicate<T> item);
 ```
 
 ## accessing

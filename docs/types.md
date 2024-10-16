@@ -3,25 +3,27 @@
 to let the code be more readable we introduce a bunch of custom types definition act as aliases for more convolute type we use.
 
 
-**FuncSelector**
+**Predicate**
 
 ```c++
 template<class A>
-using FuncSelector = std::function<bool(const A&)>;
+using Predicate = std::function<bool(const A&)>;
 ```
 
-**FuncValue**
+This **type** define a function that reutn a boolena using the template type as input parameter.
+
+**Func**
 
 ```c++
 template<class B, class A>
-using FuncValue = std::function<B(const A&)>;
+using Func = std::function<B(const A&)>;
 ```
 
 **Guard**
 
 ```c++
 template<class B, class A>
-using Guard = std::tuple<FuncSelector<A>, FuncValue<B, A>>;
+using Guard = std::tuple<Predicate<A>, Func<B, A>>;
 ```
 
 **GuardVector**

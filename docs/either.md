@@ -24,19 +24,19 @@ creating `Either` in left status
 ### map
 
 ```c++
-template <class Q> Either<L, Q> map(FuncValue<Q, R> map);
+template <class Q> Either<L, Q> map(Func<Q, R> map);
 ```
 
 ### guardMap
 
 ```c++
-template <class Q> Either<L, Q> guardMap(FuncValue<Q, R> defaultMap, const Guards<Q, R>& guards);
+template <class Q> Either<L, Q> guardMap(Func<Q, R> defaultMap, const Guards<Q, R>& guards);
 ```
 
 ### bind
 
 ```c++
-template <class Q> Either<L, Q> bind(FuncValue<Either<L, Q>, R> bind);
+template <class Q> Either<L, Q> bind(Func<Either<L, Q>, R> bind);
 ```
 
 ### guardBind
@@ -63,13 +63,13 @@ bool isLeft();
 ### right
 
 ```c++
-R right(FuncValue<R, L> onLeft);
+R right(Func<R, L> onLeft);
 ```
 
 ### match
 
 ```c++
-template <class Q> Q match(FuncValue<Q, R> right, FuncValue<Q, L> left);
+template <class Q> Q match(Func<Q, R> right, Func<Q, L> left);
 ```
 access to the wrapped status using succes and fail callback to map the internal status.
 

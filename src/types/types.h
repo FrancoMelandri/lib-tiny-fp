@@ -6,16 +6,16 @@
 namespace TinyFp::Types
 {
     template<class A>
-    using FuncSelector = std::function<bool(const A&)>;
+    using Predicate = std::function<bool(const A&)>;
 
-    template<class B, class A>
-    using FuncValue = std::function<B(const A&)>;
+    template<class A, class B>
+    using Func = std::function<B(const A&)>;
 
-    template<class B, class A>
-    using Guard = std::tuple<FuncSelector<A>, FuncValue<B, A>>;
+    template<class A, class B>
+    using Guard = std::tuple<Predicate<A>, Func<A, B>>;
 
-    template<class B, class A>
-    using GuardVector = std::vector<Guard<B, A>>;
+    template<class A, class B>
+    using GuardVector = std::vector<Guard<A, B>>;
 }
 
 #endif
