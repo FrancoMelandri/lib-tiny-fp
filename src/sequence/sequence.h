@@ -37,11 +37,12 @@ namespace TinyFp
         static Sequence from(const std::vector<T>& vector) { return Sequence(vector); };
         static Sequence from(const std::list<T>& list) { return Sequence(list); };
 
-        T firstOf(FuncSelector<T> of);
-        T firstOfOrDefault(FuncSelector<T> of, const T& def);
+        T firstOf(Predicate<T> of);
+        T firstOfOrDefault(Predicate<T> of, const T& def);
         template<class R> R fold(const R& state, function<R(const R&, const T&)> step);
-        template<class R> Sequence<R> map(FuncValue<R, T> item);
-        Sequence<T> filter(FuncSelector<T> item);
+        template<class R> Sequence<R> map(Func<T, R> item);
+        Sequence<T> filter(Predicate<T> item);
+
         T at(int n);
         int size() { return _vector.size(); }
         iterator begin() { return _vector.begin(); }

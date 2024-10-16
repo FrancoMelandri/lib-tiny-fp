@@ -27,7 +27,7 @@ namespace TinyFp
 
     template <class T>
     template<class R>
-    Sequence<R> Sequence<T>::map(function<R(const T&)> item)
+    Sequence<R> Sequence<T>::map(Func<T, R> item)
     {
         auto items = vector<R>();
         for (auto & it : _vector) {

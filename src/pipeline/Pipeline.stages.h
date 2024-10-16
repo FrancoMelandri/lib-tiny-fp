@@ -12,11 +12,11 @@ namespace TinyFp
   struct ConditionalStage
   {
   private:
-    FuncValue<Either<E, C>, C> _forward;
-    FuncSelector<C> _enabled;
+    Func<C, Either<E, C>> _forward;
+    Predicate<C> _enabled;
   public:
     ConditionalStage(){};
-    ConditionalStage(FuncValue<Either<E, C>, C> forward, FuncSelector<C> enabled)
+    ConditionalStage(Func<C, Either<E, C>> forward, Predicate<C> enabled)
     {
         _forward = forward;
         _enabled = enabled;
@@ -29,10 +29,10 @@ namespace TinyFp
   struct Stage
   {
   private:
-    FuncValue<Either<E, C>, C> _forward;
+    Func<C, Either<E, C>> _forward;
   public:
     Stage(){};
-    Stage(FuncValue<Either<E, C>, C> forward)
+    Stage(Func<C, Either<E, C>> forward)
     {
         _forward = forward;
     };

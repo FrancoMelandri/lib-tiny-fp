@@ -210,12 +210,12 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenNone_isSomeIsFalse)
     {
         return FakeClassMapped(99);
     };
-    Guard<FakeClassMapped, FakeClass> tuple1 = { funcSelector1, funcMap1 };
-    GuardVector<FakeClassMapped, FakeClass> guards =
+    Guard<FakeClass,FakeClassMapped> tuple1 = { funcSelector1, funcMap1 };
+    GuardVector<FakeClass, FakeClassMapped> guards =
     {
         tuple1
     };
-    auto sequence = TinyFp::Types::Guards<FakeClassMapped, FakeClass>::from(guards);
+    auto sequence = TinyFp::Types::Guards<FakeClass, FakeClassMapped>::from(guards);
     auto mapped = TinyFp::Option<FakeClass>::none()
                     .guardMap<FakeClassMapped>(
                         defaultMap,
@@ -246,12 +246,12 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenSome_AndNoSelector_DefaultMap)
         return FakeClassMapped(99);
     };
 
-    Guard<FakeClassMapped, FakeClass> tuple1 = { funcSelector1, funcMap1 };
-    GuardVector<FakeClassMapped, FakeClass> guards =
+    Guard<FakeClass, FakeClassMapped> tuple1 = { funcSelector1, funcMap1 };
+    GuardVector<FakeClass, FakeClassMapped> guards =
     {
         tuple1
     };
-    auto sequence = TinyFp::Types::Guards<FakeClassMapped, FakeClass>::from(guards);
+    auto sequence = TinyFp::Types::Guards<FakeClass, FakeClassMapped>::from(guards);
 
     auto mapped = TinyFp::Option<FakeClass>::some(test)
                     .guardMap<FakeClassMapped>(
@@ -283,12 +283,12 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenSome_AndOneSelector_SelectorMap)
         return FakeClassMapped(99);
     };
     
-    Guard<FakeClassMapped, FakeClass> tuple1 = { funcSelector1, funcMap1 };
-    GuardVector<FakeClassMapped, FakeClass> guards =
+    Guard<FakeClass, FakeClassMapped> tuple1 = { funcSelector1, funcMap1 };
+    GuardVector<FakeClass, FakeClassMapped> guards =
     {
         tuple1
     };
-    auto sequence = TinyFp::Types::Guards<FakeClassMapped, FakeClass>::from(guards);
+    auto sequence = TinyFp::Types::Guards<FakeClass, FakeClassMapped>::from(guards);
     auto mapped = TinyFp::Option<FakeClass>::some(test)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
@@ -327,14 +327,14 @@ BOOST_AUTO_TEST_CASE(Option_GuardMap_WhenSome_AndTwoSelector_SelectorMap)
         return FakeClassMapped(101);
     };
 
-    Guard<FakeClassMapped, FakeClass> tuple1 = { funcSelector1, funcMap1 };
-    Guard<FakeClassMapped, FakeClass> tuple2 = { funcSelector2, funcMap2 };
-    GuardVector<FakeClassMapped, FakeClass> guards =
+    Guard<FakeClass, FakeClassMapped> tuple1 = { funcSelector1, funcMap1 };
+    Guard<FakeClass, FakeClassMapped> tuple2 = { funcSelector2, funcMap2 };
+    GuardVector<FakeClass, FakeClassMapped> guards =
     {
         tuple1,
         tuple2
     };
-    auto sequence = TinyFp::Types::Guards<FakeClassMapped, FakeClass>::from(guards);
+    auto sequence = TinyFp::Types::Guards<FakeClass, FakeClassMapped>::from(guards);
     auto mapped = TinyFp::Option<FakeClass>::some(test)
                     .guardMap<FakeClassMapped>(
                         defaultMap,
@@ -367,12 +367,12 @@ BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenNone_isSomeIsFalse)
         return Option<FakeClassMapped>::some(retVal);
     };
     
-    Guard<Option<FakeClassMapped>, FakeClass> tuple1 = { funcSelector1, funcMap1 };
-    GuardVector<Option<FakeClassMapped>, FakeClass> guards =
+    Guard<FakeClass, Option<FakeClassMapped>> tuple1 = { funcSelector1, funcMap1 };
+    GuardVector<FakeClass, Option<FakeClassMapped>> guards =
     {
         tuple1
     };
-    auto sequence = TinyFp::Types::Guards<Option<FakeClassMapped>, FakeClass>::from(guards);
+    auto sequence = TinyFp::Types::Guards<FakeClass, Option<FakeClassMapped>>::from(guards);
 
     auto mapped = TinyFp::Option<FakeClass>::none()
                     .guardBind<FakeClassMapped>(
@@ -406,12 +406,12 @@ BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenSome_NoSelector_DefaultBind)
         return Option<FakeClassMapped>::some(retVal);
     };
 
-    Guard<Option<FakeClassMapped>, FakeClass> tuple1 = { funcSelector1, funcMap1 };
-    GuardVector<Option<FakeClassMapped>, FakeClass> guards =
+    Guard<FakeClass, Option<FakeClassMapped>> tuple1 = { funcSelector1, funcMap1 };
+    GuardVector<FakeClass, Option<FakeClassMapped>> guards =
     {
         tuple1
     };
-    auto sequence = TinyFp::Types::Guards<Option<FakeClassMapped>, FakeClass>::from(guards);
+    auto sequence = TinyFp::Types::Guards<FakeClass, Option<FakeClassMapped>>::from(guards);
     auto mapped = TinyFp::Option<FakeClass>::some(test)
                     .guardBind<FakeClassMapped>(
                         defaultBind,
@@ -443,12 +443,12 @@ BOOST_AUTO_TEST_CASE(Option_GuardBind_WhenSome_AndSelector_Select)
         return Option<FakeClassMapped>::some(retVal);
     };
 
-    Guard<Option<FakeClassMapped>, FakeClass> tuple1 = { funcSelector1, funcMap1 };
-    GuardVector<Option<FakeClassMapped>, FakeClass> guards =
+    Guard<FakeClass, Option<FakeClassMapped>> tuple1 = { funcSelector1, funcMap1 };
+    GuardVector<FakeClass, Option<FakeClassMapped>> guards =
     {
         tuple1
     };
-    auto sequence = TinyFp::Types::Guards<Option<FakeClassMapped>, FakeClass>::from(guards);
+    auto sequence = TinyFp::Types::Guards<FakeClass, Option<FakeClassMapped>>::from(guards);
     auto mapped = TinyFp::Option<FakeClass>::some(test)
                     .guardBind<FakeClassMapped>(
                         defaultBind,

@@ -32,11 +32,11 @@ namespace TinyFp
       static Option<T> some(const T& value) { return Option<T>(value); };
       bool isSome();
       template <class R> R orElse(function<R()> none);
-      template <class R> Option<R> map(FuncValue<R, T> map);
-      template <class R> Option<R> guardMap(FuncValue<R, T> defaultMap, const Guards<R, T>& guards);
-      template <class R> Option<R> bind(FuncValue<Option<R>, T> bind);
-      template <class R> Option<R> guardBind(FuncValue<Option<R>, T> defaultBind, const Guards<Option<R>, T>& guards);
-      template <class R> R match(FuncValue<R, T> some, function<R()> none);
+      template <class R> Option<R> map(Func<T, R> map);
+      template <class R> Option<R> guardMap(Func<T, R> defaultMap, const Guards<T, R>& guards);
+      template <class R> Option<R> bind(Func<T, Option<R>> bind);
+      template <class R> Option<R> guardBind(Func<T, Option<R>> defaultBind, const Guards<T, Option<R>>& guards);
+      template <class R> R match(Func<T, R> some, function<R()> none);
       template <class L> Either<L, T> toEither(function<L()> leftValue);
   };
 }
