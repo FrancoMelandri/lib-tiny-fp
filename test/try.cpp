@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(Try_WhenException_ReturnFail)
 {
     auto onHandle = []()->int
     {
-        throw 42;
+        throw 1;
     };
 
     auto onSuccess = [](int value)

@@ -1,6 +1,8 @@
 # Types
 
-to let the code be more readable we introduce a bunch of custom types definition act as aliases for more convolute type we use.
+We've introduced a bunch of custom types to let the code be more readable.
+
+Any definition act as aliases for more convolute type we use.
 
 
 **Predicate**
