@@ -112,6 +112,41 @@ Get the right value of the `Either`.
 
 In case the `Either`is in left state the parameter function should provde a default right value considering the left value.
 
+## unwrap
+
+```c++
+R Either<L, R>::unwrap();
+```
+
+Get the right value of the `Either`.
+
+In case the `Either`is in left state an exception will be thrown.
+
+
+```c++
+BOOST_AUTO_TEST_CASE(Either_unwrap_whenright_returnstate)
+{
+    auto test = FakeClass(10);
+    auto mapped = TinyFp::Either<int, FakeClass>::right(test);
+    auto test1 = mapped.unwrap();
+    BOOST_CHECK(test1.value == 10);
+}
+
+BOOST_AUTO_TEST_CASE(Either_unwrap_whenleft_throw)
+{
+    int left = 10;
+    auto mapped = TinyFp::Either<int, FakeClass>::left(left);
+    try
+    {
+        auto test1 = mapped.unwrap();
+        BOOST_CHECK(test1.value == 10);
+    }
+    catch(...)
+    {
+        BOOST_CHECK(true == true);
+    }
+}
+```
 
 ### match
 

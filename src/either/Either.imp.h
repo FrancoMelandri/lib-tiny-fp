@@ -13,11 +13,19 @@ namespace TinyFp
   }
 
   template <class L, class R>
-  R Either<L, R>::right(function<R(const L&)> onLeft)
+  R Either<L, R>::right(Func<L, R> onLeft)
   {
     return _isRight ?
       _right :
       onLeft(_left);
+  }
+
+  template <class L, class R>
+  R Either<L, R>::unwrap()
+  {
+    if (_isRight)
+      return _right;
+    throw exception();
   }
 
   template <class L, class R>
