@@ -19,29 +19,22 @@ This **type** define a function that reutn a boolena using the template type as 
 
 ```c++
 template<class A>
-using Func = std::function<A()>;
+using Nullary = std::function<A()>;
 
-```
-
-**Func**
-
-```c++
-template<class A, class B>
-using Func = std::function<B(const A&)>;
 ```
 
 **Unary**
 
 ```c++
 template<class A, class B>
-using Func = std::function<B(const A&)>;
+using Unary = std::function<B(const A&)>;
 ```
 
 **Binary**
 
 ```c++
 template<class A, class B, class C>
-using Func = std::function<C(const A&, const B&)>;
+using Binary = std::function<C(const A&, const B&)>;
 ```
 
 **Guard**
