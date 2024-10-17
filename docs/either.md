@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(Either_WhenRight_AndMap_ReturnMapped)
 ### guardMap
 
 ```c++
-template <class Q> Either<L, Q> guardMap(Unary<R, Q> defaultMap, const Guards<Q, R>& guards);
+template <class Q> Either<L, Q> guardMap(Unary<R, Q> defaultMap, const Guards<R, Q>& guards);
 ```
 
 **Map** the `Either` using a list of `Guard`, or the **defaultMap** if no match was found.
@@ -79,7 +79,7 @@ The paramater function will be called only for right either state, otherwise a l
 ### guardBind
 
 ```c++
-template <class Q> Either<L, Q> guardBind(function<Either<L, Q>(const R&)> defaultBind, const Guards<R, Either<L, Q>>& guards);
+template <class Q> Either<L, Q> guardBind(Unary<R, Either<L, Q>> defaultBind, const Guards<R, Either<L, Q>>& guards);
 ```
 
 **Bind** the `Either` using a list of `Guard`, or the **defaulBind** if no match was found.
@@ -105,7 +105,7 @@ bool isLeft();
 ### right
 
 ```c++
-R right(Unary<R, L> onLeft);
+R right(Unary<L, R> onLeft);
 ```
 
 Get the right value of the `Either`.
@@ -151,7 +151,7 @@ BOOST_AUTO_TEST_CASE(Either_unwrap_whenleft_throw)
 ### match
 
 ```c++
-template <class Q> Q match(Unary<R, Q> right, Unary<Q, L> left);
+template <class Q> Q match(Unary<R, Q> right, Unary<L, Q> left);
 ```
 Access to the wrapped status using **right** and **left** callback to map the internal status.
 
