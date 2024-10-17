@@ -18,19 +18,19 @@ you can buil the your own builder image, locally suing docker, following these s
 build the image:
 
 ```bash
-> docker build -t lib-fp-builder -f ./build/Dockerfile.ubuntu20 .
+> docker build -t lib-tiny-fp-builder -f ./build/Dockerfile.ubuntu20 .
 ```
 
 tag the image with your own name:
 
 ```bash
-> docker tag lib-fp-builder francomelandri/lib-tiny-fp-builder:0.20.x
+> docker tag lib-tiny-fp-builder <your-account>/lib-tiny-fp-builder:x.y.z
 ```
 
 push the image to you repository:
 
 ```bash
-> docker push francomelandri/lib-tiny-fp-builder:0.20.x
+> docker push <your-account>/lib-tiny-fp-builder:x.y.z
 ```
 
 

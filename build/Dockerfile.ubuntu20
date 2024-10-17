@@ -1,6 +1,6 @@
 #
 # this build should run in ubuntu 20.04
-FROM ubuntu:20.04
+FROM ubuntu:24.10
 
 #
 # installing library to build solution
@@ -11,6 +11,5 @@ RUN apt install -y ccache
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt -y install tzdata
 RUN apt install wget -y
 RUN apt install pkg-config -y
-RUN apt install libgtkmm-3.0-dev -y
 RUN apt install libboost-all-dev -y
 RUN apt install valgrind -y

@@ -1,4 +1,4 @@
-FROM francomelandri/lib-tiny-fp-builder:0.20.4
+FROM francomelandri/lib-tiny-fp-builder:0.24.0
 
 WORKDIR /src
 COPY ./src/*.cpp .
