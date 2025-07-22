@@ -1,3 +1,0 @@
-
-LIBOBJECTS += \
-	prelude.o
