@@ -1,7 +1,7 @@
 #ifndef LIB_TINY_FP_TEST_FAKES
 #define LIB_TINY_FP_TEST_FAKES
 
-#include "common.h"
+#include <common.h>
 
 class Error
 {
