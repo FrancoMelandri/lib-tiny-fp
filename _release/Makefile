@@ -1,39 +1,64 @@
-LNAME = libtinyfp
-CCX = g++
-AR = ar
-CXXFLAGS = -std=c++17 -Wall -O2 -fPIC -D_GNU_SOURCE
-LIBS = 
-LIBNAME = $(LNAME).a
-RM = rm -rf
+RM := rm
 
-LIBOBJECTS =
-
+-include sources.mk
 -include subdir.mk
--include option/subdir.mk
 -include either/subdir.mk
--include try/subdir.mk
--include sequence/subdir.mk
 -include extensions/subdir.mk
+-include option/subdir.mk
 -include pipeline/subdir.mk
+-include sequence/subdir.mk
+-include try/subdir.mk
 -include types/subdir.mk
 
-all: $(LIBOBJECTS) $(LIBNAME)
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(strip $(C++M_DEPS)),)
+-include $(C++M_DEPS)
+endif
+ifneq ($(strip $(C++_DEPS)),)
+-include $(C++_DEPS)
+endif
+ifneq ($(strip $(CCM_DEPS)),)
+-include $(CCM_DEPS)
+endif
+ifneq ($(strip $(CC_DEPS)),)
+-include $(CC_DEPS)
+endif
+ifneq ($(strip $(CPP_DEPS)),)
+-include $(CPP_DEPS)
+endif
+ifneq ($(strip $(CXXM_DEPS)),)
+-include $(CXXM_DEPS)
+endif
+ifneq ($(strip $(CXX_DEPS)),)
+-include $(CXX_DEPS)
+endif
+ifneq ($(strip $(C_DEPS)),)
+-include $(C_DEPS)
+endif
+ifneq ($(strip $(C_UPPER_DEPS)),)
+-include $(C_UPPER_DEPS)
+endif
+endif
 
-$(LIBNAME): $(LIBOBJECTS) 
-	$(AR) scr $(LIBNAME) $(LIBOBJECTS)
+
+BUILD_ARTIFACT_NAME := libtinyfp
+BUILD_ARTIFACT_EXTENSION := so
+BUILD_ARTIFACT_PREFIX := lib
+BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
+
+all: main-build
+
+main-build: libtinyfp.so
+
+libtinyfp.so: $(OBJS) $(USER_OBJS) makefile
+	@echo 'Building target: $@'
+	@echo 'Invoking: GCC C++ Linker'
+	g++ -W -shared -o "libtinyfp.so" $(OBJS) $(USER_OBJS) $(LIBS)
+	@echo 'Finished building target: $@'
+	@echo ' '
 
 clean:
-	-$(RM) $(LIBOBJECTS)  *.a
+	-$(RM) libtinyfp.so
+	-@echo ' '
 
-rebuild: clean all
-
-install: clean all
-	install -D $(LIBNAME) -t /usr/local/lib/$(LNAME) 
-	install -D *.h -t /usr/local/inlcude/$(LNAME)
-	install -D ./either/*.h -t /usr/local/inlcude/$(LNAME)/either/
-	install -D ./option/*.h -t /usr/local/inlcude/$(LNAME)/option/
-	install -D ./try/*.h -t /usr/local/inlcude/$(LNAME)/try/
-	install -D ./try/*.h -t /usr/local/inlcude/$(LNAME)/sequence/
-	install -D ./types/*.h -t /usr/local/inlcude/$(LNAME)/types/
-	install -D ./pipeline/*.h -t /usr/local/inlcude/$(LNAME)/pipeline/
-	install -D ./extensions/*.h -t /usr/local/inlcude/$(LNAME)/extensions/
+.PHONY: all clean dependents main-build
