@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  DOCKER_IMAGE_NAME: lib-tiny-fp
+  DOCKER_IMAGE_NAME: lib-tiny-fp-release
   DOCKER_CONTAINER_NAME: lib-tiny-fp-builder
 
 jobs:
@@ -23,26 +23,46 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
-    - name: Cleanup
-      run: |
-        rm -rf /opt/hostedtoolcache
-
     - name: Build artifact
       run: |
-        docker build -t ${{ env.DOCKER_IMAGE_NAME }} . --file ./build/Dockerfile.builder
+        docker build -t ${{ env.DOCKER_IMAGE_NAME }} . --file ./build/Dockerfile.rel
         docker run -d --name ${{ env.DOCKER_CONTAINER_NAME }} ${{ env.DOCKER_IMAGE_NAME }}
 
-    - name: Execute test
+    - name: Get artifact
       run: |
-        docker exec -t ${{ env.DOCKER_CONTAINER_NAME }} valgrind --leak-check=yes --error-exitcode=1 /test/test
+        #
+        # create folder containing the artifact
+        mkdir -p package
+
+        #
+        # Copy the artifact from the container to the host
+        docker cp ${{ env.DOCKER_CONTAINER_NAME }}:tinyfp/_release/libtinyfp.so ./package
+
+        #
+        # create a tarball containing the includes
+        docker exec ${{ env.DOCKER_CONTAINER_NAME }} bash -c 'cd /tinyfp/src && find . -name "*.h*" -print0 | tar -cvf /tinyfp/includes.tar -T -'
+
+        #
+        # Copy the includes from the container to the host
+        docker cp ${{ env.DOCKER_CONTAINER_NAME }}:/tinyfp/includes.tar ./package
         docker stop ${{ env.DOCKER_CONTAINER_NAME }}
+
+        #
+        # Copying installation fles
+        cp ./setup/tinyfp.pc ./package
+        cp ./setup/setup.sh ./package
+
+        #
+        # Extract the includes
+        cd package && tar -xvf includes.tar && rm includes.tar
 
     - name: Create release
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
         VERSION=$(cat version)
-        gh release create $VERSION -t "$VERSION" -n "$VERSION"
+        tar -czvf tiny-fp-$VERSION.tgz ./package
+        gh release create $VERSION -t "tinyfp $VERSION" -n "tinyfp version: $VERSION" ./tiny-fp-$VERSION.tgz
 
     - name: Cleanup
       run: |
