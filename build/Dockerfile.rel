@@ -1,0 +1,11 @@
+FROM francomelandri/lib-tiny-fp-builder:0.24.0
+
+WORKDIR /tinyfp/src
+COPY ./src .
+
+WORKDIR /tinyfp/_release
+COPY ./_release .
+RUN make all
+
+CMD /usr/local/bin/shell.sh ; sleep infinity
+

@@ -13,7 +13,7 @@ jobs:
 
   build:
 
-    name: Create artifact release
+    name: Build and test
     runs-on: ubuntu-latest
 
     permissions:
@@ -23,21 +23,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
-    - name: Cleanup
+    - name: Testing
       run: |
-        rm -rf /opt/hostedtoolcache
-
-    - name: Build artifact
-      run: |
-        docker build -t ${{ env.DOCKER_IMAGE_NAME }} . --file ./build/Dockerfile.builder
-        docker run -d --name ${{ env.DOCKER_CONTAINER_NAME }} ${{ env.DOCKER_IMAGE_NAME }}
-
-    - name: Execute test
-      run: |
-        docker exec -t ${{ env.DOCKER_CONTAINER_NAME }} valgrind --leak-check=yes --error-exitcode=1 /test/test
-        docker stop ${{ env.DOCKER_CONTAINER_NAME }}
+        docker build -t ${{ env.DOCKER_IMAGE_NAME }} . --file ./build/Dockerfile.test
 
     - name: Cleanup
       run: |
-        docker rm ${{ env.DOCKER_CONTAINER_NAME }}
         docker rmi ${{ env.DOCKER_IMAGE_NAME }}

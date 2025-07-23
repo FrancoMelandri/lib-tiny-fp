@@ -1,3 +1,0 @@
-
-LIBOBJECTS += \
-	types/Types.o

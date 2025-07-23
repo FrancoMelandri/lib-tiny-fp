@@ -1,3 +1,0 @@
-
-LIBOBJECTS += \
-	extensions/Extensions.o

@@ -1,0 +1,22 @@
+FROM skanrayeu/skanable-builder:0.1.1
+
+#
+# copy source files
+WORKDIR /tinyfp/src
+COPY ./src .
+WORKDIR /tinyfp/test
+COPY ./test .
+
+WORKDIR /tinyfp/_release
+COPY ./_release .
+WORKDIR /tinyfp/_test
+COPY ./_test .
+
+WORKDIR /tinyfp/_release
+RUN make all && cp *.so ../_test
+
+WORKDIR /tinyfp/_test
+RUN make test
+
+CMD /usr/local/bin/shell.sh ; sleep infinity
+

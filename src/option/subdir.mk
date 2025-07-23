@@ -1,3 +1,0 @@
-
-LIBOBJECTS += \
-	option/Option.o
