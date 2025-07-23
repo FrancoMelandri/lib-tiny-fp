@@ -1,0 +1,10 @@
+# tinyfp.pc
+prefix=/opt/tinyfp
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: tinyfp
+Description: tinyfp library
+Version: 0.0.1
+Libs: -L${libdir} -ltinyfp
+Cflags: -I${includedir}

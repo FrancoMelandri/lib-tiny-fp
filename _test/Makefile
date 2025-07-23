@@ -42,12 +42,18 @@ all: main-build
 
 main-build: libtinyfp-tests
 
-libtinyfp-tests: $(OBJS) $(USER_OBJS) makefile
+libtinyfp-tests: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
 	g++ -L"../_release" -o "libtinyfp-tests" $(OBJS) $(USER_OBJS) $(LIBS) -ltinyfp
 	@echo 'Finished building target: $@'
 	@echo ' '
+
+test: all
+	@echo 'Running test suite...'
+	@echo ' '
+	LD_LIBRARY_PATH=../_release valgrind --leak-check=yes --error-exitcode=1 ./libtinyfp-tests 
+	@echo 'Finished running test suite.'
 
 clean:
 	-$(RM) libtinyfp-tests

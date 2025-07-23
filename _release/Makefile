@@ -50,10 +50,10 @@ all: main-build
 
 main-build: libtinyfp.so
 
-libtinyfp.so: $(OBJS) $(USER_OBJS) makefile
+libtinyfp.so: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -W -shared -o "libtinyfp.so" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -W -shared -o libtinyfp.so $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
