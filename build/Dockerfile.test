@@ -1,4 +1,4 @@
-FROM skanrayeu/skanable-builder:0.1.1
+FROM francomelandri/tiny-cpp-builder:0.0.1
 
 #
 # copy source files
