@@ -1,12 +1,13 @@
 #
 # this build should run in ubuntu 20.04
-FROM ubuntu:24.10
+FROM ubuntu:24.04
 
 #
 # installing library to build solution
 RUN apt update
 RUN apt upgrade -y
 RUN apt install build-essential -y
+RUN apt install cmake -y
 RUN apt install -y ccache
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt -y install tzdata
 RUN apt install wget -y
